@@ -1,12 +1,14 @@
 import type { NextRequest } from 'next/server'
 import { z } from 'zod'
 
-const requestSchema = z.object({
-  options: z.object({}),
-  network: z.string(),
-  addresses: z.array(z.string().regex(/^0x[a-fA-F0-9]{40}$/)),
-  snapshot: z.number(),
-})
+const requestSchema = z
+  .object({
+    options: z.object({}),
+    network: z.string(),
+    addresses: z.array(z.string().regex(/^0x[a-fA-F0-9]{40}$/)),
+    snapshot: z.number(),
+  })
+  .passthrough()
 
 // This endpoint is compatible with https://snapshot.org/#/strategy/api-post.
 // Each address receives a score of 1, effectively allowing any address to vote.
