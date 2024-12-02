@@ -18,6 +18,7 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
+    "@payloadcms/db-vercel-postgres": "beta",
     "@payloadcms/live-preview-react": "^3.2.1",
     "@payloadcms/next": "^3.2.1",
     "@payloadcms/payload-cloud": "^3.2.1",
@@ -50,7 +51,7 @@
     "sharp": "0.33.5",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "@payloadcms/db-vercel-postgres": "beta"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.0.3",
