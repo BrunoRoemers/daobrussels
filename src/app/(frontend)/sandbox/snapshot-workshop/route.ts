@@ -19,7 +19,7 @@ const requestSchema = z.object({
 //     "options": {}, 
 //     "network": "1",
 //     "addresses": [
-//       "0x76F536F370f89667804D1b02807e76d668ED4415",
+//       "0x76F536F370f89667804D1b02807e76d668ED4415"
 //     ],
 //     "snapshot": 11437846
 //   }'
