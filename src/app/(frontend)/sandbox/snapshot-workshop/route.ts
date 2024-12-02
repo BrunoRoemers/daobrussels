@@ -6,7 +6,7 @@ const requestSchema = z
     options: z.object({}),
     network: z.string(),
     addresses: z.array(z.string().regex(/^0x[a-fA-F0-9]{40}$/)),
-    snapshot: z.number(),
+    snapshot: z.coerce.string(),
   })
   .passthrough()
 
