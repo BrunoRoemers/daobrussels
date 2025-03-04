@@ -7,8 +7,21 @@ import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 
-export const dynamic = 'force-static'
-export const revalidate = 600
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise })
+  const events = await payload.find({
+    collection: 'events',
+    draft: false,
+    limit: 1000,
+    overrideAccess: false,
+  })
+
+  const params = events.docs.map(({ slug }) => {
+    return { slug }
+  })
+
+  return params
+}
 
 type Args = {
   params: Promise<{
