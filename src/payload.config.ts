@@ -1,12 +1,14 @@
 // storage-adapter-import-placeholder
 import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 
-import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig } from 'payload'
+import sharp from 'sharp' // sharp-import
 import { fileURLToPath } from 'url'
 
+import { defaultLexical } from '@/fields/defaultLexical'
 import { Categories } from './collections/Categories'
+import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
@@ -15,7 +17,6 @@ import { seedHandler } from './endpoints/seedHandler'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
-import { defaultLexical } from '@/fields/defaultLexical'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -64,7 +65,7 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Events, Pages, Posts, Media, Categories, Users],
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   endpoints: [
     // The seed endpoint is used to populate the database with some example data
