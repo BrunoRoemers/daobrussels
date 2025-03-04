@@ -25,7 +25,7 @@ export default async function Page() {
   return (
     <div>
       <h1>Hello Events!</h1>
-      <ul className="list-disc">
+      <ul className="list-inside list-disc">
         {events.docs.map((event) => (
           <li>
             <Link href={`/events/${event.slug}`}>{event.title}</Link>
