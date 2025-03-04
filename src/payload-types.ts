@@ -141,6 +141,7 @@ export interface UserAuthOperations {
 export interface Event {
   id: number;
   title: string;
+  date: string;
   publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
@@ -876,6 +877,7 @@ export interface PayloadMigration {
  */
 export interface EventsSelect<T extends boolean = true> {
   title?: T;
+  date?: T;
   publishedAt?: T;
   slug?: T;
   slugLock?: T;

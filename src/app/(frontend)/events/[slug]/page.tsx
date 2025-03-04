@@ -2,6 +2,7 @@ import type { Metadata } from 'next/types'
 
 import type { Event } from '@/payload-types'
 import configPromise from '@payload-config'
+import dayjs from 'dayjs'
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
@@ -23,6 +24,7 @@ export default async function Page({ params }: Args) {
   return (
     <div>
       <h1>{event.title}</h1>
+      <div>{dayjs(event.date).format('MMMM D, YYYY')}</div>
       <p>
         Ex cupidatat laborum ut duis labore laborum enim id ex consequat. Sint velit ea commodo
         nostrud ea laborum labore est nulla. Culpa et amet laborum. Ex aliquip minim aute cupidatat

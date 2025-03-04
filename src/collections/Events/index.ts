@@ -44,6 +44,11 @@ export const Events: CollectionConfig = {
       required: true,
     },
     {
+      name: 'date',
+      type: 'date',
+      required: true,
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       admin: {
