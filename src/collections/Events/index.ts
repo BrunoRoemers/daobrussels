@@ -5,7 +5,7 @@ import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
-import { revalidatePage } from './hooks/revalidatePage'
+import { revalidateEvent } from './hooks/revalidateEvent'
 
 export const Events: CollectionConfig = {
   slug: 'events',
@@ -58,7 +58,7 @@ export const Events: CollectionConfig = {
     ...slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePage],
+    afterChange: [revalidateEvent],
     beforeChange: [populatePublishedAt],
   },
   versions: {

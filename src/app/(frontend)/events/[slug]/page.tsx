@@ -4,7 +4,6 @@ import type { Event } from '@/payload-types'
 import configPromise from '@payload-config'
 import dayjs from 'dayjs'
 import { draftMode } from 'next/headers'
-import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 
 export async function generateStaticParams() {
@@ -34,6 +33,12 @@ export default async function Page({ params }: Args) {
 
   const event = await getEventBySlug(slug)
 
+  // FIXME(Bruno): Using `notFound` throws an error, which means `revalidatePath` will reattempt to generate the page, which results in an infinite loop...
+  //               https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration#handling-uncaught-exceptions
+  if (!event) {
+    return <div>not found</div>
+  }
+
   return (
     <div>
       <h1>{event.title}</h1>
@@ -54,7 +59,7 @@ export function generateMetadata(): Metadata {
   }
 }
 
-const getEventBySlug = async (slug: string): Promise<Event> => {
+const getEventBySlug = async (slug: string): Promise<Event | null> => {
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })
@@ -71,7 +76,7 @@ const getEventBySlug = async (slug: string): Promise<Event> => {
   })
 
   if (events.docs.length !== 1) {
-    return notFound()
+    return null
   }
 
   return events.docs[0]
