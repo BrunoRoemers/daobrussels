@@ -5,10 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "yarn dev",
-      "name": "Debug Website",
-      "request": "launch",
-      "type": "node-terminal"
+      "type": "node",
+      "request": "attach",
+      "name": "Debug Nextjs Backend",
+      "port": 9230,
+      "restart": true,
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }
