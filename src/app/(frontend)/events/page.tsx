@@ -1,25 +1,13 @@
 import type { Metadata } from 'next/types'
 
-import configPromise from '@payload-config'
-import { draftMode } from 'next/headers'
+import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs'
 import Link from 'next/link'
-import { getPayload } from 'payload'
-
-export const dynamic = 'force-static'
-export const revalidate = 600
 
 export default async function Page() {
-  const { isEnabled: draft } = await draftMode()
-
-  const payload = await getPayload({ config: configPromise })
-
-  const events = await payload.find({
+  const events = await findDraftsOrPublicDocs({
     collection: 'events',
-    draft,
     depth: 1,
     limit: 10,
-    // FIXME(Bruno): Once we figure out how to be signed in on the frontend, we can respect access control
-    overrideAccess: draft,
   })
 
   return (
