@@ -1,10 +1,10 @@
 import type { CollectionConfig } from 'payload'
 
 import { slugField } from '@/fields/slug'
+import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
-import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateEvent } from './hooks/revalidateEvent'
 
 export const Events: CollectionConfig = {
@@ -18,23 +18,9 @@ export const Events: CollectionConfig = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
-      url: ({ data }) => {
-        const path = generatePreviewPath({
-          slug: typeof data?.slug === 'string' ? data.slug : '',
-          collection: 'events',
-        })
-
-        return `${process.env.NEXT_PUBLIC_SERVER_URL}${path}`
-      },
+      url: generateLivePreviewUrl('events'),
     },
-    preview: (data) => {
-      const path = generatePreviewPath({
-        slug: typeof data?.slug === 'string' ? data.slug : '',
-        collection: 'events',
-      })
-
-      return `${process.env.NEXT_PUBLIC_SERVER_URL}${path}`
-    },
+    preview: generatePreviewUrl('events'),
     useAsTitle: 'title',
   },
   fields: [
