@@ -1,7 +1,7 @@
 {
   "name": "daobrussels",
   "version": "1.0.0",
-  "description": "Website template for Payload",
+  "description": "Website for DAO Brussels",
   "license": "MIT",
   "type": "module",
   "scripts": {
