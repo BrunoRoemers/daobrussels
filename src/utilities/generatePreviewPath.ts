@@ -1,3 +1,4 @@
+import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url'
 import { CollectionSlug } from 'payload'
 
 const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
@@ -11,6 +12,9 @@ type Props = {
   slug: string
 }
 
+/**
+ * @deprecated use {@link generatePreviewUrl} or {@link generateLivePreviewUrl} instead
+ */
 export const generatePreviewPath = ({ collection, slug }: Props) => {
   const path = `${collectionPrefixMap[collection]}/${slug}`
 
