@@ -1,9 +1,9 @@
 import type { Metadata } from 'next/types'
 
 import type { Event } from '@/payload-types'
+import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs'
 import configPromise from '@payload-config'
 import dayjs from 'dayjs'
-import { draftMode } from 'next/headers'
 import { getPayload } from 'payload'
 
 export async function generateStaticParams() {
@@ -60,19 +60,12 @@ export function generateMetadata(): Metadata {
 }
 
 const getEventBySlug = async (slug: string): Promise<Event | null> => {
-  const { isEnabled: draft } = await draftMode()
-
-  const payload = await getPayload({ config: configPromise })
-
-  const events = await payload.find({
+  const events = await findDraftsOrPublicDocs({
     collection: 'events',
-    draft,
     where: {
       slug: { equals: slug },
     },
     limit: 2,
-    // FIXME(Bruno): Once we figure out how to be signed in on the frontend, we can respect access control
-    overrideAccess: draft,
   })
 
   if (events.docs.length !== 1) {
