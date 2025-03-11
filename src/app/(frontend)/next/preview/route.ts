@@ -1,90 +1,27 @@
-import jwt from 'jsonwebtoken'
+import configPromise from '@payload-config'
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import { CollectionSlug } from 'payload'
+import { z } from 'zod'
 
-const payloadToken = 'payload-token'
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url)
+  const path = z.string().startsWith('/').parse(searchParams.get('path'))
 
-export async function GET(
-  req: Request & {
-    cookies: {
-      get: (name: string) => {
-        value: string
-      }
-    }
-  },
-): Promise<Response> {
+  const draft = await draftMode()
+
   const payload = await getPayload({ config: configPromise })
-  const token = req.cookies.get(payloadToken)?.value
-  const { searchParams } = new URL(req.url)
-  const path = searchParams.get('path')
-  const collection = searchParams.get('collection') as CollectionSlug
-  const slug = searchParams.get('slug')
+  const auth = await payload.auth({ headers: request.headers })
 
-  const previewSecret = searchParams.get('previewSecret')
-
-  if (previewSecret) {
+  // Only people with access to the admin panel can enable draft mode.
+  // More importantly, the draft resource should enforce proper access control;
+  // E.g. someone might be allowed to view drafts of events, but not of posts.
+  if (!auth.permissions.canAccessAdmin) {
+    draft.disable()
     return new Response('You are not allowed to preview this page', { status: 403 })
-  } else {
-    if (!path) {
-      return new Response('No path provided', { status: 404 })
-    }
-
-    if (!collection) {
-      return new Response('No path provided', { status: 404 })
-    }
-
-    if (!slug) {
-      return new Response('No path provided', { status: 404 })
-    }
-
-    if (!token) {
-      new Response('You are not allowed to preview this page', { status: 403 })
-    }
-
-    if (!path.startsWith('/')) {
-      new Response('This endpoint can only be used for internal previews', { status: 500 })
-    }
-
-    let user
-
-    try {
-      user = jwt.verify(token, payload.secret)
-    } catch (error) {
-      payload.logger.error('Error verifying token for live preview:', error)
-    }
-
-    const draft = await draftMode()
-
-    // You can add additional checks here to see if the user is allowed to preview this page
-    if (!user) {
-      draft.disable()
-      return new Response('You are not allowed to preview this page', { status: 403 })
-    }
-
-    // Verify the given slug exists
-    try {
-      const docs = await payload.find({
-        collection: collection,
-        draft: true,
-        where: {
-          slug: {
-            equals: slug,
-          },
-        },
-      })
-
-      if (!docs.docs.length) {
-        return new Response('Document not found', { status: 404 })
-      }
-    } catch (error) {
-      payload.logger.error('Error verifying token for live preview:', error)
-    }
-
-    draft.enable()
-
-    redirect(path)
   }
+
+  draft.enable()
+
+  redirect(path)
 }
