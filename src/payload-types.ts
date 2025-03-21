@@ -67,6 +67,7 @@ export interface Config {
   blocks: {};
   collections: {
     events: Event;
+    pods: Pod;
     pages: Page;
     posts: Post;
     media: Media;
@@ -83,6 +84,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     events: EventsSelect<false> | EventsSelect<true>;
+    pods: PodsSelect<false> | PodsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -139,6 +141,21 @@ export interface UserAuthOperations {
  * via the `definition` "events".
  */
 export interface Event {
+  id: number;
+  title: string;
+  date: string;
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pods".
+ */
+export interface Pod {
   id: number;
   title: string;
   date: string;
@@ -794,6 +811,10 @@ export interface PayloadLockedDocument {
         value: number | Event;
       } | null)
     | ({
+        relationTo: 'pods';
+        value: number | Pod;
+      } | null)
+    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
@@ -876,6 +897,20 @@ export interface PayloadMigration {
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  date?: T;
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pods_select".
+ */
+export interface PodsSelect<T extends boolean = true> {
   title?: T;
   date?: T;
   publishedAt?: T;
