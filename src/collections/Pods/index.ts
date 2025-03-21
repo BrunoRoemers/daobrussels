@@ -30,9 +30,10 @@ export const Pods: CollectionConfig = {
       required: true,
     },
     {
-      name: 'date',
-      type: 'date',
-      required: true,
+      name: 'events',
+      type: 'join',
+      collection: 'podsAtEvents',
+      on: 'pod',
     },
     {
       name: 'publishedAt',

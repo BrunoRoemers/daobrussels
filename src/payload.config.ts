@@ -12,6 +12,7 @@ import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Pods } from './collections/Pods'
+import { PodsAtEvents } from './collections/PodsAtEvents'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { seedHandler } from './endpoints/seedHandler'
@@ -66,7 +67,7 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Events, Pods, Pages, Posts, Media, Categories, Users],
+  collections: [Pods, PodsAtEvents, Events, Pages, Posts, Media, Categories, Users],
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   endpoints: [
     // The seed endpoint is used to populate the database with some example data

@@ -35,6 +35,12 @@ export const Events: CollectionConfig = {
       required: true,
     },
     {
+      name: 'pods',
+      type: 'join',
+      collection: 'podsAtEvents',
+      on: 'event',
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       admin: {
