@@ -1,5 +1,5 @@
-import { formatDateTime } from 'src/utilities/formatDateTime'
 import React from 'react'
+import { formatDateTime } from 'src/utilities/formatDateTime'
 
 import type { Post } from '@/payload-types'
 
@@ -8,7 +8,8 @@ import { Media } from '@/components/Media'
 export const PostHero: React.FC<{
   post: Post
 }> = ({ post }) => {
-  const { categories, meta: { image: metaImage } = {}, populatedAuthors, publishedAt, title } = post
+  const { meta: { image: metaImage } = {}, populatedAuthors, publishedAt, title } = post
+  const categories = []
 
   return (
     <div className="relative -mt-[10.4rem] flex items-end">
