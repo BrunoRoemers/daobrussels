@@ -34,6 +34,9 @@ export const Pods: CollectionConfig = {
       type: 'join',
       collection: 'podsAtEvents',
       on: 'pod',
+      admin: {
+        defaultColumns: ['event', 'host'],
+      },
     },
     {
       name: 'publishedAt',
