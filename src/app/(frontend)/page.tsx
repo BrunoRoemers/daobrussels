@@ -1,5 +1,3 @@
-import PageTemplate, { generateMetadata } from './[slug]/page'
-
-export default PageTemplate
-
-export { generateMetadata }
+export default () => {
+  return <div className="container pb-8">hello world</div>
+}
