@@ -1,3 +1,4 @@
+import { compositeTitle } from '@/collections/PodsAtEvents/fields/composite-title'
 import type { CollectionConfig } from 'payload'
 
 // join table; https://payloadcms.com/docs/fields/join#using-the-join-field-to-have-full-control-of-your-database-schema
@@ -9,10 +10,27 @@ export const PodsAtEvents: CollectionConfig = {
   },
   admin: {
     hidden: true,
+    useAsTitle: 'title',
   },
   fields: [
-    { name: 'pod', type: 'relationship', relationTo: 'pods', required: true },
-    { name: 'event', type: 'relationship', relationTo: 'events', required: true },
-    { name: 'host', type: 'relationship', relationTo: 'users', required: true },
+    compositeTitle(),
+    {
+      name: 'pod',
+      type: 'relationship',
+      relationTo: 'pods',
+      required: true,
+    },
+    {
+      name: 'event',
+      type: 'relationship',
+      relationTo: 'events',
+      required: true,
+    },
+    {
+      name: 'host',
+      type: 'relationship',
+      relationTo: 'users',
+      required: true,
+    },
   ],
 }

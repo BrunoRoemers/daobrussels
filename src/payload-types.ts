@@ -170,6 +170,7 @@ export interface Pod {
  */
 export interface PodsAtEvent {
   id: number;
+  title?: string | null;
   pod: number | Pod;
   event: number | Event;
   host: number | User;
@@ -945,6 +946,7 @@ export interface PodsSelect<T extends boolean = true> {
  * via the `definition` "podsAtEvents_select".
  */
 export interface PodsAtEventsSelect<T extends boolean = true> {
+  title?: T;
   pod?: T;
   event?: T;
   host?: T;
