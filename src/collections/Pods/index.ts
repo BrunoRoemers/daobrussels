@@ -34,6 +34,7 @@ export const Pods: CollectionConfig = {
       type: 'join',
       collection: 'podsAtEvents',
       on: 'pod',
+      defaultSort: '-updatedAt',
       admin: {
         defaultColumns: ['event', 'host'],
       },
