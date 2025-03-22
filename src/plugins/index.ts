@@ -1,10 +1,7 @@
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
-import { beforeSyncWithSearch } from '@/search/beforeSync'
-import { searchFields } from '@/search/fieldOverrides'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
-import { searchPlugin } from '@payloadcms/plugin-search'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -24,7 +21,7 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 
 export const plugins: Plugin[] = [
   redirectsPlugin({
-    collections: ['pages', 'posts'],
+    collections: ['pages'],
     overrides: {
       // @ts-expect-error
       fields: ({ defaultFields }) => {
@@ -75,14 +72,14 @@ export const plugins: Plugin[] = [
       },
     },
   }),
-  searchPlugin({
-    collections: ['posts'],
-    beforeSync: beforeSyncWithSearch,
-    searchOverrides: {
-      fields: ({ defaultFields }) => {
-        return [...defaultFields, ...searchFields]
-      },
-    },
-  }),
+  // searchPlugin({
+  //   collections: ['posts'],
+  //   beforeSync: beforeSyncWithSearch,
+  //   searchOverrides: {
+  //     fields: ({ defaultFields }) => {
+  //       return [...defaultFields, ...searchFields]
+  //     },
+  //   },
+  // }),
   payloadCloudPlugin(),
 ]
