@@ -66,6 +66,8 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    pods: Pod;
+    podsAtEvents: PodsAtEvent;
     events: Event;
     pages: Page;
     posts: Post;
@@ -80,8 +82,17 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    pods: {
+      events: 'podsAtEvents';
+    };
+    events: {
+      pods: 'podsAtEvents';
+    };
+  };
   collectionsSelect: {
+    pods: PodsSelect<false> | PodsSelect<true>;
+    podsAtEvents: PodsAtEventsSelect<false> | PodsAtEventsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
@@ -136,18 +147,73 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "events".
+ * via the `definition` "pods".
  */
-export interface Event {
+export interface Pod {
   id: number;
   title: string;
-  date: string;
+  events?: {
+    docs?: (number | PodsAtEvent)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "podsAtEvents".
+ */
+export interface PodsAtEvent {
+  id: number;
+  title?: string | null;
+  pod: number | Pod;
+  event: number | Event;
+  host: number | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  date: string;
+  pods?: {
+    docs?: (number | PodsAtEvent)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  publishedAt?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -494,24 +560,6 @@ export interface Post {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
@@ -790,6 +838,14 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'pods';
+        value: number | Pod;
+      } | null)
+    | ({
+        relationTo: 'podsAtEvents';
+        value: number | PodsAtEvent;
+      } | null)
+    | ({
         relationTo: 'events';
         value: number | Event;
       } | null)
@@ -873,11 +929,38 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pods_select".
+ */
+export interface PodsSelect<T extends boolean = true> {
+  title?: T;
+  events?: T;
+  publishedAt?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "podsAtEvents_select".
+ */
+export interface PodsAtEventsSelect<T extends boolean = true> {
+  title?: T;
+  pod?: T;
+  event?: T;
+  host?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
   title?: T;
   date?: T;
+  pods?: T;
   publishedAt?: T;
   slug?: T;
   slugLock?: T;

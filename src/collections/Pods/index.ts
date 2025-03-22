@@ -5,10 +5,10 @@ import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/gene
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
-import { revalidateEvent } from './hooks/revalidateEvent'
+import { revalidatePod } from './hooks/revalidatePod'
 
-export const Events: CollectionConfig = {
-  slug: 'events',
+export const Pods: CollectionConfig = {
+  slug: 'pods',
   access: {
     create: authenticated,
     delete: authenticated,
@@ -18,9 +18,9 @@ export const Events: CollectionConfig = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
-      url: generateLivePreviewUrl('events'),
+      url: generateLivePreviewUrl('pods'),
     },
-    preview: generatePreviewUrl('events'),
+    preview: generatePreviewUrl('pods'),
     useAsTitle: 'title',
   },
   fields: [
@@ -30,17 +30,13 @@ export const Events: CollectionConfig = {
       required: true,
     },
     {
-      name: 'date',
-      type: 'date',
-      required: true,
-    },
-    {
-      name: 'pods',
+      name: 'events',
       type: 'join',
       collection: 'podsAtEvents',
-      on: 'event',
+      on: 'pod',
+      defaultSort: '-updatedAt',
       admin: {
-        defaultColumns: ['pod', 'host'],
+        defaultColumns: ['event', 'host'],
       },
     },
     {
@@ -53,7 +49,7 @@ export const Events: CollectionConfig = {
     ...slugField(),
   ],
   hooks: {
-    afterChange: [revalidateEvent],
+    afterChange: [revalidatePod],
     beforeChange: [populatePublishedAt],
   },
   versions: {

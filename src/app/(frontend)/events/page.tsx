@@ -11,7 +11,7 @@ export default async function Page() {
   })
 
   return (
-    <div>
+    <div className="container pb-8">
       <h1>Hello Events!</h1>
       <ul className="list-inside list-disc">
         {events.docs.map((event) => (
