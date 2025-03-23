@@ -49,19 +49,19 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "search_rels" RENAME COLUMN "posts_id" TO "events_id";
   ALTER TABLE "pages_rels" DROP CONSTRAINT IF EXISTS "pages_rels_categories_fk";
   
-  ALTER TABLE "pages_rels" DROP CONSTRAINT "pages_rels_posts_fk";
+  ALTER TABLE "pages_rels" DROP CONSTRAINT IF EXISTS "pages_rels_posts_fk";
   
-  ALTER TABLE "_pages_v_rels" DROP CONSTRAINT "_pages_v_rels_categories_fk";
+  ALTER TABLE "_pages_v_rels" DROP CONSTRAINT IF EXISTS "_pages_v_rels_categories_fk";
   
-  ALTER TABLE "_pages_v_rels" DROP CONSTRAINT "_pages_v_rels_posts_fk";
+  ALTER TABLE "_pages_v_rels" DROP CONSTRAINT IF EXISTS "_pages_v_rels_posts_fk";
   
-  ALTER TABLE "redirects_rels" DROP CONSTRAINT "redirects_rels_posts_fk";
+  ALTER TABLE "redirects_rels" DROP CONSTRAINT IF EXISTS "redirects_rels_posts_fk";
   
-  ALTER TABLE "search_rels" DROP CONSTRAINT "search_rels_posts_fk";
+  ALTER TABLE "search_rels" DROP CONSTRAINT IF EXISTS "search_rels_posts_fk";
   
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_posts_fk";
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_posts_fk";
   
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_categories_fk";
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_categories_fk";
   
   DROP INDEX IF EXISTS "pages_rels_categories_id_idx";
   DROP INDEX IF EXISTS "pages_rels_posts_id_idx";
