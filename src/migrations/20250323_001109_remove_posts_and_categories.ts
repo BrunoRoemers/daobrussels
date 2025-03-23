@@ -1,4 +1,4 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-vercel-postgres'
+import { MigrateDownArgs, MigrateUpArgs, sql } from '@payloadcms/db-vercel-postgres'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
@@ -47,7 +47,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   DROP TABLE "categories_breadcrumbs" CASCADE;
   DROP TABLE "categories" CASCADE;
   ALTER TABLE "search_rels" RENAME COLUMN "posts_id" TO "events_id";
-  ALTER TABLE "pages_rels" DROP CONSTRAINT "pages_rels_categories_fk";
+  ALTER TABLE "pages_rels" DROP CONSTRAINT IF EXISTS "pages_rels_categories_fk";
   
   ALTER TABLE "pages_rels" DROP CONSTRAINT "pages_rels_posts_fk";
   
