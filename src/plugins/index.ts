@@ -7,13 +7,16 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { Plugin } from 'payload'
 
-import { Page, Post } from '@/payload-types'
+import { Page } from '@/payload-types'
+import { beforeSyncWithSearch } from '@/search/beforeSync'
+import { searchFields } from '@/search/fieldOverrides'
+import { searchPlugin } from '@payloadcms/plugin-search'
 
-const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
+const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
 }
 
-const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
+const generateURL: GenerateURL<Page> = ({ doc }) => {
   return doc?.slug
     ? `${process.env.NEXT_PUBLIC_SERVER_URL!}/${doc.slug}`
     : process.env.NEXT_PUBLIC_SERVER_URL!
@@ -72,14 +75,14 @@ export const plugins: Plugin[] = [
       },
     },
   }),
-  // searchPlugin({
-  //   collections: ['posts'],
-  //   beforeSync: beforeSyncWithSearch,
-  //   searchOverrides: {
-  //     fields: ({ defaultFields }) => {
-  //       return [...defaultFields, ...searchFields]
-  //     },
-  //   },
-  // }),
+  searchPlugin({
+    collections: ['events'],
+    beforeSync: beforeSyncWithSearch,
+    searchOverrides: {
+      fields: ({ defaultFields }) => {
+        return [...defaultFields, ...searchFields]
+      },
+    },
+  }),
   payloadCloudPlugin(),
 ]
