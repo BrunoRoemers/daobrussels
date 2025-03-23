@@ -40,7 +40,7 @@ export default async function Page({ params }: Args) {
   }
 
   return (
-    <div>
+    <div className="container pb-8">
       <h1>{event.title}</h1>
       <div>{dayjs(event.date).format('MMMM D, YYYY')}</div>
       <p>
