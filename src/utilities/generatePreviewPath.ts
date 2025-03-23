@@ -2,7 +2,6 @@ import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/gene
 import { CollectionSlug } from 'payload'
 
 const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
-  posts: '/posts',
   pages: '',
   events: '/events',
 }

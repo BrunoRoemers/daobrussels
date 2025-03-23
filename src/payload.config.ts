@@ -7,15 +7,12 @@ import sharp from 'sharp' // sharp-import
 import { fileURLToPath } from 'url'
 
 import { defaultLexical } from '@/fields/defaultLexical'
-import { Categories } from './collections/Categories'
 import { Events } from './collections/Events'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Pods } from './collections/Pods'
 import { PodsAtEvents } from './collections/PodsAtEvents'
-import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
-import { seedHandler } from './endpoints/seedHandler'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -67,17 +64,8 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pods, PodsAtEvents, Events, Pages, Posts, Media, Categories, Users],
+  collections: [Pods, PodsAtEvents, Events, Pages, Media, Users],
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  endpoints: [
-    // The seed endpoint is used to populate the database with some example data
-    // You should delete this endpoint before deploying your site to production
-    {
-      handler: seedHandler,
-      method: 'get',
-      path: '/seed',
-    },
-  ],
   globals: [Header, Footer],
   plugins: [
     ...plugins,
