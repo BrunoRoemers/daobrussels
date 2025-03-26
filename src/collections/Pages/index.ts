@@ -8,6 +8,12 @@ import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidatePage } from './hooks/revalidatePage'
 
+import { Banner } from '@/blocks/Banner/config'
+import { CallToAction } from '@/blocks/CallToAction/config'
+import { Code } from '@/blocks/Code/config'
+import { Content } from '@/blocks/Content/config'
+import { FormBlock } from '@/blocks/Form/config'
+import { MediaBlock } from '@/blocks/MediaBlock/config'
 import {
   MetaDescriptionField,
   MetaImageField,
@@ -63,7 +69,7 @@ export const Pages: CollectionConfig = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [],
+              blocks: [Banner, CallToAction, Code, Content, MediaBlock, FormBlock],
               required: true,
             },
           ],
