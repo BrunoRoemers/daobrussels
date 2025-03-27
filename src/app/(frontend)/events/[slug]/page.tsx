@@ -5,6 +5,7 @@ import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-pu
 import configPromise from '@payload-config'
 import dayjs from 'dayjs'
 import { getPayload } from 'payload'
+import { PodList } from './pod-list'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -49,6 +50,9 @@ export default async function Page({ params }: Args) {
         minim ut dolore culpa pariatur. Proident aute culpa aliqua proident ea ut id voluptate culpa
         Lorem nisi. Cillum esse sunt ut aute.
       </p>
+      <div className="mt-4">
+        <PodList event={event} />
+      </div>
     </div>
   )
 }
