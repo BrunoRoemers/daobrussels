@@ -5,6 +5,7 @@ import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-pu
 import configPromise from '@payload-config'
 import dayjs from 'dayjs'
 import { getPayload } from 'payload'
+import { PodList } from './pod-list'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -39,8 +40,6 @@ export default async function Page({ params }: Args) {
     return <div>not found</div>
   }
 
-  const pods = event?.pods?.docs?.filter((doc) => typeof doc !== 'number') ?? []
-
   return (
     <div className="container pb-8">
       <h1>{event.title}</h1>
@@ -51,11 +50,9 @@ export default async function Page({ params }: Args) {
         minim ut dolore culpa pariatur. Proident aute culpa aliqua proident ea ut id voluptate culpa
         Lorem nisi. Cillum esse sunt ut aute.
       </p>
-      <ul className="pt-10 list-inside list-disc">
-        {pods.map((pod, index) => {
-          return <li key={index}>{pod.title}</li>
-        })}
-      </ul>
+      <div className="mt-4">
+        <PodList event={event} />
+      </div>
     </div>
   )
 }
