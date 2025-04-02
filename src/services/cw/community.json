@@ -1,0 +1,76 @@
+{
+  "community": {
+    "name": "DAO Brussels",
+    "description": "A community for the DAO Brussels",
+    "url": "https://dao.brussels",
+    "alias": "wallet.dao.brussels",
+    "logo": "https://assets.citizenwallet.xyz/wallet-config/_images/cw.svg",
+    "custom_domain": "wallet.dao.brussels",
+    "hidden": false,
+    "theme": {
+      "primary": "#4a90e2"
+    },
+    "profile": {
+      "address": "0x77917475e63E6f4e6966169E66c8FaB7dC891772",
+      "chain_id": 100
+    },
+    "primary_token": {
+      "address": "0x1371907cfe89Dc5022a3cB99ffBc4d7430f760cE",
+      "chain_id": 100
+    },
+    "primary_account_factory": {
+      "address": "0x940Cbb155161dc0C4aade27a4826a16Ed8ca0cb2",
+      "chain_id": 100
+    },
+    "primary_card_manager": {
+      "address": "0xBA861e2DABd8316cf11Ae7CdA101d110CF581f28",
+      "chain_id": 100
+    }
+  },
+  "tokens": {
+    "100:0x1371907cfe89Dc5022a3cB99ffBc4d7430f760cE": {
+      "standard": "erc20",
+      "name": "DAO Brussels",
+      "address": "0x1371907cfe89Dc5022a3cB99ffBc4d7430f760cE",
+      "symbol": "DAOB",
+      "decimals": 6,
+      "chain_id": 100
+    }
+  },
+  "scan": {
+    "url": "https://gnosisscan.io",
+    "name": "Gnosis Explorer"
+  },
+  "accounts": {
+    "100:0x940Cbb155161dc0C4aade27a4826a16Ed8ca0cb2": {
+      "chain_id": 100,
+      "entrypoint_address": "0x7079253c0358eF9Fd87E16488299Ef6e06F403B6",
+      "paymaster_address": "0xdfA5e041638f9aD4173Eb5C22DD4b689b3aE5bE2",
+      "account_factory_address": "0x940Cbb155161dc0C4aade27a4826a16Ed8ca0cb2",
+      "paymaster_type": "cw-safe"
+    }
+  },
+  "cards": {
+    "100:0xBA861e2DABd8316cf11Ae7CdA101d110CF581f28": {
+      "chain_id": 100,
+      "instance_id": "dao-brussels",
+      "address": "0xBA861e2DABd8316cf11Ae7CdA101d110CF581f28",
+      "type": "safe"
+    }
+  },
+  "chains": {
+    "100": {
+      "id": 100,
+      "node": {
+        "url": "https://100.engine.citizenwallet.xyz",
+        "ws_url": "wss://100.engine.citizenwallet.xyz"
+      }
+    }
+  },
+  "ipfs": {
+    "url": "https://ipfs.internal.citizenwallet.xyz"
+  },
+  "plugins": [],
+  "config_location": "https://wallet.dao.brussels/config/community.json",
+  "version": 4
+}

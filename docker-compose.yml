@@ -1,31 +1,25 @@
-version: '3'
-
 services:
-  payload:
-    image: node:18-alpine
-    ports:
-      - '3000:3000'
+  db:
+    container_name: dao-db
+    build:
+      context: .
+      dockerfile: ./.docker/db/Dockerfile
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "yarn install && yarn dev"
-    depends_on:
-      - mongo
-    env_file:
-      - .env
-
-  mongo:
-    image: mongo:latest
+      - ./.dao/data:/var/lib/postgresql/data
+    networks:
+      dao-net:
+        aliases:
+          - dao-db
     ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
-    volumes:
-      - data:/data/db
-    logging:
-      driver: none
+      - "5432:5432"
+    restart: on-failure
+    healthcheck:
+      test: "exit 0"
 
-volumes:
-  data:
-  node_modules:
+networks:
+  dao-net:
+    name: dao-net
