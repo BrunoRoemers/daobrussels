@@ -5,4 +5,7 @@ module.exports = {
     project: ['./tsconfig.json'],
     tsconfigRootDir: __dirname,
   },
+  rules: {
+    'react/no-unescaped-entities': 0,
+  },
 }
