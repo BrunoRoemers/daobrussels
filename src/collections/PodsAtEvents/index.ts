@@ -6,6 +6,9 @@ import type { CollectionConfig } from 'payload';
 // join table; https://payloadcms.com/docs/fields/join#using-the-join-field-to-have-full-control-of-your-database-schema
 export const PodsAtEvents: CollectionConfig = {
   slug: 'podsAtEvents',
+  typescript: {
+    interface: 'PodAtEvent',
+  },
   access: {
     create: authenticated,
     delete: authenticated,

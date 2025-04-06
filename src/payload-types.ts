@@ -67,7 +67,7 @@ export interface Config {
   blocks: {};
   collections: {
     pods: Pod;
-    podsAtEvents: PodsAtEvent;
+    podsAtEvents: PodAtEvent;
     events: Event;
     pages: Page;
     media: Media;
@@ -149,7 +149,7 @@ export interface Pod {
   id: number;
   title: string;
   events?: {
-    docs?: (number | PodsAtEvent)[];
+    docs?: (number | PodAtEvent)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -164,7 +164,7 @@ export interface Pod {
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "podsAtEvents".
  */
-export interface PodsAtEvent {
+export interface PodAtEvent {
   id: number;
   title?: string | null;
   pod: number | Pod;
@@ -182,7 +182,7 @@ export interface Event {
   title: string;
   date: string;
   pods?: {
-    docs?: (number | PodsAtEvent)[];
+    docs?: (number | PodAtEvent)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -771,7 +771,7 @@ export interface PayloadLockedDocument {
       } | null)
     | ({
         relationTo: 'podsAtEvents';
-        value: number | PodsAtEvent;
+        value: number | PodAtEvent;
       } | null)
     | ({
         relationTo: 'events';
