@@ -6,6 +6,10 @@ Mac: use Postgres.app and set something like `POSTGRES_URL=postgresql://user@loc
 
 To create a new migration: `npx payload migrate:create <name-of-migration>`
 
+## Useful commands
+- `npx prettier . --write` to format the code
+- `npx payload generate:types` to generate the types
+
 ## Payload Website Template
 
 This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
