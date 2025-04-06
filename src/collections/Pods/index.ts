@@ -1,11 +1,11 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload';
 
-import { slugField } from '@/fields/slug'
-import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url'
-import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { populatePublishedAt } from '../../hooks/populatePublishedAt'
-import { revalidatePod } from './hooks/revalidatePod'
+import { slugField } from '@/fields/slug';
+import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url';
+import { authenticated } from '../../access/authenticated';
+import { authenticatedOrPublished } from '../../access/authenticatedOrPublished';
+import { populatePublishedAt } from '../../hooks/populatePublishedAt';
+import { revalidatePod } from './hooks/revalidatePod';
 
 export const Pods: CollectionConfig = {
   slug: 'pods',
@@ -60,4 +60,4 @@ export const Pods: CollectionConfig = {
     },
     maxPerDoc: 50,
   },
-}
+};

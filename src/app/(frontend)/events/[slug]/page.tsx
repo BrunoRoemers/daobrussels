@@ -1,43 +1,43 @@
-import type { Metadata } from 'next/types'
+import type { Metadata } from 'next/types';
 
-import type { Event } from '@/payload-types'
-import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs'
-import configPromise from '@payload-config'
-import dayjs from 'dayjs'
-import { getPayload } from 'payload'
-import { PodList } from './pod-list'
+import type { Event } from '@/payload-types';
+import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
+import configPromise from '@payload-config';
+import dayjs from 'dayjs';
+import { getPayload } from 'payload';
+import { PodList } from './pod-list';
 
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
+  const payload = await getPayload({ config: configPromise });
   const events = await payload.find({
     collection: 'events',
     draft: false,
     limit: 1000,
     overrideAccess: false,
-  })
+  });
 
   const params = events.docs.map(({ slug }) => {
-    return { slug }
-  })
+    return { slug };
+  });
 
-  return params
+  return params;
 }
 
 type Args = {
   params: Promise<{
-    slug: string
-  }>
-}
+    slug: string;
+  }>;
+};
 
 export default async function Page({ params }: Args) {
-  const { slug } = await params
+  const { slug } = await params;
 
-  const event = await getEventBySlug(slug)
+  const event = await getEventBySlug(slug);
 
   // FIXME(Bruno): Using `notFound` throws an error, which means `revalidatePath` will reattempt to generate the page, which results in an infinite loop...
   //               https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration#handling-uncaught-exceptions
   if (!event) {
-    return <div>not found</div>
+    return <div>not found</div>;
   }
 
   return (
@@ -54,13 +54,13 @@ export default async function Page({ params }: Args) {
         <PodList event={event} />
       </div>
     </div>
-  )
+  );
 }
 
 export function generateMetadata(): Metadata {
   return {
     title: `Events by DAO Brussels`,
-  }
+  };
 }
 
 const getEventBySlug = async (slug: string): Promise<Event | null> => {
@@ -70,11 +70,11 @@ const getEventBySlug = async (slug: string): Promise<Event | null> => {
       slug: { equals: slug },
     },
     limit: 2,
-  })
+  });
 
   if (events.docs.length !== 1) {
-    return null
+    return null;
   }
 
-  return events.docs[0]
-}
+  return events.docs[0];
+};

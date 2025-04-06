@@ -1,5 +1,5 @@
-import type { NextRequest } from 'next/server'
-import { z } from 'zod'
+import type { NextRequest } from 'next/server';
+import { z } from 'zod';
 
 const requestSchema = z
   .object({
@@ -8,7 +8,7 @@ const requestSchema = z
     addresses: z.array(z.string().regex(/^0x[a-fA-F0-9]{40}$/)),
     snapshot: z.coerce.string(),
   })
-  .passthrough()
+  .passthrough();
 
 // This endpoint is compatible with https://snapshot.org/#/strategy/api-post.
 // Each address receives a score of 1, effectively allowing any address to vote.
@@ -26,23 +26,23 @@ const requestSchema = z
 //     "snapshot": 11437846
 //   }'
 export const POST = async (request: NextRequest) => {
-  const requestData = requestSchema.parse(await request.json())
+  const requestData = requestSchema.parse(await request.json());
 
-  console.log(requestData)
+  console.log(requestData);
 
   const scores = requestData.addresses.map((address) => {
     return {
       score: 1,
       address,
-    }
-  })
+    };
+  });
 
   const responseData = {
     score: scores,
-  }
+  };
 
   return new Response(JSON.stringify(responseData), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },
-  })
-}
+  });
+};

@@ -1,16 +1,16 @@
-import React from 'react'
-import { cn } from 'src/utilities/cn'
+import React from 'react';
+import { cn } from 'src/utilities/cn';
 
-import type { Event } from '@/payload-types'
+import type { Event } from '@/payload-types';
 
-import { Card } from '@/components/Card'
+import { Card } from '@/components/Card';
 
 export type Props = {
-  events: Event[]
-}
+  events: Event[];
+};
 
 export const CollectionArchive: React.FC<Props> = (props) => {
-  const { events } = props
+  const { events } = props;
 
   return (
     <div className={cn('container')}>
@@ -22,13 +22,13 @@ export const CollectionArchive: React.FC<Props> = (props) => {
                 <div className="col-span-4" key={index}>
                   <Card className="h-full" doc={result} relationTo="events" showCategories />
                 </div>
-              )
+              );
             }
 
-            return null
+            return null;
           })}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

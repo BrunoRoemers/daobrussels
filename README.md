@@ -7,6 +7,7 @@ Mac: use Postgres.app and set something like `POSTGRES_URL=postgresql://user@loc
 To create a new migration: `npx payload migrate:create <name-of-migration>`
 
 ## Useful commands
+
 - `npx prettier . --write` to format the code
 - `npx payload generate:types` to generate the types
 

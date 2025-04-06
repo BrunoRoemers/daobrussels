@@ -1,20 +1,20 @@
-import type { Metadata } from 'next/types'
+import type { Metadata } from 'next/types';
 
-import { CollectionArchive } from '@/components/CollectionArchive'
-import type { Event } from '@/payload-types'
-import { Search } from '@/search/Component'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-import PageClient from './page.client'
+import { CollectionArchive } from '@/components/CollectionArchive';
+import type { Event } from '@/payload-types';
+import { Search } from '@/search/Component';
+import configPromise from '@payload-config';
+import { getPayload } from 'payload';
+import PageClient from './page.client';
 
 type Args = {
   searchParams: Promise<{
-    q: string
-  }>
-}
+    q: string;
+  }>;
+};
 export default async function Page({ searchParams: searchParamsPromise }: Args) {
-  const { q: query } = await searchParamsPromise
-  const payload = await getPayload({ config: configPromise })
+  const { q: query } = await searchParamsPromise;
+  const payload = await getPayload({ config: configPromise });
 
   const posts = await payload.find({
     collection: 'search',
@@ -48,7 +48,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
           },
         }
       : {}),
-  })
+  });
 
   return (
     <div className="pt-24 pb-24">
@@ -66,11 +66,11 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
         <div className="container">No results found.</div>
       )}
     </div>
-  )
+  );
 }
 
 export function generateMetadata(): Metadata {
   return {
     title: `Payload Website Template Search`,
-  }
+  };
 }

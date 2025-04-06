@@ -1,26 +1,26 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload';
 
-import { slugField } from '@/fields/slug'
-import { hero } from '@/heros/config'
-import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { populatePublishedAt } from '../../hooks/populatePublishedAt'
-import { generatePreviewPath } from '../../utilities/generatePreviewPath'
-import { revalidatePage } from './hooks/revalidatePage'
+import { slugField } from '@/fields/slug';
+import { hero } from '@/heros/config';
+import { authenticated } from '../../access/authenticated';
+import { authenticatedOrPublished } from '../../access/authenticatedOrPublished';
+import { populatePublishedAt } from '../../hooks/populatePublishedAt';
+import { generatePreviewPath } from '../../utilities/generatePreviewPath';
+import { revalidatePage } from './hooks/revalidatePage';
 
-import { Banner } from '@/blocks/Banner/config'
-import { CallToAction } from '@/blocks/CallToAction/config'
-import { Code } from '@/blocks/Code/config'
-import { Content } from '@/blocks/Content/config'
-import { FormBlock } from '@/blocks/Form/config'
-import { MediaBlock } from '@/blocks/MediaBlock/config'
+import { Banner } from '@/blocks/Banner/config';
+import { CallToAction } from '@/blocks/CallToAction/config';
+import { Code } from '@/blocks/Code/config';
+import { Content } from '@/blocks/Content/config';
+import { FormBlock } from '@/blocks/Form/config';
+import { MediaBlock } from '@/blocks/MediaBlock/config';
 import {
   MetaDescriptionField,
   MetaImageField,
   MetaTitleField,
   OverviewField,
   PreviewField,
-} from '@payloadcms/plugin-seo/fields'
+} from '@payloadcms/plugin-seo/fields';
 export const Pages: CollectionConfig = {
   slug: 'pages',
   access: {
@@ -36,18 +36,18 @@ export const Pages: CollectionConfig = {
         const path = generatePreviewPath({
           slug: typeof data?.slug === 'string' ? data.slug : '',
           collection: 'pages',
-        })
+        });
 
-        return `${process.env.NEXT_PUBLIC_SERVER_URL}${path}`
+        return `${process.env.NEXT_PUBLIC_SERVER_URL}${path}`;
       },
     },
     preview: (data) => {
       const path = generatePreviewPath({
         slug: typeof data?.slug === 'string' ? data.slug : '',
         collection: 'pages',
-      })
+      });
 
-      return `${process.env.NEXT_PUBLIC_SERVER_URL}${path}`
+      return `${process.env.NEXT_PUBLIC_SERVER_URL}${path}`;
     },
     useAsTitle: 'title',
   },
@@ -125,4 +125,4 @@ export const Pages: CollectionConfig = {
     },
     maxPerDoc: 50,
   },
-}
+};

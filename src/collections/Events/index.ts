@@ -1,11 +1,11 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig } from 'payload';
 
-import { slugField } from '@/fields/slug'
-import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url'
-import { authenticated } from '../../access/authenticated'
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { populatePublishedAt } from '../../hooks/populatePublishedAt'
-import { revalidateEvent } from './hooks/revalidateEvent'
+import { slugField } from '@/fields/slug';
+import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url';
+import { authenticated } from '../../access/authenticated';
+import { authenticatedOrPublished } from '../../access/authenticatedOrPublished';
+import { populatePublishedAt } from '../../hooks/populatePublishedAt';
+import { revalidateEvent } from './hooks/revalidateEvent';
 
 export const Events: CollectionConfig = {
   slug: 'events',
@@ -64,4 +64,4 @@ export const Events: CollectionConfig = {
     },
     maxPerDoc: 50,
   },
-}
+};

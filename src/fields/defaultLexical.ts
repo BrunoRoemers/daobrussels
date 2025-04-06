@@ -5,8 +5,8 @@ import {
   LinkFeature,
   ParagraphFeature,
   UnderlineFeature,
-} from '@payloadcms/richtext-lexical'
-import { Config } from 'payload'
+} from '@payloadcms/richtext-lexical';
+import { Config } from 'payload';
 
 export const defaultLexical: Config['editor'] = lexicalEditor({
   features: () => {
@@ -19,9 +19,9 @@ export const defaultLexical: Config['editor'] = lexicalEditor({
         enabledCollections: ['pages'],
         fields: ({ defaultFields }) => {
           const defaultFieldsWithoutUrl = defaultFields.filter((field) => {
-            if ('name' in field && field.name === 'url') return false
-            return true
-          })
+            if ('name' in field && field.name === 'url') return false;
+            return true;
+          });
 
           return [
             ...defaultFieldsWithoutUrl,
@@ -34,9 +34,9 @@ export const defaultLexical: Config['editor'] = lexicalEditor({
               label: ({ t }) => t('fields:enterURL'),
               required: true,
             },
-          ]
+          ];
         },
       }),
-    ]
+    ];
   },
-})
+});

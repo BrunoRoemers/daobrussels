@@ -1,8 +1,8 @@
-import type { Field } from 'payload'
+import type { Field } from 'payload';
 
-import deepMerge from '@/utilities/deepMerge'
+import deepMerge from '@/utilities/deepMerge';
 
-export type LinkAppearances = 'default' | 'outline'
+export type LinkAppearances = 'default' | 'outline';
 
 export const appearanceOptions: Record<LinkAppearances, { label: string; value: string }> = {
   default: {
@@ -13,13 +13,13 @@ export const appearanceOptions: Record<LinkAppearances, { label: string; value: 
     label: 'Outline',
     value: 'outline',
   },
-}
+};
 
 type LinkType = (options?: {
-  appearances?: LinkAppearances[] | false
-  disableLabel?: boolean
-  overrides?: Record<string, unknown>
-}) => Field
+  appearances?: LinkAppearances[] | false;
+  disableLabel?: boolean;
+  overrides?: Record<string, unknown>;
+}) => Field;
 
 export const link: LinkType = ({ appearances, disableLabel = false, overrides = {} } = {}) => {
   const linkResult: Field = {
@@ -65,7 +65,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
         ],
       },
     ],
-  }
+  };
 
   const linkTypes: Field[] = [
     {
@@ -88,7 +88,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       label: 'Custom URL',
       required: true,
     },
-  ]
+  ];
 
   if (!disableLabel) {
     linkTypes.map((linkType) => ({
@@ -97,7 +97,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
         ...linkType.admin,
         width: '50%',
       },
-    }))
+    }));
 
     linkResult.fields.push({
       type: 'row',
@@ -113,16 +113,16 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
           required: true,
         },
       ],
-    })
+    });
   } else {
-    linkResult.fields = [...linkResult.fields, ...linkTypes]
+    linkResult.fields = [...linkResult.fields, ...linkTypes];
   }
 
   if (appearances !== false) {
-    let appearanceOptionsToUse = [appearanceOptions.default, appearanceOptions.outline]
+    let appearanceOptionsToUse = [appearanceOptions.default, appearanceOptions.outline];
 
     if (appearances) {
-      appearanceOptionsToUse = appearances.map((appearance) => appearanceOptions[appearance])
+      appearanceOptionsToUse = appearances.map((appearance) => appearanceOptions[appearance]);
     }
 
     linkResult.fields.push({
@@ -133,8 +133,8 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       },
       defaultValue: 'default',
       options: appearanceOptionsToUse,
-    })
+    });
   }
 
-  return deepMerge(linkResult, overrides)
-}
+  return deepMerge(linkResult, overrides);
+};

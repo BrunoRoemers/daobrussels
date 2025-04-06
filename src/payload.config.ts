@@ -1,24 +1,24 @@
 // storage-adapter-import-placeholder
-import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
+import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres';
 
-import path from 'path'
-import { buildConfig } from 'payload'
-import sharp from 'sharp' // sharp-import
-import { fileURLToPath } from 'url'
+import path from 'path';
+import { buildConfig } from 'payload';
+import sharp from 'sharp'; // sharp-import
+import { fileURLToPath } from 'url';
 
-import { defaultLexical } from '@/fields/defaultLexical'
-import { Events } from './collections/Events'
-import { Media } from './collections/Media'
-import { Pages } from './collections/Pages'
-import { Pods } from './collections/Pods'
-import { PodsAtEvents } from './collections/PodsAtEvents'
-import { Users } from './collections/Users'
-import { Footer } from './Footer/config'
-import { Header } from './Header/config'
-import { plugins } from './plugins'
+import { defaultLexical } from '@/fields/defaultLexical';
+import { Events } from './collections/Events';
+import { Media } from './collections/Media';
+import { Pages } from './collections/Pages';
+import { Pods } from './collections/Pods';
+import { PodsAtEvents } from './collections/PodsAtEvents';
+import { Users } from './collections/Users';
+import { Footer } from './Footer/config';
+import { Header } from './Header/config';
+import { plugins } from './plugins';
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default buildConfig({
   admin: {
@@ -69,4 +69,4 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   telemetry: false,
-})
+});
