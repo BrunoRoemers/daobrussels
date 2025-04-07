@@ -1,9 +1,8 @@
 import type { Metadata } from 'next/types';
 
-import type { Event } from '@/payload-types';
+import EventService from '@/collections/Events/service';
 import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
 import configPromise from '@payload-config';
-import dayjs from 'dayjs';
 import { getPayload } from 'payload';
 import { PodList } from './pod-list';
 
@@ -43,7 +42,7 @@ export default async function Page({ params }: Args) {
   return (
     <div className="container pb-8">
       <h1>{event.title}</h1>
-      <div>{dayjs(event.date).format('MMMM D, YYYY')}</div>
+      <div>{event.formattedDate}</div>
       <p>
         Ex cupidatat laborum ut duis labore laborum enim id ex consequat. Sint velit ea commodo
         nostrud ea laborum labore est nulla. Culpa et amet laborum. Ex aliquip minim aute cupidatat
@@ -63,18 +62,19 @@ export function generateMetadata(): Metadata {
   };
 }
 
-const getEventBySlug = async (slug: string): Promise<Event | null> => {
+const getEventBySlug = async (slug: string): Promise<EventService | null> => {
   const events = await findDraftsOrPublicDocs({
     collection: 'events',
     where: {
       slug: { equals: slug },
     },
     limit: 2,
+    // NOTE: `populate` could help reduce the amount of data returned
   });
 
   if (events.docs.length !== 1) {
     return null;
   }
 
-  return events.docs[0];
+  return new EventService(events.docs[0]);
 };

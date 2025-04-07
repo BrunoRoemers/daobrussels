@@ -8,6 +8,7 @@ export const Users: CollectionConfig = {
     admin: authenticated,
     create: authenticated,
     delete: authenticated,
+    // FIXME: the name of the host of a pod can currently not be shown on the events page
     read: authenticated,
     update: authenticated,
   },

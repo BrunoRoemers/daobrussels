@@ -39,6 +39,8 @@ export const Events: CollectionConfig = {
       type: 'join',
       collection: 'podsAtEvents',
       on: 'event',
+      // NOTE: Allow populating data from the pod, the pod's host, etc.
+      maxDepth: 2,
       admin: {
         defaultColumns: ['pod', 'host'],
       },
