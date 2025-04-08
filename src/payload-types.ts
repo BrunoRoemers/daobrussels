@@ -7,6 +7,11 @@
  */
 
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UserRoles".
+ */
+export type UserRoles = ('admin' | 'user')[];
+/**
  * Supported timezones in IANA format.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -200,6 +205,7 @@ export interface Event {
 export interface User {
   id: number;
   name?: string | null;
+  roles: UserRoles;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1120,6 +1126,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
