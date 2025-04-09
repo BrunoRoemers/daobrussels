@@ -9,7 +9,7 @@ import { defaultFieldOverrides } from './default-field-overrides';
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {
-    admin: authenticated,
+    admin: authenticated, // who can access the admin UI?
     create: role('admin'),
     read: anyone, // E.g. the name of a pod host needs to be shown on the events page.
     update: selfOrRole('admin'),
