@@ -204,7 +204,7 @@ export interface Event {
  */
 export interface User {
   id: number;
-  name?: string | null;
+  name: string;
   roles: UserRoles;
   updatedAt: string;
   createdAt: string;
