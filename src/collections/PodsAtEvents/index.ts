@@ -43,5 +43,12 @@ export const PodsAtEvents: CollectionConfig = {
       relationTo: 'users',
       required: true,
     },
+    {
+      name: 'description',
+      type: 'text',
+      required: true,
+      defaultValue: 'No description has been provided.',
+      minLength: 30,
+    },
   ],
 };
