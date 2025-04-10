@@ -43,5 +43,12 @@ export const PodsAtEvents: CollectionConfig = {
       relationTo: 'users',
       required: true,
     },
+    {
+      name: 'description',
+      type: 'text',
+      required: true,
+      defaultValue: '', // backfill existing data
+      minLength: 30,
+    },
   ],
 };
