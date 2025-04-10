@@ -416,7 +416,7 @@
           "type": "varchar",
           "primaryKey": false,
           "notNull": true,
-          "default": "'No description has been provided.'"
+          "default": "''"
         },
         "updated_at": {
           "name": "updated_at",

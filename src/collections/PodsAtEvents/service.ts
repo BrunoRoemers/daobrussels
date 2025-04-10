@@ -29,6 +29,6 @@ export default class PodAtEventService {
   }
 
   get description(): string {
-    return this.podAtEvent.description;
+    return this.podAtEvent.description || 'No description has been provided.';
   }
 }

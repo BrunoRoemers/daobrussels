@@ -47,7 +47,7 @@ export const PodsAtEvents: CollectionConfig = {
       name: 'description',
       type: 'text',
       required: true,
-      defaultValue: 'No description has been provided.',
+      defaultValue: '', // backfill existing data
       minLength: 30,
     },
   ],
