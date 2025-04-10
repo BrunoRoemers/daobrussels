@@ -22,7 +22,7 @@ export const PodList = ({ event }: Props) => {
 
   return (
     <>
-      <ul className="space-y-2">
+      <ul className="grid xl:grid-cols-2 gap-6">
         {event.pods.map((pod, i) => {
           return <PodCard key={i} pod={pod} />;
         })}
