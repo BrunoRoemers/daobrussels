@@ -1,14 +1,7 @@
 import EventService from '@/collections/Events/service';
 import type PodAtEventService from '@/collections/PodsAtEvents/service';
 import { Alert, AlertTitle } from '@/components/ui/alert';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertTriangle } from 'lucide-react';
 
 export type Props = {
@@ -49,11 +42,8 @@ function PodCard({ pod }: { pod: PodAtEventService }) {
         <CardDescription>{pod.host?.name}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p>Card Content</p>
+        <p>{pod.description}</p>
       </CardContent>
-      <CardFooter>
-        <p>Card Footer</p>
-      </CardFooter>
     </Card>
   );
 }
