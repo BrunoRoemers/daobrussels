@@ -1,14 +1,14 @@
-import type { Metadata } from 'next/types'
+import type { Metadata } from 'next/types';
 
-import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs'
-import Link from 'next/link'
+import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
+import Link from 'next/link';
 
 export default async function Page() {
   const events = await findDraftsOrPublicDocs({
     collection: 'events',
     depth: 1,
     limit: 10,
-  })
+  });
 
   return (
     <div className="container pb-8">
@@ -21,11 +21,11 @@ export default async function Page() {
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
 export function generateMetadata(): Metadata {
   return {
     title: `Events by DAO Brussels`,
-  }
+  };
 }

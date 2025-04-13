@@ -1,63 +1,49 @@
-import { Alert, AlertTitle } from '@/components/ui/alert'
-import type { Event, PodsAtEvent } from '@/payload-types'
-import { AlertTriangle } from 'lucide-react'
+import EventService from '@/collections/Events/service';
+import type PodAtEventService from '@/collections/PodsAtEvents/service';
+import { Alert, AlertTitle } from '@/components/ui/alert';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { AlertTriangle } from 'lucide-react';
 
 export type Props = {
-  event: Event
-}
+  event: EventService;
+};
 
 export const PodList = ({ event }: Props) => {
-  const page = event?.pods
-  const docs = page?.docs ?? []
-
-  if (docs.length <= 0) {
-    return <EmptyState />
+  if (!event.hasPods) {
+    return <Error message="This event doesn't have pods yet." />;
   }
 
   return (
     <>
-      <ul className="space-y-2">
-        {docs.map((doc, i) => {
-          if (typeof doc === 'number') {
-            return <ErrorState key={i} podId={doc} />
-          }
-
-          return <PodCard key={i} pod={doc} />
+      <ul className="grid xl:grid-cols-2 gap-6">
+        {event.pods.map((pod, i) => {
+          return <PodCard key={i} pod={pod} />;
         })}
       </ul>
-      {page?.hasNextPage && <PaginationWarning />}
+      {event.hasMorePods && <Error message="Some pods are not shown." />}
     </>
-  )
-}
+  );
+};
 
-function EmptyState() {
+function Error({ message }: { message: string }) {
   return (
     <Alert>
       <AlertTriangle className="h-4 w-4" />
-      <AlertTitle>This event doesn't have pods yet.</AlertTitle>
+      <AlertTitle>{message}</AlertTitle>
     </Alert>
-  )
+  );
 }
 
-function ErrorState({ podId }: { podId: number }) {
+function PodCard({ pod }: { pod: PodAtEventService }) {
   return (
-    <Alert variant={'destructive'}>
-      <AlertTriangle className="h-4 w-4" />
-      <AlertTitle>Cannot show pod with id {podId}</AlertTitle>
-    </Alert>
-  )
-}
-
-function PodCard({ pod }: { pod: PodsAtEvent }) {
-  // TODO pod is the relationship, get title from the actual pod?
-  return <li>{pod.title}</li>
-}
-
-function PaginationWarning() {
-  return (
-    <Alert variant={'destructive'} className="mt-4">
-      <AlertTriangle className="h-4 w-4" />
-      <AlertTitle>Some pods are not shown</AlertTitle>
-    </Alert>
-  )
+    <Card>
+      <CardHeader>
+        <CardTitle>{pod.title}</CardTitle>
+        <CardDescription>{pod.host?.name}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>{pod.description}</p>
+      </CardContent>
+    </Card>
+  );
 }

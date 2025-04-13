@@ -1,16 +1,16 @@
-'use client'
+'use client';
 
-import type { PayloadAdminBarProps } from 'payload-admin-bar'
+import type { PayloadAdminBarProps } from 'payload-admin-bar';
 
-import { cn } from '@/utilities/cn'
-import { useSelectedLayoutSegments } from 'next/navigation'
-import { PayloadAdminBar } from 'payload-admin-bar'
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { cn } from '@/utilities/cn';
+import { useSelectedLayoutSegments } from 'next/navigation';
+import { PayloadAdminBar } from 'payload-admin-bar';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-import './index.scss'
+import './index.scss';
 
-const baseClass = 'admin-bar'
+const baseClass = 'admin-bar';
 
 const collectionLabels = {
   pages: {
@@ -25,22 +25,22 @@ const collectionLabels = {
     plural: 'Projects',
     singular: 'Project',
   },
-}
+};
 
-const Title: React.FC = () => <span>Dashboard</span>
+const Title: React.FC = () => <span>Dashboard</span>;
 
 export const AdminBar: React.FC<{
-  adminBarProps?: PayloadAdminBarProps
+  adminBarProps?: PayloadAdminBarProps;
 }> = (props) => {
-  const { adminBarProps } = props || {}
-  const segments = useSelectedLayoutSegments()
-  const [show, setShow] = useState(false)
-  const collection = collectionLabels?.[segments?.[1]] ? segments?.[1] : 'pages'
-  const router = useRouter()
+  const { adminBarProps } = props || {};
+  const segments = useSelectedLayoutSegments();
+  const [show, setShow] = useState(false);
+  const collection = collectionLabels?.[segments?.[1]] ? segments?.[1] : 'pages';
+  const router = useRouter();
 
   const onAuthChange = React.useCallback((user) => {
-    setShow(user?.id)
-  }, [])
+    setShow(user?.id);
+  }, []);
 
   return (
     <div
@@ -68,9 +68,9 @@ export const AdminBar: React.FC<{
           onAuthChange={onAuthChange}
           onPreviewExit={() => {
             fetch('/next/exit-preview').then(() => {
-              router.push('/')
-              router.refresh()
-            })
+              router.push('/');
+              router.refresh();
+            });
           }}
           style={{
             backgroundColor: 'transparent',
@@ -81,5 +81,5 @@ export const AdminBar: React.FC<{
         />
       </div>
     </div>
-  )
-}
+  );
+};

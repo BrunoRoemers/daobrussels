@@ -7,6 +7,11 @@
  */
 
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "UserRoles".
+ */
+export type UserRoles = ('admin' | 'user')[];
+/**
  * Supported timezones in IANA format.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -67,7 +72,7 @@ export interface Config {
   blocks: {};
   collections: {
     pods: Pod;
-    podsAtEvents: PodsAtEvent;
+    podsAtEvents: PodAtEvent;
     events: Event;
     pages: Page;
     media: Media;
@@ -149,7 +154,7 @@ export interface Pod {
   id: number;
   title: string;
   events?: {
-    docs?: (number | PodsAtEvent)[];
+    docs?: (number | PodAtEvent)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -164,12 +169,13 @@ export interface Pod {
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "podsAtEvents".
  */
-export interface PodsAtEvent {
+export interface PodAtEvent {
   id: number;
   title?: string | null;
   pod: number | Pod;
   event: number | Event;
   host: number | User;
+  description: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -182,7 +188,7 @@ export interface Event {
   title: string;
   date: string;
   pods?: {
-    docs?: (number | PodsAtEvent)[];
+    docs?: (number | PodAtEvent)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -199,7 +205,8 @@ export interface Event {
  */
 export interface User {
   id: number;
-  name?: string | null;
+  name: string;
+  roles: UserRoles;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -771,7 +778,7 @@ export interface PayloadLockedDocument {
       } | null)
     | ({
         relationTo: 'podsAtEvents';
-        value: number | PodsAtEvent;
+        value: number | PodAtEvent;
       } | null)
     | ({
         relationTo: 'events';
@@ -870,6 +877,7 @@ export interface PodsAtEventsSelect<T extends boolean = true> {
   pod?: T;
   event?: T;
   host?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1120,6 +1128,7 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

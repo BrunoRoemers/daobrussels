@@ -1,28 +1,28 @@
-'use client'
-import { cn } from '@/utilities/cn'
-import useClickableCard from '@/utilities/useClickableCard'
-import Link from 'next/link'
-import React, { Fragment } from 'react'
+'use client';
+import { cn } from '@/utilities/cn';
+import useClickableCard from '@/utilities/useClickableCard';
+import Link from 'next/link';
+import React, { Fragment } from 'react';
 
-import type { Event } from '@/payload-types'
+import type { Event } from '@/payload-types';
 
 export const Card: React.FC<{
-  alignItems?: 'center'
-  className?: string
-  doc?: Event
-  relationTo?: 'events'
-  showCategories?: boolean
-  title?: string
+  alignItems?: 'center';
+  className?: string;
+  doc?: Event;
+  relationTo?: 'events';
+  showCategories?: boolean;
+  title?: string;
 }> = (props) => {
-  const { card, link } = useClickableCard({})
-  const { className, doc, relationTo, showCategories, title: titleFromProps } = props
+  const { card, link } = useClickableCard({});
+  const { className, doc, relationTo, showCategories, title: titleFromProps } = props;
 
-  const { slug, title } = doc || {}
+  const { slug, title } = doc || {};
 
-  const categories = []
-  const hasCategories = categories && Array.isArray(categories) && categories.length > 0
-  const titleToUse = titleFromProps || title
-  const href = `/${relationTo}/${slug}`
+  const categories = [];
+  const hasCategories = categories && Array.isArray(categories) && categories.length > 0;
+  const titleToUse = titleFromProps || title;
+  const href = `/${relationTo}/${slug}`;
 
   return (
     <article
@@ -42,21 +42,21 @@ export const Card: React.FC<{
               <div>
                 {categories?.map((category, index) => {
                   if (typeof category === 'object') {
-                    const { title: titleFromCategory } = category
+                    const { title: titleFromCategory } = category;
 
-                    const categoryTitle = titleFromCategory || 'Untitled category'
+                    const categoryTitle = titleFromCategory || 'Untitled category';
 
-                    const isLast = index === categories.length - 1
+                    const isLast = index === categories.length - 1;
 
                     return (
                       <Fragment key={index}>
                         {categoryTitle}
                         {!isLast && <Fragment>, &nbsp;</Fragment>}
                       </Fragment>
-                    )
+                    );
                   }
 
-                  return null
+                  return null;
                 })}
               </div>
             )}
@@ -73,5 +73,5 @@ export const Card: React.FC<{
         )}
       </div>
     </article>
-  )
-}
+  );
+};

@@ -1,4 +1,4 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-vercel-postgres'
+import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-vercel-postgres';
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
@@ -98,7 +98,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_pods_id_idx" ON "payload_locked_documents_rels" USING btree ("pods_id");
-  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_pods_at_events_id_idx" ON "payload_locked_documents_rels" USING btree ("pods_at_events_id");`)
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_pods_at_events_id_idx" ON "payload_locked_documents_rels" USING btree ("pods_at_events_id");`);
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
@@ -118,5 +118,5 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   ALTER TABLE "payload_locked_documents_rels" DROP COLUMN IF EXISTS "pods_id";
   ALTER TABLE "payload_locked_documents_rels" DROP COLUMN IF EXISTS "pods_at_events_id";
   DROP TYPE "public"."enum_pods_status";
-  DROP TYPE "public"."enum__pods_v_version_status";`)
+  DROP TYPE "public"."enum__pods_v_version_status";`);
 }
