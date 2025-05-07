@@ -44,28 +44,25 @@ const EventSection = ({ title, events }: { title: string; events: any[] }) => (
 );
 
 const EventCard = ({ event }: { event: any }) => (
-  <Card className="flex flex-col items-center md:flex-row gap-4 hover:shadow-md transition-shadow">
-    <div className="md:w-1/4 bg-muted p-4 flex items-center justify-center">
-      <div className="text-center">
-        <div className="text-2xl font-bold">{dayjs(event.date).format('D')}</div>
-        <div className="text-sm uppercase">{dayjs(event.date).format('MMM')}</div>
-        <div className="text-sm">{dayjs(event.date).format('YYYY')}</div>
+  <Link href={`/events/${event.slug}`} className="hover:text-primary transition-colors">
+    <Card className="flex flex-col items-center md:flex-row gap-4 hover:shadow-md transition-shadow">
+      <div className="md:w-1/4 bg-muted p-4 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-2xl font-bold">{dayjs(event.date).format('D')}</div>
+          <div className="text-sm uppercase">{dayjs(event.date).format('MMM')}</div>
+          <div className="text-sm">{dayjs(event.date).format('YYYY')}</div>
+        </div>
       </div>
-    </div>
-    <div className="md:w-3/4 p-4">
-      <CardHeader className="p-0">
-        <CardTitle>
-          {/* TODO make entire card clickable */}
-          <Link href={`/events/${event.slug}`} className="hover:text-primary transition-colors">
-            {event.title}
-          </Link>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="p-0 mt-2">
-        <p className="text-muted-foreground">{dayjs(event.date).format('h:mm A')}</p>
-      </CardContent>
-    </div>
-  </Card>
+      <div className="md:w-3/4 p-4">
+        <CardHeader className="p-0">
+          <CardTitle>{event.title}</CardTitle>
+        </CardHeader>
+        <CardContent className="p-0 mt-2">
+          <p className="text-muted-foreground">{dayjs(event.date).format('h:mm A')}</p>
+        </CardContent>
+      </div>
+    </Card>
+  </Link>
 );
 
 export function generateMetadata(): Metadata {
