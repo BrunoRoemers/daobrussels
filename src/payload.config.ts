@@ -22,6 +22,14 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
   admin: {
+    meta: {
+      titleSuffix: '- DAO Brussels',
+    },
+    components: {
+      graphics: {
+        Logo: '/components/admin/logo.tsx#Logo',
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
