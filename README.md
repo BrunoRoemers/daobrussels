@@ -1,5 +1,8 @@
 # DAO Brussels Website
 
+## Install
+`npm install --legacy-peer-deps`
+
 ## Database
 
 Mac: use Postgres.app and set something like `POSTGRES_URL=postgresql://user@localhost/database-name` in your `.env` file.
