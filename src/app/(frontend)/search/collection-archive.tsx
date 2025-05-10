@@ -1,4 +1,3 @@
-import React from 'react';
 import { cn } from 'src/utilities/cn';
 
 import type { Event } from '@/payload-types';
@@ -9,7 +8,7 @@ export type Props = {
   events: Event[];
 };
 
-export const CollectionArchive: React.FC<Props> = (props) => {
+export const CollectionArchive = (props: Props) => {
   const { events } = props;
 
   return (

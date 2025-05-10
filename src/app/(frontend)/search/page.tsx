@@ -1,7 +1,7 @@
 import type { Metadata } from 'next/types';
 
+import { CollectionArchive } from '@/app/(frontend)/search/collection-archive';
 import { SearchBar } from '@/app/(frontend)/search/search-bar';
-import { CollectionArchive } from '@/components/CollectionArchive';
 import type { Event } from '@/payload-types';
 import configPromise from '@payload-config';
 import { getPayload } from 'payload';
@@ -57,7 +57,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
           <SearchBar />
         </div>
       </div>
-
+      {/* FIXME: Other collections could appear in search results as well */}
       {posts.totalDocs > 0 ? (
         <CollectionArchive events={posts.docs as unknown as Event[]} />
       ) : (
