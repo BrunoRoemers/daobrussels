@@ -37,12 +37,28 @@ export default class EventService {
     }
   }
 
+  get id(): number {
+    return this.event.id;
+  }
+
+  get slug(): string {
+    if (!this.event.slug) {
+      throw new Error(`EventService(event: ${this.event.id}): Missing slug.`);
+    }
+
+    return this.event.slug;
+  }
+
   get title(): string {
     return this.event.title;
   }
 
   get formattedDate(): string {
     return dayjs(this.event.date).format('MMMM D, YYYY');
+  }
+
+  get rawDate(): string {
+    return this.event.date;
   }
 
   get hasPods(): boolean {
