@@ -1,4 +1,5 @@
 import type { Event } from '@/payload-types';
+import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
 import dayjs from 'dayjs';
 import PodAtEventService from '../PodsAtEvents/service';
 
@@ -7,6 +8,22 @@ import PodAtEventService from '../PodsAtEvents/service';
  */
 export default class EventService {
   readonly pods: PodAtEventService[];
+
+  static async getBySlug(slug: string): Promise<EventService | null> {
+    const events = await findDraftsOrPublicDocs({
+      collection: 'events',
+      where: {
+        slug: { equals: slug },
+      },
+      limit: 2,
+    });
+
+    if (events.docs.length !== 1) {
+      return null;
+    }
+
+    return new EventService(events.docs[0]);
+  }
 
   constructor(protected readonly event: Event) {
     const rawPods = this.event.pods?.docs ?? [];

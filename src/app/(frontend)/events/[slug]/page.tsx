@@ -1,7 +1,6 @@
 import type { Metadata } from 'next/types';
 
 import EventService from '@/collections/Events/service';
-import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
 import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 import { PodList } from './pod-list';
@@ -31,7 +30,7 @@ type Args = {
 export default async function Page({ params }: Args) {
   const { slug } = await params;
 
-  const event = await getEventBySlug(slug);
+  const event = await EventService.getBySlug(slug);
 
   // FIXME(Bruno): Using `notFound` throws an error, which means `revalidatePath` will reattempt to generate the page, which results in an infinite loop...
   //               https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration#handling-uncaught-exceptions
@@ -61,20 +60,3 @@ export function generateMetadata(): Metadata {
     title: `Events by DAO Brussels`,
   };
 }
-
-const getEventBySlug = async (slug: string): Promise<EventService | null> => {
-  const events = await findDraftsOrPublicDocs({
-    collection: 'events',
-    where: {
-      slug: { equals: slug },
-    },
-    limit: 2,
-    // NOTE: `populate` could help reduce the amount of data returned
-  });
-
-  if (events.docs.length !== 1) {
-    return null;
-  }
-
-  return new EventService(events.docs[0]);
-};
