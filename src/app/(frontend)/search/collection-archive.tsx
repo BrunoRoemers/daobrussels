@@ -1,8 +1,8 @@
 import { cn } from 'src/utilities/cn';
 
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Event } from '@/payload-types';
-
-import { Card } from '@/components/Card';
+import Link from 'next/link';
 
 export type Props = {
   events: Event[];
@@ -15,16 +15,16 @@ export const CollectionArchive = (props: Props) => {
     <div className={cn('container')}>
       <div>
         <div className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 gap-y-4 gap-x-4 lg:gap-y-8 lg:gap-x-8 xl:gap-x-8">
-          {events?.map((result, index) => {
-            if (typeof result === 'object' && result !== null) {
-              return (
-                <div className="col-span-4" key={index}>
-                  <Card className="h-full" doc={result} relationTo="events" showCategories />
-                </div>
-              );
-            }
-
-            return null;
+          {events.map((event) => {
+            return (
+              <Link href={`/events/${event.slug}`} className="col-span-4" key={event.id}>
+                <Card>
+                  <CardHeader className="gap-0">
+                    <CardTitle>{event.title}</CardTitle>
+                  </CardHeader>
+                </Card>
+              </Link>
+            );
           })}
         </div>
       </div>
