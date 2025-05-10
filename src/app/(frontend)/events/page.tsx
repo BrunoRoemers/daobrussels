@@ -40,7 +40,9 @@ export default async function Page() {
       collection: 'events',
       limit: 10,
       where: {
-        date: {},
+        date: {
+          less_than: todayStart,
+        },
       },
       sort: '-date',
     }),
