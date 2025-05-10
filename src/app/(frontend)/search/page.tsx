@@ -1,8 +1,8 @@
 import type { Metadata } from 'next/types';
 
+import { SearchBar } from '@/app/(frontend)/search/search-bar';
 import { CollectionArchive } from '@/components/CollectionArchive';
 import type { Event } from '@/payload-types';
-import { Search } from '@/search/Component';
 import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 
@@ -54,7 +54,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
           <h1 className="sr-only">Search</h1>
-          <Search />
+          <SearchBar />
         </div>
       </div>
 
@@ -69,6 +69,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Payload Website Template Search`,
+    title: `DAO Brussels Search`,
   };
 }
