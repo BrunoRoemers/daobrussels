@@ -1,4 +1,4 @@
-import logo from '@/public/logo-dao-brussels-blue-original.svg';
+import logo from '@/../public/logo-dao-brussels-blue-original.svg';
 import Image from 'next/image';
 
 export const Logo = () => (
