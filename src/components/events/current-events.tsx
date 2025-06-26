@@ -2,7 +2,9 @@ import EventService from '@/collections/Events/service';
 import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { EventCard } from './event-card';
+import { NoUpcomingEventsCard } from './no-upcoming-events-card';
 
 /**
  * This component shows events at (and around) the current date.
@@ -60,13 +62,12 @@ const CurrentEvents = async () => {
         />
       )}
 
-      {upcomingBatch.docs.length > 0 && (
-        <EventSection
-          title="Upcoming Events"
-          events={upcomingBatch.docs.map((event) => new EventService(event))}
-          hasMore={upcomingBatch.hasNextPage}
-        />
-      )}
+      <EventSection
+        title="Upcoming Events"
+        events={upcomingBatch.docs.map((event) => new EventService(event))}
+        hasMore={upcomingBatch.hasNextPage}
+        empty={<NoUpcomingEventsCard />}
+      />
 
       {pastBatch.docs.length > 0 && (
         <EventSection
@@ -85,15 +86,17 @@ interface EventSectionProps {
   title: string;
   events: EventService[];
   hasMore: boolean;
+  empty?: ReactNode;
 }
 
-const EventSection = ({ title, events, hasMore }: EventSectionProps) => (
+const EventSection = ({ title, events, hasMore, empty }: EventSectionProps) => (
   <div className="mb-8">
     <h2 className="text-2xl font-bold mb-4">{title}</h2>
     <div className="grid gap-4">
       {events.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}
+      {events.length <= 0 && empty}
       {hasMore && <ViewMoreButton />}
     </div>
   </div>
