@@ -1,6 +1,7 @@
 import EventService from '@/collections/Events/service';
 import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import { EventCard } from './event-card';
 
 /**
@@ -55,6 +56,7 @@ const CurrentEvents = async () => {
         <EventSection
           title="Happening Today"
           events={todayBatch.docs.map((event) => new EventService(event))}
+          hasMore={todayBatch.hasNextPage}
         />
       )}
 
@@ -62,6 +64,7 @@ const CurrentEvents = async () => {
         <EventSection
           title="Upcoming Events"
           events={upcomingBatch.docs.map((event) => new EventService(event))}
+          hasMore={upcomingBatch.hasNextPage}
         />
       )}
 
@@ -69,6 +72,7 @@ const CurrentEvents = async () => {
         <EventSection
           title="Past Events"
           events={pastBatch.docs.map((event) => new EventService(event))}
+          hasMore={pastBatch.hasNextPage}
         />
       )}
     </div>
@@ -77,13 +81,28 @@ const CurrentEvents = async () => {
 
 export default CurrentEvents;
 
-const EventSection = ({ title, events }: { title: string; events: EventService[] }) => (
+interface EventSectionProps {
+  title: string;
+  events: EventService[];
+  hasMore: boolean;
+}
+
+const EventSection = ({ title, events, hasMore }: EventSectionProps) => (
   <div className="mb-8">
     <h2 className="text-2xl font-bold mb-4">{title}</h2>
     <div className="grid gap-4">
       {events.map((event) => (
         <EventCard key={event.id} event={event} />
       ))}
+      {hasMore && <ViewMoreButton />}
     </div>
   </div>
 );
+
+const ViewMoreButton = () => {
+  return (
+    <Link href="/events" className="text-center">
+      View more events
+    </Link>
+  );
+};
