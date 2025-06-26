@@ -1,18 +1,23 @@
 import EventService from '@/collections/Events/service';
 import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { EventCard } from './event-card';
 import { NoUpcomingEventsCard } from './no-upcoming-events-card';
 
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 /**
  * This component shows events at (and around) the current date.
  */
 const CurrentEvents = async () => {
-  const today = dayjs();
-  const todayStart = today.startOf('day').toISOString();
-  const todayEnd = today.endOf('day').toISOString();
+  const today = dayjs().tz('Europe/Brussels');
+  const todayStart = today.startOf('day').format();
+  const todayEnd = today.endOf('day').format();
 
   const [todayBatch, upcomingBatch, pastBatch] = await Promise.all([
     // Today's events
