@@ -1,5 +1,9 @@
-import PageTemplate, { generateMetadata } from './[slug]/page';
+import CurrentEvents from '@/components/events/current-events';
 
-export default PageTemplate;
-
-export { generateMetadata };
+export default function Page() {
+  return (
+    <div>
+      <CurrentEvents />
+    </div>
+  );
+}
