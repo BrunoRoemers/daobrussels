@@ -5,10 +5,19 @@ import { Card, CardContent } from '@/components/ui/card';
 import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
 import type { Metadata } from 'next/types';
 
-export default async function Page() {
+interface Props {
+  searchParams: Promise<{
+    page: string | undefined;
+  }>;
+}
+
+export default async function Page({ searchParams }: Props) {
+  const { page = '1' } = await searchParams;
+
   const data = await findDraftsOrPublicDocs({
     collection: 'events',
     limit: 10,
+    page: Number(page),
     sort: '-date',
   });
 
