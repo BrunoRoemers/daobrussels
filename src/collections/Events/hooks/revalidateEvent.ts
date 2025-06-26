@@ -20,6 +20,7 @@ export const revalidateEvent: CollectionAfterChangeHook<Event> = ({
 
   if (paths.size > 0) {
     paths.add(`/events`);
+    paths.add('/');
   }
 
   for (const path of paths) {
