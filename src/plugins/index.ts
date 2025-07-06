@@ -5,6 +5,7 @@ import { redirectsPlugin } from '@payloadcms/plugin-redirects';
 import { seoPlugin } from '@payloadcms/plugin-seo';
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types';
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
+import { gcsStorage } from '@payloadcms/storage-gcs';
 import { Plugin } from 'payload';
 
 import { Page } from '@/payload-types';
@@ -85,4 +86,16 @@ export const plugins: Plugin[] = [
     },
   }),
   payloadCloudPlugin(),
+  gcsStorage({
+    collections: {
+      media: true,
+    },
+    bucket: process.env.GCS_BUCKET_NAME || '',
+    options: {
+      projectId: process.env.GCS_PROJECT_ID || '',
+    },
+    acl: 'Private',
+    // TODO: Enable client uploads
+    // clientUploads: true,
+  }),
 ];

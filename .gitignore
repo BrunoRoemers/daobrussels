@@ -5,6 +5,7 @@ node_modules
 .env
 .next
 .vercel
+service-account-*.json
 
 # Payload default media upload directory
 public/media/
