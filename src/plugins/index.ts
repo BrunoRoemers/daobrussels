@@ -1,5 +1,4 @@
 import { revalidateRedirects } from '@/hooks/revalidateRedirects';
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud';
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder';
 import { redirectsPlugin } from '@payloadcms/plugin-redirects';
 import { seoPlugin } from '@payloadcms/plugin-seo';
@@ -85,7 +84,6 @@ export const plugins: Plugin[] = [
       },
     },
   }),
-  payloadCloudPlugin(),
   gcsStorage({
     collections: {
       media: true,
