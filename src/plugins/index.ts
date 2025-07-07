@@ -95,7 +95,6 @@ export const plugins: Plugin[] = [
       projectId: process.env.GCS_PROJECT_ID || '',
     },
     acl: 'Private',
-    // TODO: Enable client uploads
-    // clientUploads: true,
+    clientUploads: true,
   }),
 ];
