@@ -1,5 +1,8 @@
 # DAO Brussels Website
 
+## Roadmap
+https://github.com/users/BrunoRoemers/projects/1
+
 ## Install
 `npm install --legacy-peer-deps`
 
