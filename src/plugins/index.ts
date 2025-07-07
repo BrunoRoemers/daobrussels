@@ -86,7 +86,9 @@ export const plugins: Plugin[] = [
   }),
   gcsStorage({
     collections: {
-      media: true,
+      media: {
+        prefix: 'collections/media',
+      },
     },
     bucket: process.env.GCS_BUCKET_NAME || '',
     options: {
