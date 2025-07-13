@@ -90,9 +90,9 @@ export const plugins: Plugin[] = [
         prefix: 'collections/media',
       },
     },
-    bucket: process.env.GCS_BUCKET_NAME || '',
+    bucket: process.env.GCP_BUCKET_NAME || '',
     options: {
-      projectId: process.env.GCS_PROJECT_ID || '',
+      projectId: process.env.GCP_PROJECT_ID || '',
     },
     acl: 'Private',
     clientUploads: true,
