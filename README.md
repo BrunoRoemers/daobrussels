@@ -17,6 +17,13 @@ To create a new migration: `npx payload migrate:create <name-of-migration>`
 - `npx prettier . --write` to format the code
 - `npx payload generate:types` to generate the types
 
+## Upgrade procedure for Payload CMS
+1. `npm install payload@latest`
+2. `npm install`
+3. `npx payload generate:types` - might complain about version mismatch - follow instructions, rinse, repeat
+4. `npx payload generate:importmap` - might complain about version mismatch - follow instructions, rinse, repeat
+5. `npn run dev` - should have no issues :tada:
+
 ## Payload Website Template
 
 This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.

@@ -1,16 +1,17 @@
 import { revalidateRedirects } from '@/hooks/revalidateRedirects';
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud';
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder';
 import { redirectsPlugin } from '@payloadcms/plugin-redirects';
 import { seoPlugin } from '@payloadcms/plugin-seo';
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types';
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
+import { gcsStorage } from '@payloadcms/storage-gcs';
 import { Plugin } from 'payload';
 
 import { Page } from '@/payload-types';
 import { beforeSyncWithSearch } from '@/search/beforeSync';
 import { searchFields } from '@/search/fieldOverrides';
 import { searchPlugin } from '@payloadcms/plugin-search';
+import { getGoogleCloudAuthClient } from 'infra/google-cloud/get-google-cloud-auth-client';
 
 const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template';
@@ -84,5 +85,18 @@ export const plugins: Plugin[] = [
       },
     },
   }),
-  payloadCloudPlugin(),
+  gcsStorage({
+    collections: {
+      media: {
+        prefix: 'collections/media',
+      },
+    },
+    bucket: process.env.GCP_BUCKET_NAME || '',
+    options: {
+      projectId: process.env.GCP_PROJECT_ID || '',
+      authClient: getGoogleCloudAuthClient(),
+    },
+    acl: 'Private',
+    clientUploads: true,
+  }),
 ];

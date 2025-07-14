@@ -4,6 +4,7 @@ import * as migration_20250323_001109_remove_posts_and_categories from './202503
 import * as migration_20250326_214608_bring_blocks_back from './20250326_214608_bring_blocks_back';
 import * as migration_20250409_002239_user_roles from './20250409_002239_user_roles';
 import * as migration_20250410_222642_description_for_pod_at_event from './20250410_222642_description_for_pod_at_event';
+import * as migration_20250713_170606_simplify_media_collection from './20250713_170606_simplify_media_collection';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20250410_222642_description_for_pod_at_event.up,
     down: migration_20250410_222642_description_for_pod_at_event.down,
-    name: '20250410_222642_description_for_pod_at_event'
+    name: '20250410_222642_description_for_pod_at_event',
+  },
+  {
+    up: migration_20250713_170606_simplify_media_collection.up,
+    down: migration_20250713_170606_simplify_media_collection.down,
+    name: '20250713_170606_simplify_media_collection'
   },
 ];
