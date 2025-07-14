@@ -7,6 +7,7 @@ import sharp from 'sharp'; // sharp-import
 import { fileURLToPath } from 'url';
 
 import { defaultLexical } from '@/fields/defaultLexical';
+import { adminOrCron } from './access/adminOrCron';
 import { Events } from './collections/Events';
 import { Media } from './collections/Media';
 import { Pages } from './collections/Pages';
@@ -65,6 +66,11 @@ export default buildConfig({
     },
   }),
   collections: [Pods, PodsAtEvents, Events, Pages, Media, Users],
+  jobs: {
+    access: {
+      run: adminOrCron,
+    },
+  },
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   globals: [Header, Footer],
   plugins: [...plugins],

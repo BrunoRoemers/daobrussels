@@ -10,5 +10,5 @@ export const role =
     }
 
     // Allow user if they have at least one of the required roles.
-    return user.roles?.some((r) => roles.includes(r)) ?? false;
+    return user.roles.some((r) => roles.includes(r));
   };
