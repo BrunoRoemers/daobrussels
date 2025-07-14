@@ -20,7 +20,7 @@ The following environment variables are required for authentication:
 
 | Variable | Dev | Prod |
 |----------|-------------|---------|
-| `GCP_PROJECT_NUMBER` | `245666385886` | `TODO` |
+| `GCP_PROJECT_NUMBER` | `245666385886` | `1026931211127` |
 | `GCP_WORKLOAD_IDENTITY_POOL_ID` | `vercel` | `vercel` |
 | `GCP_WORKLOAD_IDENTITY_POOL_PROVIDER_ID` | `vercel` | `vercel` |
 | `GCP_SERVICE_ACCOUNT_EMAIL` | `vercel@dao-brussels.iam.gserviceaccount.com` | `vercel@dao-brussels-prod.iam.gserviceaccount.com` |
@@ -29,5 +29,5 @@ The following environment variables are required for authentication:
 
 | Variable | Dev | Prod |
 |----------|-------------|---------|
-| `GCP_PROJECT_ID` | `dao-brussels` | `TODO` |
-| `GCP_BUCKET_NAME` | `dao-brussels-website--dev` | `TODO` |
+| `GCP_PROJECT_ID` | `dao-brussels` | `dao-brussels-prod` |
+| `GCP_BUCKET_NAME` | `dao-brussels-website--dev` | `dao-brussels-website--prod` |
