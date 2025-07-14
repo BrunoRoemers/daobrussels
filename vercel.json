@@ -2,8 +2,8 @@
   "crons": [
     {
       "path": "/api/payload-jobs/run?queue=nightly",
-      "schedule": "1 23 * * *",
-      "_note": "11PM UTC is 12AM (winter time) or 1AM (summer time) in Brussels"
+      // NOTE: 11PM UTC is 12AM (winter time) or 1AM (summer time) in Brussels
+      "schedule": "1 23 * * *"
     }
   ]
 }
