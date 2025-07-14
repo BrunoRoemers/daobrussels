@@ -24,6 +24,10 @@ To create a new migration: `npx payload migrate:create <name-of-migration>`
 4. `npx payload generate:importmap` - might complain about version mismatch - follow instructions, rinse, repeat
 5. `npn run dev` - should have no issues :tada:
 
+## Cron Jobs
+
+- `nightly` queue runs at 11PM UTC, which is 12AM (winter time) or 1AM (summer time) in Brussels. This is perfect to update "today's events" on the home page.
+
 ## Payload Website Template
 
 This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
