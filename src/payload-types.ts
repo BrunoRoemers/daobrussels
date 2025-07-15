@@ -734,6 +734,8 @@ export interface Search {
   createdAt: string;
 }
 /**
+ * The "nightly" queue runs at 11PM UTC, which is 12AM (winter time) or 1AM (summer time) in Brussels.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs".
  */

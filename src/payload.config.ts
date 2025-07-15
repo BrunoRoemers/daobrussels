@@ -12,6 +12,7 @@ import { Events } from './collections/Events';
 import { revalidateEveryMorning } from './collections/Events/tasks/revalidate-every-morning';
 import { Media } from './collections/Media';
 import { Pages } from './collections/Pages';
+import { jobsCollectionOverrides } from './collections/payload-jobs';
 import { Pods } from './collections/Pods';
 import { PodsAtEvents } from './collections/PodsAtEvents';
 import { Users } from './collections/Users';
@@ -68,6 +69,7 @@ export default buildConfig({
   }),
   collections: [Pods, PodsAtEvents, Events, Pages, Media, Users],
   jobs: {
+    jobsCollectionOverrides: jobsCollectionOverrides,
     access: {
       run: adminOrCron,
     },
