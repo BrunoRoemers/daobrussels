@@ -1,3 +1,4 @@
+import { revalidatePath } from 'next/cache';
 import type { Payload, TaskConfig } from 'payload';
 
 export const taskSlug = 'revalidate-every-morning';
@@ -6,7 +7,11 @@ export const taskQueue = 'nightly';
 export const revalidateEveryMorning: TaskConfig = {
   slug: taskSlug,
   handler: async ({ input, job, req }) => {
-    console.log('Revalidate every morning TODO');
+    console.log('revalidating the home page...');
+    revalidatePath('/');
+
+    console.log('scheduling job for tomorrow...');
+    await queueJob(req.payload);
 
     return {
       output: null,
@@ -31,6 +36,10 @@ export const bootstrapRevalidateEveryMorning = async (payload: Payload) => {
     return;
   }
 
+  await queueJob(payload);
+};
+
+const queueJob = async (payload: Payload) => {
   await payload.jobs.queue({
     queue: taskQueue,
     task: taskSlug,
