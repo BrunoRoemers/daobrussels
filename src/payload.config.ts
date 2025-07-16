@@ -9,7 +9,10 @@ import { fileURLToPath } from 'url';
 import { defaultLexical } from '@/fields/defaultLexical';
 import { adminOrCron } from './access/adminOrCron';
 import { Events } from './collections/Events';
-import { revalidateEveryMorning } from './collections/Events/tasks/revalidate-every-morning';
+import {
+  bootstrapRevalidateEveryMorning,
+  revalidateEveryMorning,
+} from './collections/Events/tasks/revalidate-every-morning';
 import { Media } from './collections/Media';
 import { Pages } from './collections/Pages';
 import { jobsCollectionOverrides } from './collections/payload-jobs';
@@ -74,6 +77,9 @@ export default buildConfig({
       run: adminOrCron,
     },
     tasks: [revalidateEveryMorning],
+  },
+  onInit: async (payload) => {
+    await bootstrapRevalidateEveryMorning(payload);
   },
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   globals: [Header, Footer],
