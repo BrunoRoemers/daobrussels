@@ -6,6 +6,7 @@ import * as migration_20250409_002239_user_roles from './20250409_002239_user_ro
 import * as migration_20250410_222642_description_for_pod_at_event from './20250410_222642_description_for_pod_at_event';
 import * as migration_20250713_170606_simplify_media_collection from './20250713_170606_simplify_media_collection';
 import * as migration_20250715_220041_add_task_queue from './20250715_220041_add_task_queue';
+import * as migration_20250721_201507_add_images_field_to_events_collection from './20250721_201507_add_images_field_to_events_collection';
 
 export const migrations = [
   {
@@ -46,6 +47,11 @@ export const migrations = [
   {
     up: migration_20250715_220041_add_task_queue.up,
     down: migration_20250715_220041_add_task_queue.down,
-    name: '20250715_220041_add_task_queue'
+    name: '20250715_220041_add_task_queue',
+  },
+  {
+    up: migration_20250721_201507_add_images_field_to_events_collection.up,
+    down: migration_20250721_201507_add_images_field_to_events_collection.down,
+    name: '20250721_201507_add_images_field_to_events_collection'
   },
 ];

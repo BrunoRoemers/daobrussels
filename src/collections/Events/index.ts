@@ -46,6 +46,12 @@ export const Events: CollectionConfig = {
       },
     },
     {
+      name: 'images',
+      type: 'upload',
+      relationTo: 'media',
+      hasMany: true,
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       admin: {
