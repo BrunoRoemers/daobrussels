@@ -1,11 +1,11 @@
 'use client';
 import type { Form as FormType } from '@payloadcms/plugin-form-builder/types';
 
-import { useRouter } from 'next/navigation';
-import React, { useCallback, useState } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
 import RichText from '@/components/RichText';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+import React, { useCallback, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { buildInitialFormState } from './buildInitialFormState';
 import { fields } from './fields';
@@ -125,7 +125,7 @@ export const FormBlock: React.FC<
   );
 
   return (
-    <div className="container lg:max-w-[48rem] pb-20">
+    <div className="container pb-20 lg:max-w-[48rem]">
       <FormProvider {...formMethods}>
         {enableIntro && introContent && !hasSubmitted && (
           <RichText className="mb-8" content={introContent} enableGutter={false} />
@@ -141,7 +141,7 @@ export const FormBlock: React.FC<
               {formFromProps &&
                 formFromProps.fields &&
                 formFromProps.fields?.map((field, index) => {
-                  const Field: React.FC<any> = fields?.[field.blockType];
+                  const Field: React.FC<any> = fields?.[field.blockType as keyof typeof fields];
                   if (Field) {
                     return (
                       <div className="mb-6 last:mb-0" key={index}>

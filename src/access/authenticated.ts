@@ -1,9 +1,5 @@
-import type { AccessArgs } from 'payload';
+import type { FieldAccess } from 'payload';
 
-import type { User } from '@/payload-types';
-
-type isAuthenticated = (args: AccessArgs<User>) => boolean;
-
-export const authenticated: isAuthenticated = ({ req: { user } }) => {
+export const authenticated: FieldAccess = ({ req: { user } }) => {
   return Boolean(user);
 };
