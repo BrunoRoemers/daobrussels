@@ -28,12 +28,12 @@ export const RenderBlocks: React.FC<{
           const { blockType } = block;
 
           if (blockType && blockType in blockComponents) {
-            const Block = blockComponents[blockType];
+            const Block = blockComponents[blockType as keyof typeof blockComponents];
 
             if (Block) {
               return (
                 <div className="my-16" key={index}>
-                  <Block {...block} />
+                  <Block {...(block as any)} />
                 </div>
               );
             }

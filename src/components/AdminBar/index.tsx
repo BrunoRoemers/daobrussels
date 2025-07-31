@@ -3,10 +3,9 @@
 import type { PayloadAdminBarProps } from 'payload-admin-bar';
 
 import { cn } from '@/utilities/cn';
-import { useSelectedLayoutSegments } from 'next/navigation';
+import { useRouter, useSelectedLayoutSegments } from 'next/navigation';
 import { PayloadAdminBar } from 'payload-admin-bar';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 import './index.scss';
 
@@ -25,7 +24,9 @@ const collectionLabels = {
     plural: 'Projects',
     singular: 'Project',
   },
-};
+} as const;
+
+type CollectionKey = keyof typeof collectionLabels;
 
 const Title: React.FC = () => <span>Dashboard</span>;
 
@@ -35,16 +36,18 @@ export const AdminBar: React.FC<{
   const { adminBarProps } = props || {};
   const segments = useSelectedLayoutSegments();
   const [show, setShow] = useState(false);
-  const collection = collectionLabels?.[segments?.[1]] ? segments?.[1] : 'pages';
+  const collection = (
+    collectionLabels[segments?.[1] as CollectionKey] ? segments?.[1] : 'pages'
+  ) as CollectionKey;
   const router = useRouter();
 
-  const onAuthChange = React.useCallback((user) => {
+  const onAuthChange = React.useCallback((user: any) => {
     setShow(user?.id);
   }, []);
 
   return (
     <div
-      className={cn(baseClass, 'py-2 bg-black text-white', {
+      className={cn(baseClass, 'bg-black py-2 text-white', {
         block: show,
         hidden: !show,
       })}

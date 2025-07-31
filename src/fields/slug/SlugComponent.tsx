@@ -1,8 +1,8 @@
 'use client';
-import React, { useCallback, useEffect } from 'react';
 import { TextFieldClientProps } from 'payload';
+import React, { useCallback, useEffect } from 'react';
 
-import { useField, Button, TextInput, FieldLabel, useFormFields, useForm } from '@payloadcms/ui';
+import { Button, FieldLabel, TextInput, useField, useForm, useFormFields } from '@payloadcms/ui';
 
 import { formatSlug } from './formatSlug';
 import './index.scss';
@@ -53,7 +53,7 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
   }, [targetFieldValue, checkboxValue, setValue, value]);
 
   const handleLock = useCallback(
-    (e) => {
+    (e: React.MouseEvent) => {
       e.preventDefault();
 
       dispatchFields({
