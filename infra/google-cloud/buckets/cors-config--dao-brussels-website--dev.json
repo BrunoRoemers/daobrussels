@@ -1,15 +1,8 @@
 [
   {
-    "origin": [
-      "*"
-    ],
-    "method": [
-      "*"
-    ],
-    "responseHeader": [
-      "Content-Type",
-      "Content-Length"
-    ],
+    "origin": ["*"],
+    "method": ["*"],
+    "responseHeader": ["Content-Type", "Content-Length"],
     "maxAgeSeconds": 3600
   }
 ]

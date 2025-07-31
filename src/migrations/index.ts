@@ -52,6 +52,6 @@ export const migrations = [
   {
     up: migration_20250721_201507_add_images_field_to_events_collection.up,
     down: migration_20250721_201507_add_images_field_to_events_collection.down,
-    name: '20250721_201507_add_images_field_to_events_collection'
+    name: '20250721_201507_add_images_field_to_events_collection',
   },
 ];

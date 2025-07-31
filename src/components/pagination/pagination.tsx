@@ -9,7 +9,7 @@ interface Props {
 
 export const Pagination = ({ data: { prevPage, page, totalPages, nextPage }, url }: Props) => {
   return (
-    <div className="flex gap-3 justify-center">
+    <div className="flex justify-center gap-3">
       {prevPage && (
         <Link href={url(prevPage)} title="Previous page">
           <ChevronLeftIcon />

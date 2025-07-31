@@ -1,4 +1,4 @@
-import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-vercel-postgres'
+import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-vercel-postgres';
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
@@ -59,7 +59,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "media" DROP COLUMN "sizes_xlarge_height";
   ALTER TABLE "media" DROP COLUMN "sizes_xlarge_mime_type";
   ALTER TABLE "media" DROP COLUMN "sizes_xlarge_filesize";
-  ALTER TABLE "media" DROP COLUMN "sizes_xlarge_filename";`)
+  ALTER TABLE "media" DROP COLUMN "sizes_xlarge_filename";`);
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
@@ -112,5 +112,5 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   CREATE INDEX "media_sizes_xlarge_sizes_xlarge_filename_idx" ON "media" USING btree ("sizes_xlarge_filename");
   CREATE INDEX "redirects_from_idx" ON "redirects" USING btree ("from");
   ALTER TABLE "media" DROP COLUMN "prefix";
-  ALTER TABLE "forms_blocks_select" DROP COLUMN "placeholder";`)
+  ALTER TABLE "forms_blocks_select" DROP COLUMN "placeholder";`);
 }

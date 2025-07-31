@@ -96,7 +96,7 @@ interface EventSectionProps {
 
 const EventSection = ({ title, events, hasMore, empty }: EventSectionProps) => (
   <div className="mb-8">
-    <h2 className="text-2xl font-bold mb-4">{title}</h2>
+    <h2 className="mb-4 text-2xl font-bold">{title}</h2>
     <div className="grid gap-4">
       {events.map((event) => (
         <EventCard key={event.id} event={event} />

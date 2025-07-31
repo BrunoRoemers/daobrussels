@@ -25,7 +25,7 @@ export default async function Page({ searchParams }: Props) {
 
   return (
     <div className="container py-8">
-      <h2 className="text-2xl font-bold mb-4">All Events</h2>
+      <h2 className="mb-4 text-2xl font-bold">All Events</h2>
       <div className="grid gap-4">
         {events.length <= 0 ? (
           <Card>

@@ -15,7 +15,7 @@ export const PodList = ({ event }: Props) => {
 
   return (
     <>
-      <ul className="grid xl:grid-cols-2 gap-6">
+      <ul className="grid gap-6 xl:grid-cols-2">
         {event.pods.map((pod, i) => {
           return <PodCard key={i} pod={pod} />;
         })}

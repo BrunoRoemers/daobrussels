@@ -1,9 +1,11 @@
 # DAO Brussels Website
 
 ## Roadmap
+
 https://github.com/users/BrunoRoemers/projects/1
 
 ## Install
+
 `npm install --legacy-peer-deps`
 
 ## Database
@@ -18,6 +20,7 @@ To create a new migration: `npx payload migrate:create <name-of-migration>`
 - `npx payload generate:types` to generate the types
 
 ## Upgrade procedure for Payload CMS
+
 1. `npm install payload@latest`
 2. `npm install`
 3. `npx payload generate:types` - might complain about version mismatch - follow instructions, rinse, repeat
