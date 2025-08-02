@@ -1,3 +1,4 @@
-@import 'tailwindcss';
+@import 'tailwindcss' source('../../../src/');
 
-@config '../../../tailwind.config.mjs';
+@plugin 'tailwindcss-animate';
+@plugin '@tailwindcss/typography';
