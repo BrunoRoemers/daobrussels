@@ -2,5 +2,3 @@
 
 @plugin 'tailwindcss-animate';
 @plugin '@tailwindcss/typography';
-
-@config '../../../tailwind.config.mjs';
