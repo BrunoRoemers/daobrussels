@@ -6,7 +6,6 @@ import { buildConfig } from 'payload';
 import sharp from 'sharp'; // sharp-import
 import { fileURLToPath } from 'url';
 
-import { defaultLexical } from '@/fields/defaultLexical';
 import { adminOrCron } from './access/adminOrCron';
 import { Events } from './collections/Events';
 import {
@@ -14,13 +13,10 @@ import {
   revalidateEveryMorning,
 } from './collections/Events/tasks/revalidate-every-morning';
 import { Media } from './collections/Media';
-import { Pages } from './collections/Pages';
 import { jobsCollectionOverrides } from './collections/payload-jobs';
 import { Pods } from './collections/Pods';
 import { PodsAtEvents } from './collections/PodsAtEvents';
 import { Users } from './collections/Users';
-import { Footer } from './Footer/config';
-import { Header } from './Header/config';
 import { plugins } from './plugins';
 
 const filename = fileURLToPath(import.meta.url);
@@ -63,14 +59,12 @@ export default buildConfig({
       ],
     },
   },
-  // This config helps us configure global or default features that the other editors can inherit
-  editor: defaultLexical,
   db: vercelPostgresAdapter({
     pool: {
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
-  collections: [Pods, PodsAtEvents, Events, Pages, Media, Users],
+  collections: [Pods, PodsAtEvents, Events, Media, Users],
   jobs: {
     jobsCollectionOverrides: jobsCollectionOverrides,
     access: {
@@ -82,7 +76,6 @@ export default buildConfig({
     await bootstrapRevalidateEveryMorning(payload);
   },
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  globals: [Header, Footer],
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
   sharp,

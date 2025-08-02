@@ -7,8 +7,6 @@ import { cn } from 'src/utilities/cn';
 
 import { AdminBar } from '@/components/AdminBar';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
-import { Footer } from '@/Footer/Component';
-import { Header } from '@/Header/Component';
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
 import { draftMode } from 'next/headers';
 
@@ -30,10 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           }}
         />
         <LivePreviewListener />
-
-        <Header />
         {children}
-        <Footer />
       </body>
     </html>
   );
