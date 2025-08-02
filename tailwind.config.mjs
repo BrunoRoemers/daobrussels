@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
   prefix: '',
   safelist: [
     'lg:col-span-4',
