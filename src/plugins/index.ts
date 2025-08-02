@@ -1,6 +1,7 @@
 import { gcsStorage } from '@payloadcms/storage-gcs';
 import { Plugin } from 'payload';
 
+import { role } from '@/access/role';
 import { beforeSyncWithSearch } from '@/search/beforeSync';
 import { searchFields } from '@/search/fieldOverrides';
 import { searchPlugin } from '@payloadcms/plugin-search';
@@ -13,6 +14,9 @@ export const plugins: Plugin[] = [
     searchOverrides: {
       fields: ({ defaultFields }) => {
         return [...defaultFields, ...searchFields];
+      },
+      access: {
+        read: role('admin'),
       },
       admin: {
         group: 'System',
