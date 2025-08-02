@@ -12,3 +12,6 @@ public/media/
 
 # output of type check; `npx tsc --noEmit` 
 tsconfig.tsbuildinfo
+
+# local folder
+local
