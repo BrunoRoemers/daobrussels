@@ -3,7 +3,6 @@ import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres';
 
 import path from 'path';
 import { buildConfig } from 'payload';
-import sharp from 'sharp'; // sharp-import
 import { fileURLToPath } from 'url';
 
 import { adminOrCron } from './access/adminOrCron';
@@ -78,7 +77,6 @@ export default buildConfig({
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
   plugins: [...plugins],
   secret: process.env.PAYLOAD_SECRET,
-  sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
