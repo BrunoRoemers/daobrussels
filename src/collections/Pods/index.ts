@@ -2,8 +2,8 @@ import type { CollectionConfig } from 'payload';
 
 import { slugField } from '@/fields/slug';
 import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url';
-import { authenticated } from '../../access/authenticated';
-import { authenticatedOrPublished } from '../../access/authenticatedOrPublished';
+import { authenticated } from '../../features/auth/access-filters/authenticated';
+import { authenticatedOrPublished } from '../../features/auth/access-filters/authenticated-or-published';
 import { populatePublishedAt } from '../../hooks/populatePublishedAt';
 import { revalidatePod } from './hooks/revalidatePod';
 

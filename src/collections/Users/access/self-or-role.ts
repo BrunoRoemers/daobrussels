@@ -1,6 +1,6 @@
 import type { User, UserRoles } from '@/payload-types';
 import type { FieldAccess } from 'payload';
-import { role } from '../../../access/role';
+import { role } from '../../../features/auth/access-filters/role';
 import { self } from './self';
 
 export const selfOrRole =

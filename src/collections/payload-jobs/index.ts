@@ -1,4 +1,4 @@
-import { role } from '@/access/role';
+import { role } from '@/features/auth/access-filters/role';
 import type { JobsConfig } from 'payload';
 
 /**

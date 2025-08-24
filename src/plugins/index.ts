@@ -1,7 +1,7 @@
 import { gcsStorage } from '@payloadcms/storage-gcs';
 import { Plugin } from 'payload';
 
-import { role } from '@/access/role';
+import { role } from '@/features/auth/access-filters/role';
 import { beforeSyncWithSearch } from '@/search/beforeSync';
 import { searchFields } from '@/search/fieldOverrides';
 import { searchPlugin } from '@payloadcms/plugin-search';

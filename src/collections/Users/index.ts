@@ -1,9 +1,9 @@
 import type { CollectionConfig } from 'payload';
 
-import { anyone } from '@/access/anyone';
-import { role } from '@/access/role';
 import { selfOrRole } from '@/collections/Users/access/self-or-role';
-import { authenticated } from '../../access/authenticated';
+import { anyone } from '@/features/auth/access-filters/anyone';
+import { role } from '@/features/auth/access-filters/role';
+import { authenticated } from '../../features/auth/access-filters/authenticated';
 import { defaultFieldOverrides } from './default-field-overrides';
 
 export const Users: CollectionConfig = {

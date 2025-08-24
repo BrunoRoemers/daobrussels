@@ -1,6 +1,6 @@
-import { anyone } from '@/access/anyone';
-import { authenticated } from '@/access/authenticated';
 import { compositeTitle } from '@/collections/PodsAtEvents/fields/composite-title';
+import { anyone } from '@/features/auth/access-filters/anyone';
+import { authenticated } from '@/features/auth/access-filters/authenticated';
 import type { CollectionConfig } from 'payload';
 
 // join table; https://payloadcms.com/docs/fields/join#using-the-join-field-to-have-full-control-of-your-database-schema

@@ -5,7 +5,6 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import { fileURLToPath } from 'url';
 
-import { adminOrCron } from './access/adminOrCron';
 import { Events } from './collections/Events';
 import {
   bootstrapRevalidateEveryMorning,
@@ -16,6 +15,7 @@ import { jobsCollectionOverrides } from './collections/payload-jobs';
 import { Pods } from './collections/Pods';
 import { PodsAtEvents } from './collections/PodsAtEvents';
 import { Users } from './collections/Users';
+import { adminOrCron } from './features/auth/access-filters/admin-or-cron';
 import { plugins } from './plugins';
 
 const filename = fileURLToPath(import.meta.url);
