@@ -7,12 +7,8 @@ import { fileURLToPath } from 'url';
 
 import { Media } from '@/features/media/media-collection';
 import { Pods } from '@/features/pods/pod-collection';
-import { adminOrCron } from './features/auth/access-filters/admin-or-cron';
-import { jobsCollectionOverrides } from './features/cron/config/jobs-collection-overrides';
-import {
-  bootstrapRevalidateEveryMorning,
-  revalidateEveryMorning,
-} from './features/cron/config/revalidate-every-morning-cron';
+import { bootstrapRevalidateEveryMorning } from './features/cron/config/revalidate-every-morning-cron';
+import { jobsConfig } from './features/cron/jobs-config';
 import { Events } from './features/events/event-collection';
 import { GoogleCloudStorage } from './features/media/google-cloud-storage-plugin';
 import { PodsAtEvents } from './features/pods-at-events/pod-at-event-collection';
@@ -65,13 +61,7 @@ export default buildConfig({
     },
   }),
   collections: [Pods, PodsAtEvents, Events, Media, Users],
-  jobs: {
-    jobsCollectionOverrides: jobsCollectionOverrides,
-    access: {
-      run: adminOrCron,
-    },
-    tasks: [revalidateEveryMorning],
-  },
+  jobs: jobsConfig,
   onInit: async (payload) => {
     await bootstrapRevalidateEveryMorning(payload);
   },
