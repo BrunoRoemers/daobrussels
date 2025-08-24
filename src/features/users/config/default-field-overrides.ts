@@ -1,4 +1,4 @@
-import { selfOrRole } from '@/collections/Users/access/self-or-role';
+import { selfOrRole } from '@/features/auth/access-filters/self-or-role';
 import type { Field } from 'payload';
 
 // The following fields are automatically added to the `users` collection.

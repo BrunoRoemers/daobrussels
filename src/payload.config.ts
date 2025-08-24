@@ -5,17 +5,17 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import { fileURLToPath } from 'url';
 
-import { Events } from './collections/Events';
+import { Media } from '@/features/media/media-collection';
+import { Pods } from '@/features/pods/pod-collection';
+import { adminOrCron } from './features/auth/access-filters/admin-or-cron';
+import { jobsCollectionOverrides } from './features/cron/config/jobs-collection-overrides';
 import {
   bootstrapRevalidateEveryMorning,
   revalidateEveryMorning,
-} from './collections/Events/tasks/revalidate-every-morning';
-import { Media } from './collections/Media';
-import { jobsCollectionOverrides } from './collections/payload-jobs';
-import { Pods } from './collections/Pods';
-import { PodsAtEvents } from './collections/PodsAtEvents';
-import { Users } from './collections/Users';
-import { adminOrCron } from './features/auth/access-filters/admin-or-cron';
+} from './features/cron/config/revalidate-every-morning-cron';
+import { Events } from './features/events/event-collection';
+import { PodsAtEvents } from './features/pods-at-events/pod-at-event-collection';
+import { Users } from './features/users/user-collection';
 import { plugins } from './plugins';
 
 const filename = fileURLToPath(import.meta.url);

@@ -2,13 +2,13 @@ import type { CollectionConfig } from 'payload';
 
 import { slugField } from '@/fields/slug';
 import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url';
-import { authenticated } from '../../features/auth/access-filters/authenticated';
-import { authenticatedOrPublished } from '../../features/auth/access-filters/authenticated-or-published';
 import { populatePublishedAt } from '../../hooks/populatePublishedAt';
-import { revalidatePod } from './hooks/revalidatePod';
+import { authenticated } from '../auth/access-filters/authenticated';
+import { authenticatedOrPublished } from '../auth/access-filters/authenticated-or-published';
+import { revalidateEvent } from './config/revalidate-event-hook';
 
-export const Pods: CollectionConfig = {
-  slug: 'pods',
+export const Events: CollectionConfig = {
+  slug: 'events',
   access: {
     create: authenticated,
     delete: authenticated,
@@ -18,9 +18,9 @@ export const Pods: CollectionConfig = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
-      url: generateLivePreviewUrl('pods'),
+      url: generateLivePreviewUrl('events'),
     },
-    preview: generatePreviewUrl('pods'),
+    preview: generatePreviewUrl('events'),
     useAsTitle: 'title',
   },
   fields: [
@@ -30,14 +30,26 @@ export const Pods: CollectionConfig = {
       required: true,
     },
     {
-      name: 'events',
+      name: 'date',
+      type: 'date',
+      required: true,
+    },
+    {
+      name: 'pods',
       type: 'join',
       collection: 'podsAtEvents',
-      on: 'pod',
-      defaultSort: '-updatedAt',
+      on: 'event',
+      // NOTE: Allow populating data from the pod, the pod's host, etc.
+      maxDepth: 2,
       admin: {
-        defaultColumns: ['event', 'host'],
+        defaultColumns: ['pod', 'host'],
       },
+    },
+    {
+      name: 'images',
+      type: 'upload',
+      relationTo: 'media',
+      hasMany: true,
     },
     {
       name: 'publishedAt',
@@ -49,7 +61,7 @@ export const Pods: CollectionConfig = {
     ...slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePod],
+    afterChange: [revalidateEvent],
     beforeChange: [populatePublishedAt],
   },
   versions: {

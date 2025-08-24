@@ -3,8 +3,8 @@ import type { CollectionConfig } from 'payload';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { anyone } from '../features/auth/access-filters/anyone';
-import { authenticated } from '../features/auth/access-filters/authenticated';
+import { anyone } from '@/features/auth/access-filters/anyone';
+import { authenticated } from '@/features/auth/access-filters/authenticated';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);

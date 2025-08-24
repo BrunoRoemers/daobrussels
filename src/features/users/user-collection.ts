@@ -1,10 +1,10 @@
 import type { CollectionConfig } from 'payload';
 
-import { selfOrRole } from '@/collections/Users/access/self-or-role';
 import { anyone } from '@/features/auth/access-filters/anyone';
 import { role } from '@/features/auth/access-filters/role';
-import { authenticated } from '../../features/auth/access-filters/authenticated';
-import { defaultFieldOverrides } from './default-field-overrides';
+import { selfOrRole } from '@/features/auth/access-filters/self-or-role';
+import { authenticated } from '../auth/access-filters/authenticated';
+import { defaultFieldOverrides } from './config/default-field-overrides';
 
 export const Users: CollectionConfig = {
   slug: 'users',

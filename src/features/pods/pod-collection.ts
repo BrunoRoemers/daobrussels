@@ -2,13 +2,13 @@ import type { CollectionConfig } from 'payload';
 
 import { slugField } from '@/fields/slug';
 import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url';
-import { authenticated } from '../../features/auth/access-filters/authenticated';
-import { authenticatedOrPublished } from '../../features/auth/access-filters/authenticated-or-published';
 import { populatePublishedAt } from '../../hooks/populatePublishedAt';
-import { revalidateEvent } from './hooks/revalidateEvent';
+import { authenticated } from '../auth/access-filters/authenticated';
+import { authenticatedOrPublished } from '../auth/access-filters/authenticated-or-published';
+import { revalidatePod } from './config/revalidate-pod-hook';
 
-export const Events: CollectionConfig = {
-  slug: 'events',
+export const Pods: CollectionConfig = {
+  slug: 'pods',
   access: {
     create: authenticated,
     delete: authenticated,
@@ -18,9 +18,9 @@ export const Events: CollectionConfig = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
-      url: generateLivePreviewUrl('events'),
+      url: generateLivePreviewUrl('pods'),
     },
-    preview: generatePreviewUrl('events'),
+    preview: generatePreviewUrl('pods'),
     useAsTitle: 'title',
   },
   fields: [
@@ -30,26 +30,14 @@ export const Events: CollectionConfig = {
       required: true,
     },
     {
-      name: 'date',
-      type: 'date',
-      required: true,
-    },
-    {
-      name: 'pods',
+      name: 'events',
       type: 'join',
       collection: 'podsAtEvents',
-      on: 'event',
-      // NOTE: Allow populating data from the pod, the pod's host, etc.
-      maxDepth: 2,
+      on: 'pod',
+      defaultSort: '-updatedAt',
       admin: {
-        defaultColumns: ['pod', 'host'],
+        defaultColumns: ['event', 'host'],
       },
-    },
-    {
-      name: 'images',
-      type: 'upload',
-      relationTo: 'media',
-      hasMany: true,
     },
     {
       name: 'publishedAt',
@@ -61,7 +49,7 @@ export const Events: CollectionConfig = {
     ...slugField(),
   ],
   hooks: {
-    afterChange: [revalidateEvent],
+    afterChange: [revalidatePod],
     beforeChange: [populatePublishedAt],
   },
   versions: {

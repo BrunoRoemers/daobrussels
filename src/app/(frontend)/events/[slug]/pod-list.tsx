@@ -1,7 +1,7 @@
-import EventService from '@/collections/Events/service';
-import type PodAtEventService from '@/collections/PodsAtEvents/service';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import EventService from '@/features/events/event-service';
+import type PodAtEventService from '@/features/pods-at-events/pod-at-event-service';
 import { AlertTriangle } from 'lucide-react';
 
 export type Props = {
