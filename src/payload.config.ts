@@ -14,9 +14,10 @@ import {
   revalidateEveryMorning,
 } from './features/cron/config/revalidate-every-morning-cron';
 import { Events } from './features/events/event-collection';
+import { GoogleCloudStorage } from './features/media/google-cloud-storage-plugin';
 import { PodsAtEvents } from './features/pods-at-events/pod-at-event-collection';
+import { Search } from './features/search/search-plugin';
 import { Users } from './features/users/user-collection';
-import { plugins } from './plugins';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -75,7 +76,7 @@ export default buildConfig({
     await bootstrapRevalidateEveryMorning(payload);
   },
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  plugins: [...plugins],
+  plugins: [GoogleCloudStorage, Search],
   secret: process.env.PAYLOAD_SECRET,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
