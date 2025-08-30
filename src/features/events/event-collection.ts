@@ -2,9 +2,9 @@ import type { CollectionConfig } from 'payload';
 
 import { slugField } from '@/fields/slug';
 import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url';
-import { populatePublishedAt } from '../../hooks/populatePublishedAt';
 import { authenticated } from '../auth/access-filters/authenticated';
 import { authenticatedOrPublished } from '../auth/access-filters/authenticated-or-published';
+import { setPublicationDate } from '../shared/config/set-publication-date-hook';
 import { revalidateEvent } from './config/revalidate-event-hook';
 
 export const Events: CollectionConfig = {
@@ -62,7 +62,7 @@ export const Events: CollectionConfig = {
   ],
   hooks: {
     afterChange: [revalidateEvent],
-    beforeChange: [populatePublishedAt],
+    beforeChange: [setPublicationDate],
   },
   versions: {
     drafts: {

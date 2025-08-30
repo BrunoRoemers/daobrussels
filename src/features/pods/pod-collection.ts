@@ -2,9 +2,9 @@ import type { CollectionConfig } from 'payload';
 
 import { slugField } from '@/fields/slug';
 import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url';
-import { populatePublishedAt } from '../../hooks/populatePublishedAt';
 import { authenticated } from '../auth/access-filters/authenticated';
 import { authenticatedOrPublished } from '../auth/access-filters/authenticated-or-published';
+import { setPublicationDate } from '../shared/config/set-publication-date-hook';
 import { revalidatePod } from './config/revalidate-pod-hook';
 
 export const Pods: CollectionConfig = {
@@ -50,7 +50,7 @@ export const Pods: CollectionConfig = {
   ],
   hooks: {
     afterChange: [revalidatePod],
-    beforeChange: [populatePublishedAt],
+    beforeChange: [setPublicationDate],
   },
   versions: {
     drafts: {
