@@ -1,6 +1,6 @@
 import type { Metadata } from 'next/types';
 
-import EventService from '@/collections/Events/service';
+import EventService from '@/features/events/event-service';
 import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 import { PodList } from './pod-list';
