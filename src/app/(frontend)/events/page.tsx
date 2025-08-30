@@ -1,8 +1,8 @@
 import { EventCard } from '@/components/events/event-card';
 import { Pagination } from '@/components/pagination/pagination';
 import { Card, CardContent } from '@/components/ui/card';
+import { findDraftsOrPublicDocs } from '@/features/draft-mode/find-drafts-or-public-docs';
 import EventService from '@/features/events/event-service';
-import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
 import type { Metadata } from 'next/types';
 
 interface Props {

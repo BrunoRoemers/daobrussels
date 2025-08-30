@@ -1,5 +1,5 @@
+import { findDraftsOrPublicDocs } from '@/features/draft-mode/find-drafts-or-public-docs';
 import EventService from '@/features/events/event-service';
-import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';

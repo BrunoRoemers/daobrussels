@@ -1,6 +1,6 @@
+import { findDraftsOrPublicDocs } from '@/features/draft-mode/find-drafts-or-public-docs';
 import PodAtEventService from '@/features/pods-at-events/pod-at-event-service';
 import type { Event } from '@/payload-types';
-import { findDraftsOrPublicDocs } from '@/utilities/draft-mode/find-drafts-or-public-docs';
 import dayjs from 'dayjs';
 
 /**
