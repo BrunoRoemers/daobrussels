@@ -1,7 +1,7 @@
 'use client';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useDebounce } from '@/utilities/useDebounce';
+import { useDebounce } from '@/features/shared/react-hooks/use-debounce';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
