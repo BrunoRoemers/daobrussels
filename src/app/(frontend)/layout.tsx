@@ -1,5 +1,3 @@
-import type { Metadata } from 'next';
-
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import React from 'react';
@@ -7,7 +5,6 @@ import { cn } from 'src/utilities/cn';
 
 import { AdminBar } from '@/components/AdminBar';
 import { LivePreviewListener } from '@/components/LivePreviewListener';
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph';
 import { draftMode } from 'next/headers';
 
 import './globals.css';
@@ -33,12 +30,3 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     </html>
   );
 }
-
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'https://payloadcms.com'),
-  openGraph: mergeOpenGraph(),
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@payloadcms',
-  },
-};
