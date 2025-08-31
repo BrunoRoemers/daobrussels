@@ -6,13 +6,17 @@ export const AdminBar = async () => {
   const { isEnabled: isDraftModeEnabled } = await draftMode();
 
   return (
-    <PayloadAdminBar
-      cmsURL={process.env.NEXT_PUBLIC_SERVER_URL}
-      logo={<span>Dashboard</span>}
-      style={{ position: 'relative' }}
-      preview={isDraftModeEnabled}
-      onPreviewExit={disableDraftMode}
-    />
+    <>
+      <PayloadAdminBar
+        cmsURL={process.env.NEXT_PUBLIC_SERVER_URL}
+        logo={<span>Dashboard</span>}
+        preview={isDraftModeEnabled}
+        onPreviewExit={disableDraftMode}
+        className="peer h-10"
+      />
+      {/* When the admin bar is shown, the page should be pushed down, so the admin bar doesn't cover it. */}
+      <div className="hidden h-10 peer-[#payload-admin-bar]:block"></div>
+    </>
   );
 };
 
