@@ -5,16 +5,16 @@ import { getPayload, type BasePayload } from 'payload';
 export const findDraftsOrPublicDocs: BasePayload['find'] = async (options) => {
   const payload = await getPayload({ config: configPromise });
 
-  const { isEnabled } = await draftMode();
+  const { isEnabled: isDraftModeEnabled } = await draftMode();
 
   return await payload.find({
     ...options,
     // Toggle draft mode.
-    draft: isEnabled,
+    draft: isDraftModeEnabled,
     // Enable access control.
     overrideAccess: false,
     // User to run the query as.
-    user: isEnabled
+    user: isDraftModeEnabled
       ? await getPayloadUser(payload) // dynamic rendering
       : undefined, // static rendering
   });
