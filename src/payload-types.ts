@@ -154,7 +154,7 @@ export interface Pod {
     totalDocs?: number;
   };
   publishedAt?: string | null;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -189,7 +189,7 @@ export interface Event {
   };
   images?: (number | Media)[] | null;
   publishedAt?: string | null;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
