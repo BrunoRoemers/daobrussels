@@ -1,10 +1,13 @@
+'use client';
+
 import { PayloadAdminBar } from '@payloadcms/admin-bar';
-import { draftMode, headers as nextHeaders } from 'next/headers';
-import { redirect } from 'next/navigation';
 
-export const AdminBar = async () => {
-  const { isEnabled: isDraftModeEnabled } = await draftMode();
+interface Props {
+  isDraftModeEnabled: boolean;
+  disableDraftMode: () => void;
+}
 
+export const AdminBarClient = ({ isDraftModeEnabled, disableDraftMode }: Props) => {
   return (
     <>
       <PayloadAdminBar
@@ -18,16 +21,4 @@ export const AdminBar = async () => {
       <div className="hidden h-10 peer-[#payload-admin-bar]:block"></div>
     </>
   );
-};
-
-const disableDraftMode = async () => {
-  'use server';
-
-  // Disable draft mode.
-  const draft = await draftMode();
-  draft.disable();
-
-  // Refresh the page.
-  const headers = await nextHeaders();
-  redirect(headers.get('referer') || '/');
 };
