@@ -1,17 +1,13 @@
+import { AdminBar } from '@/components/admin/admin-bar';
+import { LivePreviewListener } from '@/components/admin/live-preview-listener';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import React from 'react';
 import { cn } from 'src/utilities/cn';
 
-import { AdminBar } from '@/components/admin/admin-bar';
-import { LivePreviewListener } from '@/components/admin/live-preview-listener';
-import { draftMode } from 'next/headers';
-
 import './globals.css';
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = await draftMode();
-
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
       <head>
@@ -19,11 +15,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       <body>
-        <AdminBar
-          adminBarProps={{
-            preview: isEnabled,
-          }}
-        />
+        <AdminBar />
         <LivePreviewListener />
         {children}
       </body>
