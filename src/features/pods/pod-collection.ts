@@ -1,7 +1,6 @@
 import type { CollectionConfig } from 'payload';
 
 import { slugField } from '@/fields/slug';
-import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url';
 import { authenticated } from '../auth/access-filters/authenticated';
 import { authenticatedOrPublished } from '../auth/access-filters/authenticated-or-published';
 import { setPublicationDate } from '../shared/config/set-publication-date-hook';
@@ -17,10 +16,10 @@ export const Pods: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
-    livePreview: {
-      url: generateLivePreviewUrl('pods'),
-    },
-    preview: generatePreviewUrl('pods'),
+    // livePreview: {
+    //   url: generateLivePreviewUrl('pods'),
+    // },
+    // preview: generatePreviewUrl('pods'),
     useAsTitle: 'title',
   },
   fields: [
