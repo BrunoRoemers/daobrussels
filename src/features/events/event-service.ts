@@ -2,6 +2,7 @@ import PodAtEventService from '@/features/pods-at-events/pod-at-event-service';
 import { findDraftsOrPublicDocs } from '@/features/previews/find-drafts-or-public-docs';
 import type { Event } from '@/payload-types';
 import dayjs from 'dayjs';
+import { slugOrPreviewIdEquals } from '../previews/slug-or-preview-id-equals';
 
 /**
  * User-friendly interface for displaying event data.
@@ -12,9 +13,7 @@ export default class EventService {
   static async getBySlug(slug: string): Promise<EventService | null> {
     const events = await findDraftsOrPublicDocs({
       collection: 'events',
-      where: {
-        slug: { equals: slug },
-      },
+      where: await slugOrPreviewIdEquals(slug),
       limit: 2,
     });
 

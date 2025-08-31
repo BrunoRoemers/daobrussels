@@ -1,7 +1,10 @@
 import type { CollectionConfig } from 'payload';
 
+import {
+  generateLivePreviewUrl,
+  generatePreviewUrl,
+} from '@/features/previews/generate-preview-url';
 import { slugField } from '@/fields/slug';
-import { generateLivePreviewUrl, generatePreviewUrl } from '@/utilities/url/generate-preview-url';
 import { authenticated } from '../auth/access-filters/authenticated';
 import { authenticatedOrPublished } from '../auth/access-filters/authenticated-or-published';
 import { setPublicationDate } from '../shared/config/set-publication-date-hook';
