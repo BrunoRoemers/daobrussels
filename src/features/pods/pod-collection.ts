@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload';
 
-import { slugField } from '@/fields/slug';
+import { slugField } from '@/features/shared/config/slug-field/config';
 import { authenticated } from '../auth/access-filters/authenticated';
 import { authenticatedOrPublished } from '../auth/access-filters/authenticated-or-published';
 import { setPublicationDate } from '../shared/config/set-publication-date-hook';

@@ -4,8 +4,8 @@ import React, { useCallback, useEffect } from 'react';
 
 import { Button, FieldLabel, TextInput, useField, useForm, useFormFields } from '@payloadcms/ui';
 
-import { formatSlug } from './formatSlug';
-import './index.scss';
+import './admin-component.scss';
+import { formatSlug } from './format-slug';
 
 type SlugComponentProps = {
   fieldToUse: string;
