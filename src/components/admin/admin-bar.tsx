@@ -7,8 +7,6 @@ import { useRouter, useSelectedLayoutSegments } from 'next/navigation';
 import { PayloadAdminBar } from 'payload-admin-bar';
 import React, { useState } from 'react';
 
-import './index.scss';
-
 const baseClass = 'admin-bar';
 
 const collectionLabels = {

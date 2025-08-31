@@ -3,7 +3,7 @@ import { GeistSans } from 'geist/font/sans';
 import React from 'react';
 import { cn } from 'src/utilities/cn';
 
-import { AdminBar } from '@/components/AdminBar';
+import { AdminBar } from '@/components/admin/admin-bar';
 import { LivePreviewListener } from '@/features/previews/components/live-preview-listener';
 import { draftMode } from 'next/headers';
 
