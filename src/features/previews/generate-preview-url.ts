@@ -35,7 +35,7 @@ const _generatePreviewUrl = (
   collection: CollectionSlug,
   data: Record<string, unknown>,
   req: PayloadRequest,
-  useId: boolean,
+  persistent: boolean,
 ): string => {
   const route = collectionNameToRoute[collection];
   if (!route) {
@@ -46,7 +46,7 @@ const _generatePreviewUrl = (
   //       so we can choose to use the id instead.
   const id = z.number().parse(data.id);
   const slug = z.string().nullable().parse(data.slug);
-  const fragment: string = useId ? idToPreviewSlug(id) : (slug ?? idToPreviewSlug(id));
+  const fragment: string = persistent ? idToPreviewSlug(id) : (slug ?? idToPreviewSlug(id));
   const path = `${route}/${fragment}`;
 
   return formatUrl(`${req.protocol}//${req.host}/next/preview`, { path });
