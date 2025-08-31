@@ -1,5 +1,5 @@
-import EventService from '@/collections/Events/service';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import EventService from '@/features/events/event-service';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 

@@ -5,18 +5,15 @@ import path from 'path';
 import { buildConfig } from 'payload';
 import { fileURLToPath } from 'url';
 
-import { adminOrCron } from './access/adminOrCron';
-import { Events } from './collections/Events';
-import {
-  bootstrapRevalidateEveryMorning,
-  revalidateEveryMorning,
-} from './collections/Events/tasks/revalidate-every-morning';
-import { Media } from './collections/Media';
-import { jobsCollectionOverrides } from './collections/payload-jobs';
-import { Pods } from './collections/Pods';
-import { PodsAtEvents } from './collections/PodsAtEvents';
-import { Users } from './collections/Users';
-import { plugins } from './plugins';
+import { Media } from '@/features/media/media-collection';
+import { Pods } from '@/features/pods/pod-collection';
+import { bootstrapRevalidateEveryMorning } from './features/cron/config/revalidate-every-morning-cron';
+import { jobsConfig } from './features/cron/jobs-config';
+import { Events } from './features/events/event-collection';
+import { GoogleCloudStorage } from './features/media/google-cloud-storage-plugin';
+import { PodsAtEvents } from './features/pods-at-events/pod-at-event-collection';
+import { Search } from './features/search/search-plugin';
+import { Users } from './features/users/user-collection';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -64,18 +61,12 @@ export default buildConfig({
     },
   }),
   collections: [Pods, PodsAtEvents, Events, Media, Users],
-  jobs: {
-    jobsCollectionOverrides: jobsCollectionOverrides,
-    access: {
-      run: adminOrCron,
-    },
-    tasks: [revalidateEveryMorning],
-  },
+  jobs: jobsConfig,
   onInit: async (payload) => {
     await bootstrapRevalidateEveryMorning(payload);
   },
   cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  plugins: [...plugins],
+  plugins: [GoogleCloudStorage, Search],
   secret: process.env.PAYLOAD_SECRET,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
