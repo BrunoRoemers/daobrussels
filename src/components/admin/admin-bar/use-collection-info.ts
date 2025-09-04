@@ -1,4 +1,6 @@
+import { fetcher } from '@/utilities/fetcher';
 import { formatQueryUrl } from '@/utilities/format-query-url';
+import useSWR from 'swr';
 
 export interface CollectionInfo {
   collection: string;
@@ -6,13 +8,24 @@ export interface CollectionInfo {
     plural: string;
     singular: string;
   };
-  id?: {
-    fetchKey: string;
-    extractId: (data: any) => string | undefined;
-  };
+  id?: string;
 }
 
-export const getCollectionInfo = (segments: string[]): CollectionInfo | undefined => {
+export const useCollectionInfo = (segments: string[]): CollectionInfo | undefined => {
+  const collectionInfo = getCollectionInfo(segments);
+  const { data } = useSWR(collectionInfo?.id?.fetchKey, fetcher);
+  const id = collectionInfo?.id?.extractId(data);
+  return !collectionInfo ? undefined : { ...collectionInfo, id };
+};
+
+type IdFetcher = {
+  fetchKey: string;
+  extractId: (data: any) => string | undefined;
+};
+
+type InternalCollectionInfo = Omit<CollectionInfo, 'id'> & { id?: IdFetcher };
+
+const getCollectionInfo = (segments: string[]): InternalCollectionInfo | undefined => {
   switch (segments[0]) {
     case 'events':
       return {
@@ -29,7 +42,7 @@ export const getCollectionInfo = (segments: string[]): CollectionInfo | undefine
 const maybeGetIdFromSlug = (
   collection: string,
   slug: string | undefined,
-): CollectionInfo['id'] | undefined => {
+): IdFetcher | undefined => {
   if (!slug) {
     return undefined;
   }

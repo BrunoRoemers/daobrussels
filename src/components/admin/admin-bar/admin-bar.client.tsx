@@ -1,10 +1,8 @@
 'use client';
 
-import { fetcher } from '@/utilities/fetcher';
 import { PayloadAdminBar } from '@payloadcms/admin-bar';
 import { useSelectedLayoutSegments } from 'next/navigation';
-import useSWR from 'swr';
-import { getCollectionInfo } from './get-collection-info';
+import { useCollectionInfo } from './use-collection-info';
 
 interface Props {
   isDraftModeEnabled: boolean;
@@ -13,9 +11,7 @@ interface Props {
 
 export const AdminBarClient = ({ isDraftModeEnabled, disableDraftMode }: Props) => {
   const segments = useSelectedLayoutSegments();
-  const collectionInfo = getCollectionInfo(segments);
-  const { data } = useSWR(collectionInfo?.id?.fetchKey, fetcher);
-  const id = collectionInfo?.id?.extractId(data);
+  const collectionInfo = useCollectionInfo(segments);
 
   return (
     <>
@@ -24,7 +20,7 @@ export const AdminBarClient = ({ isDraftModeEnabled, disableDraftMode }: Props) 
         logo={<span>Dashboard</span>}
         collectionSlug={collectionInfo?.collection}
         collectionLabels={collectionInfo?.collectionLabels}
-        id={id}
+        id={collectionInfo?.id}
         preview={isDraftModeEnabled}
         onPreviewExit={disableDraftMode}
         className="peer h-10"
