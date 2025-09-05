@@ -19,6 +19,7 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
+    "@payloadcms/admin-bar": "^3.54.0",
     "@payloadcms/db-vercel-postgres": "3.46.0",
     "@payloadcms/live-preview-react": "3.46.0",
     "@payloadcms/next": "3.46.0",
@@ -31,9 +32,9 @@
     "@payloadcms/storage-gcs": "3.46.0",
     "@payloadcms/ui": "3.46.0",
     "@radix-ui/react-checkbox": "^1.1.2",
-    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.1.2",
-    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-slot": "^1.2.3",
     "@vercel/functions": "^2.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -46,14 +47,14 @@
     "lucide-react": "^0.462.0",
     "next": "15.0.3",
     "payload": "3.46.0",
-    "payload-admin-bar": "^1.0.6",
     "prism-react-renderer": "^2.4.0",
+    "qs-esm": "^7.0.2",
     "react": "19.0.0-rc-65a56d0e-20241020",
     "react-dom": "19.0.0-rc-65a56d0e-20241020",
     "react-hook-form": "7.53.2",
     "sharp": "0.33.5",
-    "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7",
+    "swr": "^2.3.6",
+    "tailwind-merge": "^2.6.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -72,7 +73,9 @@
     "postcss": "^8.4.49",
     "prettier": "^3.4.1",
     "prettier-plugin-tailwindcss": "^0.6.14",
+    "shadcn": "^3.2.1",
     "tailwindcss": "^4.1.11",
+    "tw-animate-css": "^1.3.8",
     "typescript": "5.7.2"
   },
   "engines": {

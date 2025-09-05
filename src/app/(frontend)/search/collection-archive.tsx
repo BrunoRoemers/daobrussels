@@ -1,4 +1,4 @@
-import { cn } from 'src/utilities/cn';
+import { cn } from '@/utils/cn';
 
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Event } from '@/payload-types';

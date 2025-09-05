@@ -25,8 +25,9 @@ export default buildConfig({
     },
     components: {
       graphics: {
-        Logo: '/components/admin/logo.tsx#Logo',
+        Logo: '/components/admin/login-logo.tsx#LoginLogo',
       },
+      actions: ['/components/admin/view-site-link.tsx#ViewSiteLink'],
     },
     importMap: {
       baseDir: path.resolve(dirname),
