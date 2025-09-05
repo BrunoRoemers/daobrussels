@@ -1,5 +1,5 @@
-import { fetcher } from '@/utilities/fetcher';
-import { formatQueryUrl } from '@/utilities/format-query-url';
+import { fetcher } from '@/utils/fetcher';
+import { formatQueryUrl } from '@/utils/format-query-url';
 import useSWR from 'swr';
 
 export interface CollectionInfo {

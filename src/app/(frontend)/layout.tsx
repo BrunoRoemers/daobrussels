@@ -1,9 +1,9 @@
 import { AdminBar } from '@/components/admin/admin-bar';
 import { LivePreviewListener } from '@/components/admin/live-preview-listener';
+import { cn } from '@/utils/cn';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
 import React from 'react';
-import { cn } from 'src/utilities/cn';
 
 import './globals.css';
 

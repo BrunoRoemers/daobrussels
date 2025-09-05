@@ -5,7 +5,7 @@ import type {
   PayloadRequest,
 } from 'payload';
 import { z } from 'zod';
-import { formatUrl } from '../../utilities/format-url';
+import { formatUrl } from '../../utils/format-url';
 import { idToPreviewSlug } from './slug-or-preview-id-equals';
 
 /**
