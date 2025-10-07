@@ -20,14 +20,6 @@ jobs:
           node-version-file: '.node-version'
           cache: 'npm'
 
-      - name: Debug environment
-        run: |
-          echo "Node version: $(node --version)"
-          echo "npm version: $(npm --version)"
-          echo "Package.json exists: $(test -f package.json && echo 'yes' || echo 'no')"
-          echo "Package-lock.json exists: $(test -f package-lock.json && echo 'yes' || echo 'no')"
-          echo "Lockfile version: $(head -5 package-lock.json | grep lockfileVersion || echo 'not found')"
-
       - name: Install dependencies
         run: npm ci
 
