@@ -13,19 +13,8 @@ import { Events } from './features/events/event-collection';
 import { GoogleCloudStorage } from './features/media/google-cloud-storage-plugin';
 import { PodsAtEvents } from './features/pods-at-events/pod-at-event-collection';
 import { Search } from './features/search/search-plugin';
-import { getDeploymentUrls, getPrimaryUrl } from './features/shared/deployment-urls';
+import { getDeploymentUrls } from './features/shared/deployment-urls';
 import { Users } from './features/users/user-collection';
-
-console.log(
-  Object.entries(process.env)
-    .filter(([key]) => key.startsWith('VERCEL'))
-    .map(([key, value]) => `${key}: ${value}`),
-);
-
-console.log('PRIMARY URL');
-console.log(getPrimaryUrl());
-console.log('DEPLOYMENT URLS');
-console.log(getDeploymentUrls());
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -78,7 +67,7 @@ export default buildConfig({
   onInit: async (payload) => {
     await bootstrapRevalidateEveryMorning(payload);
   },
-  cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
+  cors: getDeploymentUrls(),
   plugins: [GoogleCloudStorage, Search],
   secret: process.env.PAYLOAD_SECRET,
   typescript: {

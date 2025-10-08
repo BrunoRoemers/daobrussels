@@ -1,3 +1,5 @@
+import 'server-only';
+
 export const getDeploymentUrls = (): string[] => {
   const urls = [];
 

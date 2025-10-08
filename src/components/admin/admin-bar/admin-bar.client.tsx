@@ -5,18 +5,19 @@ import { useSelectedLayoutSegments } from 'next/navigation';
 import { useCollectionInfo } from './use-collection-info';
 
 interface Props {
+  serverUrl: string;
   isDraftModeEnabled: boolean;
   disableDraftMode: () => void;
 }
 
-export const AdminBarClient = ({ isDraftModeEnabled, disableDraftMode }: Props) => {
+export const AdminBarClient = ({ serverUrl, isDraftModeEnabled, disableDraftMode }: Props) => {
   const segments = useSelectedLayoutSegments();
   const collectionInfo = useCollectionInfo(segments);
 
   return (
     <>
       <PayloadAdminBar
-        cmsURL={process.env.NEXT_PUBLIC_SERVER_URL}
+        cmsURL={serverUrl}
         logo={<span>Dashboard</span>}
         collectionSlug={collectionInfo?.collection}
         collectionLabels={collectionInfo?.collectionLabels}

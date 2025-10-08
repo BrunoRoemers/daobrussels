@@ -2,9 +2,11 @@
 import { RefreshRouteOnSave } from '@payloadcms/live-preview-react';
 import { useRouter } from 'next/navigation';
 
-export const LivePreviewListener = () => {
+interface Props {
+  serverUrl: string;
+}
+
+export const LivePreviewListener = ({ serverUrl }: Props) => {
   const router = useRouter();
-  return (
-    <RefreshRouteOnSave refresh={router.refresh} serverURL={process.env.NEXT_PUBLIC_SERVER_URL} />
-  );
+  return <RefreshRouteOnSave refresh={router.refresh} serverURL={serverUrl} />;
 };
