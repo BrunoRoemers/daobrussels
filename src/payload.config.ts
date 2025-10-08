@@ -15,6 +15,12 @@ import { PodsAtEvents } from './features/pods-at-events/pod-at-event-collection'
 import { Search } from './features/search/search-plugin';
 import { Users } from './features/users/user-collection';
 
+console.log(
+  Object.entries(process.env)
+    .filter(([key]) => key.startsWith('VERCEL'))
+    .map(([key, value]) => `${key}: ${value}`),
+);
+
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
