@@ -32,3 +32,9 @@ To create a new migration: `npx payload migrate:create <name-of-migration>`
 ## Cron Jobs
 
 - `nightly` queue runs at 11PM UTC, which is 12AM (winter time) or 1AM (summer time) in Brussels. This is perfect to update "today's events" on the home page.
+
+## Tests
+
+- `npm run test`
+- `npm run test <pattern>`
+- `npm run test <pattern> -- --watch`
