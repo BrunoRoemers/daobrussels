@@ -5,18 +5,18 @@ export const getDeploymentUrls = (): string[] => {
 
   if (process.env.VERCEL) {
     if (process.env.VERCEL_ENV === 'production') {
-      urls.push(process.env.VERCEL_PROJECT_PRODUCTION_URL!);
+      urls.push(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`);
     }
 
     if (process.env.VERCEL_BRANCH_URL) {
-      urls.push(process.env.VERCEL_BRANCH_URL);
+      urls.push(`https://${process.env.VERCEL_BRANCH_URL}`);
     }
 
     if (process.env.VERCEL_URL) {
-      urls.push(process.env.VERCEL_URL);
+      urls.push(`https://${process.env.VERCEL_URL}`);
     }
   } else {
-    urls.push(`localhost:${process.env.PORT ?? 3000}`);
+    urls.push(`http://localhost:${process.env.PORT ?? 3000}`);
   }
 
   if (urls.length < 1) {
