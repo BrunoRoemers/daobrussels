@@ -2,6 +2,7 @@ import type { Metadata } from 'next/types';
 
 import EventService from '@/features/events/event-service';
 import configPromise from '@payload-config';
+import Image from 'next/image';
 import { getPayload } from 'payload';
 import { PodList } from './pod-list';
 
@@ -42,6 +43,21 @@ export default async function Page({ params }: Args) {
     <div className="container pb-8">
       <h1>{event.title}</h1>
       <div>{event.formattedDate}</div>
+
+      {event.hasImages && (
+        <div className="my-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {event.images.map((image, index) => (
+            <Image
+              key={index}
+              src={image.url}
+              width={image.width}
+              height={image.height}
+              alt={image.alt || event.title}
+            />
+          ))}
+        </div>
+      )}
+
       <p>
         Ex cupidatat laborum ut duis labore laborum enim id ex consequat. Sint velit ea commodo
         nostrud ea laborum labore est nulla. Culpa et amet laborum. Ex aliquip minim aute cupidatat

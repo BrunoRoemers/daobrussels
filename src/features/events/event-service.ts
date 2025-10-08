@@ -2,6 +2,7 @@ import PodAtEventService from '@/features/pods-at-events/pod-at-event-service';
 import { findDraftsOrPublicDocs } from '@/features/previews/find-drafts-or-public-docs';
 import type { Event } from '@/payload-types';
 import dayjs from 'dayjs';
+import MediaService from '../media/media-service';
 import { slugOrPreviewIdEquals } from '../previews/slug-or-preview-id-equals';
 
 /**
@@ -9,6 +10,7 @@ import { slugOrPreviewIdEquals } from '../previews/slug-or-preview-id-equals';
  */
 export default class EventService {
   readonly pods: PodAtEventService[];
+  readonly images: MediaService[];
 
   static async getBySlug(slug: string): Promise<EventService | null> {
     const events = await findDraftsOrPublicDocs({
@@ -25,15 +27,36 @@ export default class EventService {
   }
 
   constructor(protected readonly event: Event) {
+    this.pods = this.initPods();
+    this.images = this.initImages();
+  }
+
+  protected initPods(): PodAtEventService[] {
     const rawPods = this.event.pods?.docs ?? [];
 
-    this.pods = rawPods
+    const pods = rawPods
       .filter((pod) => typeof pod !== 'number')
       .map((pod) => new PodAtEventService(pod));
 
-    if (rawPods.length !== this.pods.length) {
+    if (pods.length !== rawPods.length) {
       console.warn(`EventService(event: ${this.event.id}): Some pods were not resolved.`);
     }
+
+    return pods;
+  }
+
+  protected initImages(): MediaService[] {
+    const rawImages = this.event.images ?? [];
+
+    const images = rawImages
+      .filter((image) => typeof image !== 'number')
+      .map((image) => new MediaService(image));
+
+    if (images.length !== rawImages.length) {
+      console.warn(`EventService(event: ${this.event.id}): Some images were not resolved.`);
+    }
+
+    return images;
   }
 
   get id(): number {
@@ -66,5 +89,9 @@ export default class EventService {
 
   get hasMorePods(): boolean {
     return this.event.pods?.hasNextPage ?? false;
+  }
+
+  get hasImages(): boolean {
+    return this.images.length > 0;
   }
 }
