@@ -24,22 +24,19 @@ export const FileDropzone = () => {
   };
 
   return (
-    <div className="grid">
+    <div className={cn('grid', isDragging && 'bg-green-50')}>
+      <Label htmlFor={id} className="col-span-full row-span-full place-self-center">
+        Upload images
+      </Label>
       <Input
         id={id}
         type="file"
         multiple
-        className={cn(
-          'col-span-full row-span-full h-60 cursor-pointer border-none p-0 text-transparent shadow-none file:text-transparent',
-          isDragging && 'bg-green-50',
-        )}
+        className="col-span-full row-span-full h-60 cursor-pointer border-none p-0 text-transparent shadow-none file:text-transparent"
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}
         onChange={onChange}
       />
-      <Label htmlFor={id} className="col-span-full row-span-full place-self-center">
-        Upload images
-      </Label>
     </div>
   );
 };
