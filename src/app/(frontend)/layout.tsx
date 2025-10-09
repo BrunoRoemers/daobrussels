@@ -1,6 +1,8 @@
 import { AdminBar } from '@/components/admin/admin-bar';
 import { LivePreviewListener } from '@/components/admin/live-preview-listener';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from 'next-themes';
 import React from 'react';
 
@@ -27,6 +29,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <ThemeToggle />
           </div>
         </ThemeProvider>
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
