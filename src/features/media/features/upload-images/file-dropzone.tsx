@@ -25,7 +25,7 @@ export const FileDropzone = () => {
     <Input
       type="file"
       multiple
-      className={cn('h-60 border-none', isDragging && 'bg-green-50')}
+      className={cn('h-60 cursor-pointer border-none', isDragging && 'bg-green-50')}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}
       onChange={onChange}
