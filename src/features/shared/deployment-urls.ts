@@ -41,5 +41,3 @@ export const deploymentUrls =
   typeof window !== 'undefined' ? [window.location.origin] : getDeploymentUrls();
 
 export const primaryUrl = deploymentUrls[0];
-
-console.log('urls: ', deploymentUrls);
