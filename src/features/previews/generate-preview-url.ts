@@ -49,5 +49,5 @@ const _generatePreviewUrl = (
   const fragment: string = persistent ? idToPreviewSlug(id) : (slug ?? idToPreviewSlug(id));
   const path = `${route}/${fragment}`;
 
-  return formatUrl(`${req.protocol}//${req.host}/next/preview`, { path });
+  return formatUrl(`/next/preview`, { path });
 };

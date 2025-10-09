@@ -6,7 +6,7 @@ export function ViewSiteLink() {
   const window = useWindow();
 
   return (
-    <a href={window?.location.origin} target="_blank" style={{ textDecoration: 'none' }}>
+    <a href={window?.location.origin} style={{ textDecoration: 'none' }}>
       {window?.location.origin}
     </a>
   );

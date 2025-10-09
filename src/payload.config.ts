@@ -13,6 +13,7 @@ import { Events } from './features/events/event-collection';
 import { GoogleCloudStorage } from './features/media/google-cloud-storage-plugin';
 import { PodsAtEvents } from './features/pods-at-events/pod-at-event-collection';
 import { Search } from './features/search/search-plugin';
+import { deploymentUrls } from './features/shared/deployment-urls';
 import { Users } from './features/users/user-collection';
 
 const filename = fileURLToPath(import.meta.url);
@@ -66,9 +67,9 @@ export default buildConfig({
   onInit: async (payload) => {
     await bootstrapRevalidateEveryMorning(payload);
   },
-  cors: [process.env.NEXT_PUBLIC_SERVER_URL || ''].filter(Boolean),
+  cors: deploymentUrls,
   plugins: [GoogleCloudStorage, Search],
-  secret: process.env.PAYLOAD_SECRET,
+  secret: process.env.PAYLOAD_SECRET!,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

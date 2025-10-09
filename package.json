@@ -41,7 +41,6 @@
     "clsx": "^2.1.1",
     "cross-env": "^10.0.0",
     "dayjs": "^1.11.18",
-    "geist": "^1.5.1",
     "graphql": "^16.11.0",
     "jsonwebtoken": "9.0.2",
     "lexical": "^0.35.0",

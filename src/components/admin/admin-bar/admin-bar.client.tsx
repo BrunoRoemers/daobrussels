@@ -1,5 +1,7 @@
 'use client';
 
+import { primaryUrl } from '@/features/shared/deployment-urls';
+import { useWindow } from '@/features/shared/react-hooks/use-window';
 import { PayloadAdminBar } from '@payloadcms/admin-bar';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import { useCollectionInfo } from './use-collection-info';
@@ -12,11 +14,17 @@ interface Props {
 export const AdminBarClient = ({ isDraftModeEnabled, disableDraftMode }: Props) => {
   const segments = useSelectedLayoutSegments();
   const collectionInfo = useCollectionInfo(segments);
+  const window = useWindow();
+
+  // Hide admin bar when inside iframe (live preview)
+  if (!window || window.self !== window.top) {
+    return null;
+  }
 
   return (
     <>
       <PayloadAdminBar
-        cmsURL={process.env.NEXT_PUBLIC_SERVER_URL}
+        cmsURL={primaryUrl}
         logo={<span>Dashboard</span>}
         collectionSlug={collectionInfo?.collection}
         collectionLabels={collectionInfo?.collectionLabels}
@@ -24,9 +32,17 @@ export const AdminBarClient = ({ isDraftModeEnabled, disableDraftMode }: Props) 
         preview={isDraftModeEnabled}
         onPreviewExit={disableDraftMode}
         className="peer h-10"
+        logoProps={openInSameTab}
+        userProps={openInSameTab}
+        editProps={openInSameTab}
+        createProps={openInSameTab}
+        previewProps={openInSameTab}
+        logoutProps={openInSameTab}
       />
       {/* When the admin bar is shown, the page should be pushed down, so the admin bar doesn't cover it. */}
       <div className="hidden h-10 peer-[#payload-admin-bar]:block"></div>
     </>
   );
 };
+
+const openInSameTab = { target: undefined, rel: undefined };
