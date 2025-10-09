@@ -1,8 +1,9 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
+import * as LabelPrimitive from '@radix-ui/react-label';
+import { CloudUpload } from 'lucide-react';
 import { useId, useState, type ChangeEventHandler, type DragEventHandler } from 'react';
 
 export const FileDropzone = () => {
@@ -25,9 +26,12 @@ export const FileDropzone = () => {
 
   return (
     <div className={cn('grid', isDragging && 'bg-green-50')}>
-      <Label htmlFor={id} className="col-span-full row-span-full place-self-center">
-        Upload images
-      </Label>
+      <div className="col-span-full row-span-full place-self-center">
+        <CloudUpload size={40} className="mx-auto mb-2" />
+        <LabelPrimitive.Root htmlFor={id}>
+          <b>Click to upload</b> or drag and drop
+        </LabelPrimitive.Root>
+      </div>
       <Input
         id={id}
         type="file"
