@@ -1,10 +1,12 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { cn } from '@/utils/cn';
-import { useState, type ChangeEventHandler, type DragEventHandler } from 'react';
+import { useId, useState, type ChangeEventHandler, type DragEventHandler } from 'react';
 
 export const FileDropzone = () => {
+  const id = useId();
   const [isDragging, setIsDragging] = useState(false);
 
   const onDragEnter: DragEventHandler = (e) => {
@@ -22,13 +24,22 @@ export const FileDropzone = () => {
   };
 
   return (
-    <Input
-      type="file"
-      multiple
-      className={cn('h-60 cursor-pointer border-none', isDragging && 'bg-green-50')}
-      onDragEnter={onDragEnter}
-      onDragLeave={onDragLeave}
-      onChange={onChange}
-    />
+    <div className="grid">
+      <Input
+        id={id}
+        type="file"
+        multiple
+        className={cn(
+          'col-span-full row-span-full h-60 cursor-pointer border-none p-0 text-transparent shadow-none file:text-transparent',
+          isDragging && 'bg-green-50',
+        )}
+        onDragEnter={onDragEnter}
+        onDragLeave={onDragLeave}
+        onChange={onChange}
+      />
+      <Label htmlFor={id} className="col-span-full row-span-full place-self-center">
+        Upload images
+      </Label>
+    </div>
   );
 };
