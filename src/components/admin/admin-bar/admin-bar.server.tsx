@@ -1,4 +1,3 @@
-import { getPrimaryUrl } from '@/features/shared/deployment-urls';
 import { draftMode, headers as nextHeaders } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { AdminBarClient } from './admin-bar.client';
@@ -7,11 +6,7 @@ export const AdminBarServer = async () => {
   const { isEnabled: isDraftModeEnabled } = await draftMode();
 
   return (
-    <AdminBarClient
-      serverUrl={getPrimaryUrl()}
-      isDraftModeEnabled={isDraftModeEnabled}
-      disableDraftMode={disableDraftMode}
-    />
+    <AdminBarClient isDraftModeEnabled={isDraftModeEnabled} disableDraftMode={disableDraftMode} />
   );
 };
 

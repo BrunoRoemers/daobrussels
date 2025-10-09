@@ -1,23 +1,23 @@
 'use client';
 
+import { getPrimaryUrl } from '@/features/shared/deployment-urls';
 import { PayloadAdminBar } from '@payloadcms/admin-bar';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import { useCollectionInfo } from './use-collection-info';
 
 interface Props {
-  serverUrl: string;
   isDraftModeEnabled: boolean;
   disableDraftMode: () => void;
 }
 
-export const AdminBarClient = ({ serverUrl, isDraftModeEnabled, disableDraftMode }: Props) => {
+export const AdminBarClient = ({ isDraftModeEnabled, disableDraftMode }: Props) => {
   const segments = useSelectedLayoutSegments();
   const collectionInfo = useCollectionInfo(segments);
 
   return (
     <>
       <PayloadAdminBar
-        cmsURL={serverUrl}
+        cmsURL={getPrimaryUrl()}
         logo={<span>Dashboard</span>}
         collectionSlug={collectionInfo?.collection}
         collectionLabels={collectionInfo?.collectionLabels}

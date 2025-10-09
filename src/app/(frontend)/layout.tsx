@@ -1,7 +1,6 @@
 import { AdminBar } from '@/components/admin/admin-bar';
 import { LivePreviewListener } from '@/components/admin/live-preview-listener';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { getPrimaryUrl } from '@/features/shared/deployment-urls';
 import { cn } from '@/utils/cn';
 import { GeistMono } from 'geist/font/mono';
 import { GeistSans } from 'geist/font/sans';
@@ -25,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           disableTransitionOnChange
         >
           <AdminBar />
-          <LivePreviewListener serverUrl={getPrimaryUrl()} />
+          <LivePreviewListener />
           {children}
           <div className="flex justify-center">
             <ThemeToggle />
