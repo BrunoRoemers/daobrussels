@@ -4,15 +4,17 @@
 
 https://github.com/users/BrunoRoemers/projects/1
 
-## Install
+## Get started locally
 
-`npm install`
-
-## Database
-
-Mac: use Postgres.app and set something like `POSTGRES_URL=postgresql://user@localhost/database-name` in your `.env` file.
-
-To create a new migration: `npx payload migrate:create <name-of-migration>`
+1. run `npm install`
+2. run Postgres locally (e.g. using Postgres.app on Mac)
+   1. run this SQL query to create a database: `CREATE DATABASE daobxl_dev;`
+3. make a copy of `.env.example` named `.env`
+   1. set the database connection string
+   2. set a random string for `PAYLOAD_SECRET`
+4. run `npm run dev`
+5. make code changes
+6. make a pull request
 
 ## Useful commands
 
@@ -20,6 +22,7 @@ To create a new migration: `npx payload migrate:create <name-of-migration>`
 - `npm run build` to make a production build, followed by `npm run start` to run it
 - `npx prettier . --write` to format the code
 - `npx payload generate:types` to generate the types
+- `npx payload migrate:create <name-of-migration>` to create a new migration
 
 ## Upgrade procedure for Payload CMS
 
