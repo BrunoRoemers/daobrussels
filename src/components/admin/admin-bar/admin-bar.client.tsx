@@ -1,6 +1,7 @@
 'use client';
 
 import { primaryUrl } from '@/features/shared/deployment-urls';
+import { useWindow } from '@/features/shared/react-hooks/use-window';
 import { PayloadAdminBar } from '@payloadcms/admin-bar';
 import { useSelectedLayoutSegments } from 'next/navigation';
 import { useCollectionInfo } from './use-collection-info';
@@ -13,6 +14,12 @@ interface Props {
 export const AdminBarClient = ({ isDraftModeEnabled, disableDraftMode }: Props) => {
   const segments = useSelectedLayoutSegments();
   const collectionInfo = useCollectionInfo(segments);
+  const window = useWindow();
+
+  // Hide admin bar when inside iframe (live preview)
+  if (!window || window.self !== window.top) {
+    return null;
+  }
 
   return (
     <>

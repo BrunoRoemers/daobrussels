@@ -1,0 +1,7 @@
+---
+alwaysApply: true
+---
+
+Use the Context7 MCP (if available) to look up docs and best practices for Payload CMS, Next.js, etc.
+
+Look up the correct version of our dependencies in package.json.
