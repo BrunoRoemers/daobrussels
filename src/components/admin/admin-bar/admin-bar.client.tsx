@@ -25,9 +25,17 @@ export const AdminBarClient = ({ isDraftModeEnabled, disableDraftMode }: Props) 
         preview={isDraftModeEnabled}
         onPreviewExit={disableDraftMode}
         className="peer h-10"
+        logoProps={openInSameTab}
+        userProps={openInSameTab}
+        editProps={openInSameTab}
+        createProps={openInSameTab}
+        previewProps={openInSameTab}
+        logoutProps={openInSameTab}
       />
       {/* When the admin bar is shown, the page should be pushed down, so the admin bar doesn't cover it. */}
       <div className="hidden h-10 peer-[#payload-admin-bar]:block"></div>
     </>
   );
 };
+
+const openInSameTab = { target: undefined, rel: undefined };
