@@ -6,9 +6,10 @@ import { useState, type ChangeEventHandler, type DragEventHandler } from 'react'
 interface Props {
   preview?: React.ReactNode;
   onChange: (files: File[]) => void;
+  children?: React.ReactNode;
 }
 
-export const FileDropzone = ({ preview, onChange }: Props) => {
+export const FileDropzone = ({ preview, onChange, children }: Props) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragEnter: DragEventHandler = (e) => {
@@ -55,6 +56,7 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
           </div>
         )}
       </div>
+      {children}
     </LabelPrimitive.Root>
   );
 };

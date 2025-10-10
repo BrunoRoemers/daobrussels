@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { cn } from '@/utils/cn';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { useState } from 'react';
 import { FileDropzone } from './file-dropzone';
@@ -30,24 +29,25 @@ export const DropzoneCarousel = ({ className }: Props) => {
   // TODO start upload + handle multiple files
 
   return (
-    <div className={cn('relative', className)}>
+    <div className={className}>
       <FileDropzone
         onChange={addFiles}
         preview={hasFiles && <FilePreview file={files[index].file} />}
-      />
-      <PageIndicator index={index} total={files.length} className="absolute bottom-4 left-4" />
-      <PrevButton
-        index={index}
-        total={files.length}
-        setIndex={setIndex}
-        className="absolute top-1/2 left-4 -translate-y-1/2"
-      />
-      <NextButton
-        index={index}
-        total={files.length}
-        setIndex={setIndex}
-        className="absolute top-1/2 right-4 -translate-y-1/2"
-      />
+      >
+        <PageIndicator index={index} total={files.length} className="absolute bottom-4 left-4" />
+        <PrevButton
+          index={index}
+          total={files.length}
+          setIndex={setIndex}
+          className="absolute top-1/2 left-4 -translate-y-1/2"
+        />
+        <NextButton
+          index={index}
+          total={files.length}
+          setIndex={setIndex}
+          className="absolute top-1/2 right-4 -translate-y-1/2"
+        />
+      </FileDropzone>
     </div>
   );
 };
