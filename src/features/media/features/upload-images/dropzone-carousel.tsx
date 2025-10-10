@@ -23,7 +23,9 @@ export const DropzoneCarousel = ({ className }: Props) => {
   const addFiles = (f: File[]) => {
     const newFiles = f.map((file) => ({ file, hash: file.name })); // TODO calc hash
     const uniqueFiles = newFiles.filter((file) => !files.some((f) => f.hash === file.hash));
-    return setFiles(files.concat(uniqueFiles));
+    const nextFiles = files.concat(uniqueFiles);
+    setIndex(nextFiles.length - 1);
+    setFiles(nextFiles);
   };
 
   // TODO start upload + handle multiple files
