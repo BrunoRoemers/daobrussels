@@ -46,17 +46,19 @@ export const FileDropzone = ({ preview, onChange, children }: Props) => {
       onDrop={handleFileDrop}
     >
       <input type="file" multiple className="hidden" onChange={handleFileSelect} />
-      <div className="h-full">
-        {preview || (
-          <div className="flex h-full flex-col items-center justify-center">
-            <CloudUpload size={40} className="mx-auto mb-2" />
-            <span>
-              <b>Click to upload</b> or drag and drop
-            </span>
-          </div>
-        )}
-      </div>
+      <div className="h-full">{preview || <UploadInstructions />}</div>
       {children}
     </LabelPrimitive.Root>
+  );
+};
+
+export const UploadInstructions = () => {
+  return (
+    <div className="flex h-full flex-col items-center justify-center">
+      <CloudUpload size={40} className="mx-auto mb-2" />
+      <span>
+        <b>Click to upload</b> or drag and drop
+      </span>
+    </div>
   );
 };
