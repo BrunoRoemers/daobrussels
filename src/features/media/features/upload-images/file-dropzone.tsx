@@ -52,7 +52,7 @@ export const FileDropzone = ({ preview, onChange, children }: Props) => {
   );
 };
 
-export const UploadInstructions = () => {
+const UploadInstructions = () => {
   return (
     <div className="flex h-full flex-col items-center justify-center">
       <CloudUpload size={40} className="mx-auto mb-2" />
