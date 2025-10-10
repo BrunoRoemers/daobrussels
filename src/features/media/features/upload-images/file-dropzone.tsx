@@ -1,5 +1,6 @@
 import { cn } from '@/utils/cn';
 import * as LabelPrimitive from '@radix-ui/react-label';
+import type { ClassValue } from 'clsx';
 import { CloudUpload } from 'lucide-react';
 import { useState, type ChangeEventHandler, type DragEventHandler } from 'react';
 
@@ -37,24 +38,34 @@ export const FileDropzone = ({ preview, onChange, children }: Props) => {
     onChange(Array.from(e.target.files || []));
   };
 
+  const previewDraggingStyles: ClassValue =
+    isDragging && preview && 'after:absolute after:inset-0 after:bg-green-300/10';
+
   return (
     <LabelPrimitive.Root
-      className={cn('relative block h-full cursor-pointer', isDragging && 'bg-green-50')}
+      className="relative block h-full cursor-pointer"
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
       onDrop={handleFileDrop}
     >
       <input type="file" multiple className="hidden" onChange={handleFileSelect} />
-      <div className="h-full">{preview || <UploadInstructions />}</div>
+      <div className={cn('h-full', previewDraggingStyles)}>
+        {preview || <UploadInstructions isDragging={isDragging} />}
+      </div>
       {children}
     </LabelPrimitive.Root>
   );
 };
 
-const UploadInstructions = () => {
+const UploadInstructions = ({ isDragging }: { isDragging: boolean }) => {
   return (
-    <div className="flex h-full flex-col items-center justify-center">
+    <div
+      className={cn(
+        'flex h-full flex-col items-center justify-center',
+        isDragging && 'bg-green-50',
+      )}
+    >
       <CloudUpload size={40} className="mx-auto mb-2" />
       <span>
         <b>Click to upload</b> or drag and drop
