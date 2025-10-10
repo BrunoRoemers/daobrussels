@@ -13,12 +13,12 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragEnter: DragEventHandler = (e) => {
-    if (e.target === e.relatedTarget) return;
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
     setIsDragging(true);
   };
 
   const handleDragLeave: DragEventHandler = (e) => {
-    if (e.target === e.relatedTarget) return;
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
     setIsDragging(false);
   };
 
@@ -28,7 +28,11 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
   };
 
   return (
-    <div className={cn('relative h-full', isDragging && 'bg-green-50')}>
+    <div
+      className={cn('relative h-full', isDragging && 'bg-green-50')}
+      onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+    >
       <div className="h-full">
         {preview || (
           <div className="flex h-full flex-col items-center justify-center">
@@ -45,8 +49,6 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
         multiple
         className="absolute inset-0 cursor-pointer text-transparent file:text-transparent"
         title="upload images"
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
         onChange={handleChange}
       />
     </div>
