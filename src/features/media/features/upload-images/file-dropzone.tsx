@@ -21,7 +21,17 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
     setIsDragging(false);
   };
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleDragOver: DragEventHandler = (e) => {
+    e.preventDefault(); // Tell browser that we're waiting for a drop.
+  };
+
+  const handleFileDrop: DragEventHandler = (e) => {
+    e.preventDefault(); // Prevent browser from opening the file.
+    setIsDragging(false);
+    onChange(Array.from(e.dataTransfer.files || []));
+  };
+
+  const handleFileSelect: ChangeEventHandler<HTMLInputElement> = (e) => {
     setIsDragging(false);
     onChange(Array.from(e.target.files || []));
   };
@@ -31,9 +41,10 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
       className={cn('relative block h-full cursor-pointer', isDragging && 'bg-green-50')}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
-      // TODO on drop?
+      onDragOver={handleDragOver}
+      onDrop={handleFileDrop}
     >
-      <input type="file" multiple className="hidden" onChange={handleChange} />
+      <input type="file" multiple className="hidden" onChange={handleFileSelect} />
       <div className="h-full">
         {preview || (
           <div className="flex h-full flex-col items-center justify-center">
