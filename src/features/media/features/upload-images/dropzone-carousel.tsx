@@ -5,13 +5,22 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { useState } from 'react';
 import { FileDropzone } from './file-dropzone';
 
+interface FileData {
+  file: File;
+  hash: string;
+}
+
 export const DropzoneCarousel = () => {
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<FileData[]>([]);
   const [index, setIndex] = useState(0);
 
   const hasFiles = files.length > 0;
 
-  const addFiles = (f: File[]) => setFiles(files.concat(f));
+  const addFiles = (f: File[]) => {
+    const newFiles = f.map((file) => ({ file, hash: file.name })); // TODO calc hash
+    const uniqueFiles = newFiles.filter((file) => !files.some((f) => f.hash === file.hash));
+    return setFiles(files.concat(uniqueFiles));
+  };
 
   // TODO start upload + handle multiple files
 
@@ -19,15 +28,17 @@ export const DropzoneCarousel = () => {
     <div>
       <FileDropzone
         onChange={addFiles}
-        preview={
-          hasFiles && <img src={URL.createObjectURL(files[index])} alt={files[index].name} />
-        }
+        preview={hasFiles && <FilePreview file={files[index].file} />}
       />
       <PageIndicator index={index} total={files.length} />
       <PrevButton index={index} total={files.length} setIndex={setIndex} />
       <NextButton index={index} total={files.length} setIndex={setIndex} />
     </div>
   );
+};
+
+const FilePreview = ({ file }: { file: File }) => {
+  return <img src={URL.createObjectURL(file)} alt={file.name} />;
 };
 
 const PrevButton = ({
