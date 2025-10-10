@@ -10,7 +10,11 @@ interface FileData {
   hash: string;
 }
 
-export const DropzoneCarousel = () => {
+interface Props {
+  className?: string;
+}
+
+export const DropzoneCarousel = ({ className }: Props) => {
   const [files, setFiles] = useState<FileData[]>([]);
   const [index, setIndex] = useState(0);
 
@@ -25,7 +29,7 @@ export const DropzoneCarousel = () => {
   // TODO start upload + handle multiple files
 
   return (
-    <div>
+    <div className={className}>
       <FileDropzone
         onChange={addFiles}
         preview={hasFiles && <FilePreview file={files[index].file} />}

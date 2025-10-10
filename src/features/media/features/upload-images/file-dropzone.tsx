@@ -29,7 +29,7 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
   };
 
   return (
-    <div className={cn('grid', isDragging && 'bg-green-50')}>
+    <div className={cn('grid h-full', isDragging && 'bg-green-50')}>
       <div className="col-span-full row-span-full place-self-center">
         {preview || (
           <>
@@ -44,7 +44,7 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
         id={id}
         type="file"
         multiple
-        className="col-span-full row-span-full h-60 cursor-pointer border-none p-0 text-transparent shadow-none file:text-transparent"
+        className="col-span-full row-span-full cursor-pointer border-none p-0 text-transparent shadow-none file:text-transparent"
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onChange={handleChange}

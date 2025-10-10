@@ -19,7 +19,7 @@ export const UploadImageDialog = ({ button }: Props) => {
         <DialogHeader className="sr-only">
           <DialogTitle>Upload images</DialogTitle>
         </DialogHeader>
-        <DropzoneCarousel />
+        <DropzoneCarousel className="h-60" />
       </DialogContent>
     </Dialog>
   );
