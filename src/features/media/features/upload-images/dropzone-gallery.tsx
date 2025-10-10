@@ -5,13 +5,33 @@ import { FileDropzone } from './file-dropzone';
 
 export const DropzoneGallery = () => {
   const [files, setFiles] = useState<File[]>([]);
+  const [index, setIndex] = useState(0);
+
+  const hasFiles = files.length > 0;
+
+  const addFiles = (f: File[]) => setFiles(files.concat(f));
 
   // TODO start upload + handle multiple files
 
   return (
-    <FileDropzone
-      onChange={setFiles}
-      preview={files.length > 0 && <img src={URL.createObjectURL(files[0])} alt={files[0].name} />}
-    />
+    <div>
+      <FileDropzone
+        onChange={addFiles}
+        preview={
+          hasFiles && <img src={URL.createObjectURL(files[index])} alt={files[index].name} />
+        }
+      />
+      <FilePagination index={index} total={files.length} />
+    </div>
+  );
+};
+
+const FilePagination = ({ index, total }: { index: number; total: number }) => {
+  if (total < 1) return null;
+
+  return (
+    <span>
+      {index + 1} / {total}
+    </span>
   );
 };
