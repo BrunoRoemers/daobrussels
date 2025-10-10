@@ -1,7 +1,7 @@
 import { cn } from '@/utils/cn';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { CloudUpload } from 'lucide-react';
-import { useId, useState, type ChangeEventHandler, type DragEventHandler } from 'react';
+import { useState, type ChangeEventHandler, type DragEventHandler } from 'react';
 
 interface Props {
   preview?: React.ReactNode;
@@ -9,7 +9,6 @@ interface Props {
 }
 
 export const FileDropzone = ({ preview, onChange }: Props) => {
-  const id = useId();
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragEnter: DragEventHandler = (e) => {
@@ -28,29 +27,23 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
   };
 
   return (
-    <div
-      className={cn('relative h-full', isDragging && 'bg-green-50')}
+    <LabelPrimitive.Root
+      className={cn('relative block h-full cursor-pointer', isDragging && 'bg-green-50')}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
+      // TODO on drop?
     >
+      <input type="file" multiple className="hidden" onChange={handleChange} />
       <div className="h-full">
         {preview || (
           <div className="flex h-full flex-col items-center justify-center">
             <CloudUpload size={40} className="mx-auto mb-2" />
-            <LabelPrimitive.Root htmlFor={id}>
+            <span>
               <b>Click to upload</b> or drag and drop
-            </LabelPrimitive.Root>
+            </span>
           </div>
         )}
       </div>
-      <input
-        id={id}
-        type="file"
-        multiple
-        className="absolute inset-0 cursor-pointer text-transparent file:text-transparent"
-        title="upload images"
-        onChange={handleChange}
-      />
-    </div>
+    </LabelPrimitive.Root>
   );
 };
