@@ -29,7 +29,7 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
 
   return (
     <div className={cn('relative h-full', isDragging && 'bg-green-50')}>
-      <div className="absolute inset-0">
+      <div className="h-full">
         {preview || (
           <div className="flex h-full flex-col items-center justify-center">
             <CloudUpload size={40} className="mx-auto mb-2" />

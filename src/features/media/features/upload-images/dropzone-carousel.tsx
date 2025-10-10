@@ -42,7 +42,9 @@ export const DropzoneCarousel = ({ className }: Props) => {
 };
 
 const FilePreview = ({ file }: { file: File }) => {
-  return <img src={URL.createObjectURL(file)} alt={file.name} />;
+  return (
+    <img className="h-full w-full object-cover" src={URL.createObjectURL(file)} alt={file.name} />
+  );
 };
 
 const PrevButton = ({
