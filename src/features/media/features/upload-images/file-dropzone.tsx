@@ -44,7 +44,7 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
         id={id}
         type="file"
         multiple
-        className="col-span-full row-span-full cursor-pointer border-none p-0 text-transparent shadow-none file:text-transparent"
+        className="col-span-full row-span-full h-full cursor-pointer border-none p-0 text-transparent shadow-none file:text-transparent"
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onChange={handleChange}
