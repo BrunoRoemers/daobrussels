@@ -1,4 +1,3 @@
-import { Input } from '@/components/ui/input';
 import { cn } from '@/utils/cn';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { CloudUpload } from 'lucide-react';
@@ -29,22 +28,22 @@ export const FileDropzone = ({ preview, onChange }: Props) => {
   };
 
   return (
-    <div className={cn('grid h-full', isDragging && 'bg-green-50')}>
-      <div className="col-span-full row-span-full place-self-center">
+    <div className={cn('relative h-full', isDragging && 'bg-green-50')}>
+      <div className="absolute inset-0">
         {preview || (
-          <>
+          <div className="flex h-full flex-col items-center justify-center">
             <CloudUpload size={40} className="mx-auto mb-2" />
             <LabelPrimitive.Root htmlFor={id}>
               <b>Click to upload</b> or drag and drop
             </LabelPrimitive.Root>
-          </>
+          </div>
         )}
       </div>
-      <Input
+      <input
         id={id}
         type="file"
         multiple
-        className="col-span-full row-span-full h-full cursor-pointer border-none p-0 text-transparent shadow-none file:text-transparent"
+        className="absolute inset-0 cursor-pointer text-transparent file:text-transparent"
         onDragEnter={handleDragEnter}
         onDragLeave={handleDragLeave}
         onChange={handleChange}
