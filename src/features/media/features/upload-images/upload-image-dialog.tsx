@@ -5,7 +5,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { FileDropzone } from './file-dropzone';
+import { DropzoneGallery } from './dropzone-gallery';
 
 interface Props {
   button: React.ReactNode;
@@ -19,7 +19,7 @@ export const UploadImageDialog = ({ button }: Props) => {
         <DialogHeader className="sr-only">
           <DialogTitle>Upload images</DialogTitle>
         </DialogHeader>
-        <FileDropzone />
+        <DropzoneGallery />
       </DialogContent>
     </Dialog>
   );
