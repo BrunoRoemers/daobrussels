@@ -12,10 +12,11 @@ interface FileData {
 }
 
 interface Props {
+  handleUpload: (files: File[]) => void;
   className?: string;
 }
 
-export const DropzoneCarousel = ({ className }: Props) => {
+export const DropzoneCarousel = ({ handleUpload, className }: Props) => {
   const [files, setFiles] = useState<FileData[]>([]);
   const [index, setIndex] = useState(0);
 
@@ -35,7 +36,9 @@ export const DropzoneCarousel = ({ className }: Props) => {
     setFiles(newFiles);
   };
 
-  // TODO start upload
+  const _handleUpload = () => {
+    handleUpload(files.map((f) => f.file));
+  };
 
   return (
     <div className={className}>
@@ -59,7 +62,7 @@ export const DropzoneCarousel = ({ className }: Props) => {
               <PageIndicator index={index} total={files.length} />
               <DeleteButton onClick={removeCurrentFile} />
               <Expanded />
-              <UploadButton total={files.length} />
+              <UploadButton total={files.length} onClick={_handleUpload} />
             </div>
           </>
         )}
@@ -141,6 +144,6 @@ const DeleteButton = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
-const UploadButton = ({ total }: { total: number }) => {
-  return <Button>{total > 1 ? 'Upload all' : 'Upload'}</Button>;
+const UploadButton = ({ total, onClick }: { total: number; onClick: () => void }) => {
+  return <Button onClick={onClick}>{total > 1 ? 'Upload all' : 'Upload'}</Button>;
 };

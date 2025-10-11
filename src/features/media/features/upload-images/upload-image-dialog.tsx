@@ -12,6 +12,10 @@ interface Props {
 }
 
 export const UploadImageDialog = ({ button }: Props) => {
+  const handleUpload = (files: File[]) => {
+    console.log('handleUpload', files);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>{button}</DialogTrigger>
@@ -19,7 +23,7 @@ export const UploadImageDialog = ({ button }: Props) => {
         <DialogHeader className="sr-only">
           <DialogTitle>Upload images</DialogTitle>
         </DialogHeader>
-        <DropzoneCarousel className="h-72" />
+        <DropzoneCarousel className="h-72" handleUpload={handleUpload} />
       </DialogContent>
     </Dialog>
   );
