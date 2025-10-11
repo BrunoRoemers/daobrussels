@@ -124,8 +124,12 @@ const PageIndicator = ({
   if (total < 1) return null;
 
   return (
-    <span className={className}>
-      {index + 1} / {total}
-    </span>
+    <>
+      <Button asChild className={className}>
+        <span>
+          {index + 1} / {total}
+        </span>
+      </Button>
+    </>
   );
 };
