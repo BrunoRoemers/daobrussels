@@ -36,19 +36,28 @@ export const DropzoneCarousel = ({ className }: Props) => {
         onChange={addFiles}
         preview={hasFiles && <FilePreview file={files[index].file} />}
       >
-        <PageIndicator index={index} total={files.length} className="absolute bottom-4 left-4" />
-        <PrevButton
-          index={index}
-          total={files.length}
-          setIndex={setIndex}
-          className="absolute top-1/2 left-4 -translate-y-1/2"
-        />
-        <NextButton
-          index={index}
-          total={files.length}
-          setIndex={setIndex}
-          className="absolute top-1/2 right-4 -translate-y-1/2"
-        />
+        {hasFiles && (
+          <>
+            <PrevButton
+              index={index}
+              total={files.length}
+              setIndex={setIndex}
+              className="absolute top-1/2 left-4 -translate-y-1/2"
+            />
+            <NextButton
+              index={index}
+              total={files.length}
+              setIndex={setIndex}
+              className="absolute top-1/2 right-4 -translate-y-1/2"
+            />
+            <PageIndicator
+              index={index}
+              total={files.length}
+              className="absolute bottom-4 left-4"
+            />
+            <UploadButton className="absolute right-4 bottom-4" />
+          </>
+        )}
       </FileDropzone>
     </div>
   );
@@ -121,8 +130,6 @@ const PageIndicator = ({
   total: number;
   className?: string;
 }) => {
-  if (total < 1) return null;
-
   return (
     <>
       <Button asChild className={className}>
@@ -132,4 +139,8 @@ const PageIndicator = ({
       </Button>
     </>
   );
+};
+
+const UploadButton = ({ className }: { className?: string }) => {
+  return <Button className={className}>Upload</Button>;
 };
