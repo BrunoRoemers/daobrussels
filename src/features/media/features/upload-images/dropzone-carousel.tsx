@@ -29,7 +29,13 @@ export const DropzoneCarousel = ({ className }: Props) => {
     setFiles(nextFiles);
   };
 
-  // TODO start upload + handle multiple files
+  const removeCurrentFile = () => {
+    const newFiles = files.filter((_, i) => i !== index);
+    setIndex(Math.min(index, newFiles.length - 1));
+    setFiles(newFiles);
+  };
+
+  // TODO start upload
 
   return (
     <div className={className}>
@@ -51,7 +57,7 @@ export const DropzoneCarousel = ({ className }: Props) => {
             </div>
             <div className="absolute right-4 bottom-4 left-4 flex gap-2">
               <PageIndicator index={index} total={files.length} />
-              <DeleteButton />
+              <DeleteButton onClick={removeCurrentFile} />
               <Expanded />
               <UploadButton total={files.length} />
             </div>
@@ -121,9 +127,15 @@ const PageIndicator = ({ index, total }: { index: number; total: number }) => {
   );
 };
 
-const DeleteButton = () => {
+const DeleteButton = ({ onClick }: { onClick: () => void }) => {
   return (
-    <Button variant="ghost" size="icon" className="hover:text-destructive" title="Remove this file">
+    <Button
+      variant="ghost"
+      size="icon"
+      className="hover:text-destructive"
+      title="Skip this file"
+      onClick={onClick}
+    >
       <CircleMinus />
     </Button>
   );
