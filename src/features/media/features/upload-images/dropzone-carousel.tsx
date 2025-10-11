@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Expanded } from '@/components/utils/expanded';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, SquareMinus } from 'lucide-react';
 import { useState } from 'react';
 import { FileDropzone } from './file-dropzone';
 
@@ -50,6 +50,7 @@ export const DropzoneCarousel = ({ className }: Props) => {
             </div>
             <div className="absolute right-4 bottom-4 left-4 flex">
               <PageIndicator index={index} total={files.length} />
+              <DeleteButton />
               <Expanded />
               <UploadButton />
             </div>
@@ -70,13 +71,11 @@ const PageButton = ({
   newIndex,
   total,
   setIndex,
-  className,
   children,
 }: {
   newIndex: number;
   total: number;
   setIndex: (i: number) => void;
-  className?: string;
   children: React.ReactNode;
 }) => {
   // Only show the button if its effect is within the available range.
@@ -84,7 +83,6 @@ const PageButton = ({
 
   return (
     <Button
-      className={className}
       onClick={(e) => {
         e.preventDefault();
         setIndex(newIndex);
@@ -95,18 +93,10 @@ const PageButton = ({
   );
 };
 
-const PageIndicator = ({
-  index,
-  total,
-  className,
-}: {
-  index: number;
-  total: number;
-  className?: string;
-}) => {
+const PageIndicator = ({ index, total }: { index: number; total: number }) => {
   return (
     <>
-      <Button asChild className={className}>
+      <Button asChild>
         <span>
           {index + 1} / {total}
         </span>
@@ -115,6 +105,14 @@ const PageIndicator = ({
   );
 };
 
-const UploadButton = ({ className }: { className?: string }) => {
-  return <Button className={className}>Upload</Button>;
+const DeleteButton = () => {
+  return (
+    <Button variant="ghost" size="icon">
+      <SquareMinus />
+    </Button>
+  );
+};
+
+const UploadButton = () => {
+  return <Button>Upload</Button>;
 };
