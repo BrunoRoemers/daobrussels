@@ -53,7 +53,7 @@ export const DropzoneCarousel = ({ className }: Props) => {
               <PageIndicator index={index} total={files.length} />
               <DeleteButton />
               <Expanded />
-              <UploadButton />
+              <UploadButton total={files.length} />
             </div>
           </>
         )}
@@ -123,12 +123,12 @@ const PageIndicator = ({ index, total }: { index: number; total: number }) => {
 
 const DeleteButton = () => {
   return (
-    <Button variant="ghost" size="icon" className="hover:text-destructive">
+    <Button variant="ghost" size="icon" className="hover:text-destructive" title="Remove this file">
       <CircleMinus />
     </Button>
   );
 };
 
-const UploadButton = () => {
-  return <Button>Upload</Button>;
+const UploadButton = ({ total }: { total: number }) => {
+  return <Button>{total > 1 ? 'Upload all' : 'Upload'}</Button>;
 };
