@@ -54,12 +54,12 @@ export const DropzoneCarousel = ({ className }: Props) => {
             >
               <ChevronRightIcon />
             </PageButton>
-            <PageIndicator
-              index={index}
-              total={files.length}
-              className="absolute bottom-4 left-4"
-            />
-            <UploadButton className="absolute right-4 bottom-4" />
+            <div className="absolute right-4 bottom-4 left-4 flex">
+              <div className="flex-grow">
+                <PageIndicator index={index} total={files.length} />
+              </div>
+              <UploadButton />
+            </div>
           </>
         )}
       </FileDropzone>
