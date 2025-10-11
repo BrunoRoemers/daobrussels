@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Expanded } from '@/components/utils/expanded';
-import { ChevronLeftIcon, ChevronRightIcon, SquareMinus } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, CircleMinus } from 'lucide-react';
 import { useState } from 'react';
 import { FileDropzone } from './file-dropzone';
 
@@ -48,7 +48,7 @@ export const DropzoneCarousel = ({ className }: Props) => {
                 <ChevronRightIcon />
               </PageButton>
             </div>
-            <div className="absolute right-4 bottom-4 left-4 flex">
+            <div className="absolute right-4 bottom-4 left-4 flex gap-2">
               <PageIndicator index={index} total={files.length} />
               <DeleteButton />
               <Expanded />
@@ -107,8 +107,8 @@ const PageIndicator = ({ index, total }: { index: number; total: number }) => {
 
 const DeleteButton = () => {
   return (
-    <Button variant="ghost" size="icon">
-      <SquareMinus />
+    <Button variant="ghost" size="icon" className="hover:text-destructive">
+      <CircleMinus />
     </Button>
   );
 };
