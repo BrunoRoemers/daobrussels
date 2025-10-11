@@ -137,7 +137,10 @@ const DeleteButton = ({ onClick }: { onClick: () => void }) => {
       size="icon"
       className="hover:text-destructive"
       title="Skip this file"
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
     >
       <CircleMinus />
     </Button>
