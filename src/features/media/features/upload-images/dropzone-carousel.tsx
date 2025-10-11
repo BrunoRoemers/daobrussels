@@ -74,7 +74,13 @@ const PrevButton = ({
   if (total < 1 || index <= 0) return null;
 
   return (
-    <Button onClick={() => setIndex(index - 1)} className={className}>
+    <Button
+      className={className}
+      onClick={(e) => {
+        e.preventDefault();
+        setIndex(index - 1);
+      }}
+    >
       <ChevronLeftIcon />
     </Button>
   );
@@ -94,7 +100,13 @@ const NextButton = ({
   if (total < 1 || index >= total - 1) return null;
 
   return (
-    <Button onClick={() => setIndex(index + 1)} className={className}>
+    <Button
+      className={className}
+      onClick={(e) => {
+        e.preventDefault();
+        setIndex(index + 1);
+      }}
+    >
       <ChevronRightIcon />
     </Button>
   );
