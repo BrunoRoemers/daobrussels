@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Expanded } from '@/components/utils/expanded';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import { useState } from 'react';
 import { FileDropzone } from './file-dropzone';
@@ -38,26 +39,18 @@ export const DropzoneCarousel = ({ className }: Props) => {
       >
         {hasFiles && (
           <>
-            <PageButton
-              newIndex={index - 1}
-              total={files.length}
-              setIndex={setIndex}
-              className="absolute top-1/2 left-4 -translate-y-1/2"
-            >
-              <ChevronLeftIcon />
-            </PageButton>
-            <PageButton
-              newIndex={index + 1}
-              total={files.length}
-              setIndex={setIndex}
-              className="absolute top-1/2 right-4 -translate-y-1/2"
-            >
-              <ChevronRightIcon />
-            </PageButton>
+            <div className="absolute top-1/2 right-4 left-4 flex -translate-y-1/2">
+              <PageButton newIndex={index - 1} total={files.length} setIndex={setIndex}>
+                <ChevronLeftIcon />
+              </PageButton>
+              <Expanded />
+              <PageButton newIndex={index + 1} total={files.length} setIndex={setIndex}>
+                <ChevronRightIcon />
+              </PageButton>
+            </div>
             <div className="absolute right-4 bottom-4 left-4 flex">
-              <div className="flex-grow">
-                <PageIndicator index={index} total={files.length} />
-              </div>
+              <PageIndicator index={index} total={files.length} />
+              <Expanded />
               <UploadButton />
             </div>
           </>
