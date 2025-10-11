@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Expanded } from '@/components/utils/expanded';
-import { ChevronLeftIcon, ChevronRightIcon, CircleMinus } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, CircleMinus, CirclePlus } from 'lucide-react';
 import { useState } from 'react';
 import { FileDropzone } from './file-dropzone';
 
@@ -47,6 +47,7 @@ export const DropzoneCarousel = ({ className }: Props) => {
               <PageButton newIndex={index + 1} total={files.length} setIndex={setIndex}>
                 <ChevronRightIcon />
               </PageButton>
+              <AddButton index={index} total={files.length} />
             </div>
             <div className="absolute right-4 bottom-4 left-4 flex gap-2">
               <PageIndicator index={index} total={files.length} />
@@ -83,12 +84,27 @@ const PageButton = ({
 
   return (
     <Button
+      size="icon"
       onClick={(e) => {
         e.preventDefault();
         setIndex(newIndex);
       }}
     >
       {children}
+    </Button>
+  );
+};
+
+const AddButton = ({ index, total }: { index: number; total: number }) => {
+  // Hide if we're not on the last page.
+  if (index < total - 1) return null;
+
+  // NOTE: No need to implement a handler because the underlying input will handle it.
+  return (
+    <Button size="icon" asChild>
+      <span>
+        <CirclePlus />
+      </span>
     </Button>
   );
 };
