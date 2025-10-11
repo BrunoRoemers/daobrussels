@@ -1,6 +1,8 @@
 import type { Metadata } from 'next/types';
 
+import { Button } from '@/components/ui/button';
 import EventService from '@/features/events/event-service';
+import { UploadImageDialog } from '@/features/media/features/upload-images/upload-image-dialog';
 import configPromise from '@payload-config';
 import Image from 'next/image';
 import { getPayload } from 'payload';
@@ -57,6 +59,8 @@ export default async function Page({ params }: Args) {
           ))}
         </div>
       )}
+
+      <UploadImageDialog button={<Button>Add images</Button>} />
 
       <p>
         Ex cupidatat laborum ut duis labore laborum enim id ex consequat. Sint velit ea commodo
