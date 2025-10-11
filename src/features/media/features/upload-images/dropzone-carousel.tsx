@@ -38,18 +38,22 @@ export const DropzoneCarousel = ({ className }: Props) => {
       >
         {hasFiles && (
           <>
-            <PrevButton
-              index={index}
+            <PageButton
+              newIndex={index - 1}
               total={files.length}
               setIndex={setIndex}
               className="absolute top-1/2 left-4 -translate-y-1/2"
-            />
-            <NextButton
-              index={index}
+            >
+              <ChevronLeftIcon />
+            </PageButton>
+            <PageButton
+              newIndex={index + 1}
               total={files.length}
               setIndex={setIndex}
               className="absolute top-1/2 right-4 -translate-y-1/2"
-            />
+            >
+              <ChevronRightIcon />
+            </PageButton>
             <PageIndicator
               index={index}
               total={files.length}
@@ -69,54 +73,31 @@ const FilePreview = ({ file }: { file: File }) => {
   );
 };
 
-const PrevButton = ({
-  index,
+const PageButton = ({
+  newIndex,
   total,
   setIndex,
   className,
+  children,
 }: {
-  index: number;
+  newIndex: number;
   total: number;
-  setIndex: (index: number) => void;
+  setIndex: (i: number) => void;
   className?: string;
+  children: React.ReactNode;
 }) => {
-  if (total < 1 || index <= 0) return null;
+  // Only show the button if its effect is within the available range.
+  if (newIndex < 0 || newIndex >= total) return null;
 
   return (
     <Button
       className={className}
       onClick={(e) => {
         e.preventDefault();
-        setIndex(index - 1);
+        setIndex(newIndex);
       }}
     >
-      <ChevronLeftIcon />
-    </Button>
-  );
-};
-
-const NextButton = ({
-  index,
-  total,
-  setIndex,
-  className,
-}: {
-  index: number;
-  total: number;
-  setIndex: (index: number) => void;
-  className?: string;
-}) => {
-  if (total < 1 || index >= total - 1) return null;
-
-  return (
-    <Button
-      className={className}
-      onClick={(e) => {
-        e.preventDefault();
-        setIndex(index + 1);
-      }}
-    >
-      <ChevronRightIcon />
+      {children}
     </Button>
   );
 };
