@@ -13,7 +13,7 @@ import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { DropzoneCarousel } from './dropzone-carousel';
 import { FileUploadStatus } from './file-upload-status';
-import { getSignedUrl } from './requests';
+import { getSignedUrl } from './requests/get-signed-url';
 
 interface UploadStatus {
   label: string;
