@@ -13,5 +13,10 @@ export const GoogleCloudStorage = gcsStorage({
     authClient: getGoogleCloudAuthClient(),
   },
   acl: 'Private',
-  clientUploads: true,
+  clientUploads: {
+    access: async ({ collectionSlug, req }) => {
+      // TODO be more restrictive?
+      return true;
+    },
+  },
 });
