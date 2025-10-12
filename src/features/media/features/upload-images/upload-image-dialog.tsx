@@ -15,6 +15,8 @@ import { FileUploadStatus } from './file-upload-status';
 
 interface UploadStatus {
   label: string;
+  error?: string;
+  loading?: boolean;
 }
 
 interface Props {
@@ -67,7 +69,7 @@ const UploadStatusList = ({ uploads }: { uploads: UploadStatus[] }) => {
     <ul>
       {uploads.map((upload, i) => (
         <li key={i}>
-          <FileUploadStatus label={upload.label} />
+          <FileUploadStatus label={upload.label} error={upload.error} loading={upload.loading} />
         </li>
       ))}
     </ul>
