@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { DropzoneCarousel } from './dropzone-carousel';
 import { FileUploadStatus } from './file-upload-status';
 import { getSignedUrl } from './requests/get-signed-url';
+import { uploadToBucket } from './requests/upload-to-bucket';
 
 interface UploadStatus {
   label: string;
@@ -42,7 +43,7 @@ export const UploadImageDialog = ({ button }: Props) => {
   const uploadFile = async (file: File, index: number) => {
     try {
       const signedUrl = await getSignedUrl(file);
-      console.log(signedUrl);
+      await uploadToBucket(signedUrl, file);
     } catch (error) {
       console.error(error);
       updateUploadStatus(index, {
