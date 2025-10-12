@@ -13,20 +13,25 @@ import { useState } from 'react';
 import { DropzoneCarousel } from './dropzone-carousel';
 import { FileUploadStatus } from './file-upload-status';
 
+interface UploadStatus {
+  label: string;
+}
+
 interface Props {
   button: React.ReactNode;
 }
 
 export const UploadImageDialog = ({ button }: Props) => {
-  const [files, setFiles] = useState<File[]>([]);
+  const [uploads, setUploads] = useState<UploadStatus[]>([]);
 
   const handleDialogClose: DialogContentProps['onInteractOutside'] = (e) => {
     // TODO use e.preventDefault(); while the upload is in progress
-    setFiles([]);
+    setUploads([]);
   };
 
   const handleUpload = (files: File[]) => {
-    setFiles(files);
+    const uploads = files.map((file) => ({ label: file.name }));
+    setUploads(uploads);
   };
 
   return (
@@ -41,11 +46,11 @@ export const UploadImageDialog = ({ button }: Props) => {
         <DialogHeader className="sr-only">
           <DialogTitle>Upload images</DialogTitle>
         </DialogHeader>
-        {files.length <= 0 ? (
+        {uploads.length <= 0 ? (
           <DropzoneCarousel className="h-72" handleUpload={handleUpload} accept="image/*" />
         ) : (
           <div className="min-h-72 p-4">
-            <UploadStatusList files={files} />
+            <UploadStatusList uploads={uploads} />
             <Separator />
             <span>
               todo <b>get credit</b> for your contribution
@@ -57,12 +62,12 @@ export const UploadImageDialog = ({ button }: Props) => {
   );
 };
 
-const UploadStatusList = ({ files }: { files: File[] }) => {
+const UploadStatusList = ({ uploads }: { uploads: UploadStatus[] }) => {
   return (
     <ul>
-      {files.map((file, i) => (
+      {uploads.map((upload, i) => (
         <li key={i}>
-          <FileUploadStatus label={file.name} />
+          <FileUploadStatus label={upload.label} />
         </li>
       ))}
     </ul>
