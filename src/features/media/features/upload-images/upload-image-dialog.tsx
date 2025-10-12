@@ -8,6 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
+import { FriendlyError } from '@/utils/friendly-error';
 import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { DropzoneCarousel } from './dropzone-carousel';
@@ -32,20 +33,32 @@ export const UploadImageDialog = ({ button }: Props) => {
     setUploads([]);
   };
 
-  const updateUploadStatus = (index: number, newStatus: Partial<UploadStatus>) => {
-    const newUploads = [...uploads];
-    newUploads[index] = { ...newUploads[index], ...newStatus };
-    setUploads(newUploads);
+  const startUploads = async (files: File[]) => {
+    if (uploads.length > 0) throw new Error('uploads are already set');
+    setUploads(files.map((file) => ({ label: file.name, loading: true })));
+    await Promise.all(files.map(uploadFile));
   };
 
-  const startUpload = async (files: File[]) => {
-    setUploads(files.map((file) => ({ label: file.name, loading: true })));
+  const uploadFile = async (file: File, index: number) => {
+    try {
+      const signedUrl = await getSignedUrl(file);
+      console.log(signedUrl);
+    } catch (error) {
+      console.error(error);
+      updateUploadStatus(index, {
+        error: error instanceof FriendlyError ? error.message : 'Upload failed',
+      });
+    } finally {
+      updateUploadStatus(index, { loading: false });
+    }
+  };
 
-    await Promise.all(
-      files.map(async (file) => {
-        await getSignedUrl(file);
-      }),
-    );
+  const updateUploadStatus = (index: number, newStatus: Partial<UploadStatus>) => {
+    setUploads((uploads) => {
+      const newUploads = [...uploads];
+      newUploads[index] = { ...newUploads[index], ...newStatus };
+      return newUploads;
+    });
   };
 
   return (
@@ -61,7 +74,7 @@ export const UploadImageDialog = ({ button }: Props) => {
           <DialogTitle>Upload images</DialogTitle>
         </DialogHeader>
         {uploads.length <= 0 ? (
-          <DropzoneCarousel className="h-72" handleUpload={startUpload} accept="image/*" />
+          <DropzoneCarousel className="h-72" handleUpload={startUploads} accept="image/*" />
         ) : (
           <div className="min-h-72 p-4">
             <UploadStatusList uploads={uploads} />
