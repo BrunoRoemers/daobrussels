@@ -13,10 +13,11 @@ interface FileData {
 
 interface Props {
   handleUpload: (files: File[]) => void;
+  accept?: string;
   className?: string;
 }
 
-export const DropzoneCarousel = ({ handleUpload, className }: Props) => {
+export const DropzoneCarousel = ({ handleUpload, accept, className }: Props) => {
   const [files, setFiles] = useState<FileData[]>([]);
   const [index, setIndex] = useState(0);
 
@@ -45,6 +46,7 @@ export const DropzoneCarousel = ({ handleUpload, className }: Props) => {
       <FileDropzone
         onChange={addFiles}
         preview={hasFiles && <FilePreview file={files[index].file} />}
+        accept={accept}
       >
         {hasFiles && (
           <>

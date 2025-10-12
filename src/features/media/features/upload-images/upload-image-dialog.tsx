@@ -41,7 +41,7 @@ export const UploadImageDialog = ({ button }: Props) => {
           <DialogTitle>Upload images</DialogTitle>
         </DialogHeader>
         {files.length <= 0 ? (
-          <DropzoneCarousel className="h-72" handleUpload={handleUpload} />
+          <DropzoneCarousel className="h-72" handleUpload={handleUpload} accept="image/*" />
         ) : (
           <div className="min-h-72 p-4">
             <span>todo upload status</span>

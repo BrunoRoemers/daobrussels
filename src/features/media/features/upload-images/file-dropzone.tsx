@@ -7,10 +7,11 @@ import { useState, type ChangeEventHandler, type DragEventHandler } from 'react'
 interface Props {
   preview?: React.ReactNode;
   onChange: (files: File[]) => void;
+  accept?: string;
   children?: React.ReactNode;
 }
 
-export const FileDropzone = ({ preview, onChange, children }: Props) => {
+export const FileDropzone = ({ preview, onChange, accept, children }: Props) => {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragEnter: DragEventHandler = (e) => {
@@ -49,7 +50,7 @@ export const FileDropzone = ({ preview, onChange, children }: Props) => {
       onDragOver={handleDragOver}
       onDrop={handleFileDrop}
     >
-      <input type="file" multiple className="hidden" onChange={handleFileSelect} />
+      <input type="file" multiple accept={accept} className="hidden" onChange={handleFileSelect} />
       <div className={cn('h-full', previewDraggingStyles)}>
         {preview || <UploadInstructions isDragging={isDragging} />}
       </div>
