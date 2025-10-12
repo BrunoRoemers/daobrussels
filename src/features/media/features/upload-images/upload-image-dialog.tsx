@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { DropzoneCarousel } from './dropzone-carousel';
+import { FileUploadStatus } from './file-upload-status';
 
 interface Props {
   button: React.ReactNode;
@@ -44,7 +45,13 @@ export const UploadImageDialog = ({ button }: Props) => {
           <DropzoneCarousel className="h-72" handleUpload={handleUpload} accept="image/*" />
         ) : (
           <div className="min-h-72 p-4">
-            <span>todo upload status</span>
+            <ul>
+              {files.map((file, i) => (
+                <li key={i}>
+                  <FileUploadStatus label={file.name} />
+                </li>
+              ))}
+            </ul>
             <Separator />
             <span>
               todo <b>get credit</b> for your contribution
