@@ -12,6 +12,7 @@ import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { DropzoneCarousel } from './dropzone-carousel';
 import { FileUploadStatus } from './file-upload-status';
+import { getSignedUrl } from './requests';
 
 interface UploadStatus {
   label: string;
@@ -31,9 +32,20 @@ export const UploadImageDialog = ({ button }: Props) => {
     setUploads([]);
   };
 
-  const handleUpload = (files: File[]) => {
-    const uploads = files.map((file) => ({ label: file.name }));
-    setUploads(uploads);
+  const updateUploadStatus = (index: number, newStatus: Partial<UploadStatus>) => {
+    const newUploads = [...uploads];
+    newUploads[index] = { ...newUploads[index], ...newStatus };
+    setUploads(newUploads);
+  };
+
+  const startUpload = async (files: File[]) => {
+    setUploads(files.map((file) => ({ label: file.name, loading: true })));
+
+    await Promise.all(
+      files.map(async (file) => {
+        await getSignedUrl(file);
+      }),
+    );
   };
 
   return (
@@ -49,7 +61,7 @@ export const UploadImageDialog = ({ button }: Props) => {
           <DialogTitle>Upload images</DialogTitle>
         </DialogHeader>
         {uploads.length <= 0 ? (
-          <DropzoneCarousel className="h-72" handleUpload={handleUpload} accept="image/*" />
+          <DropzoneCarousel className="h-72" handleUpload={startUpload} accept="image/*" />
         ) : (
           <div className="min-h-72 p-4">
             <UploadStatusList uploads={uploads} />
