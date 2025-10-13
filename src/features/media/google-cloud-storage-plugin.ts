@@ -1,10 +1,11 @@
 import { gcsStorage } from '@payloadcms/storage-gcs';
 import { getGoogleCloudAuthClient } from 'infra/google-cloud/get-google-cloud-auth-client';
+import { mediaGcsPrefix } from './media-collection';
 
 export const GoogleCloudStorage = gcsStorage({
   collections: {
     media: {
-      prefix: 'collections/media',
+      prefix: mediaGcsPrefix,
     },
   },
   bucket: process.env.GCP_BUCKET_NAME || '',

@@ -1,13 +1,7 @@
 import type { CollectionConfig } from 'payload';
 
-import path from 'path';
-import { fileURLToPath } from 'url';
-
 import { anyone } from '@/features/auth/access-filters/anyone';
 import { authenticated } from '@/features/auth/access-filters/authenticated';
-
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -29,3 +23,5 @@ export const Media: CollectionConfig = {
     //       https://payloadcms.com/docs/upload/overview
   },
 };
+
+export const mediaGcsPrefix = `collections/${Media.slug}`;

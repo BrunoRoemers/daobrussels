@@ -13,6 +13,7 @@ import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { DropzoneCarousel } from './dropzone-carousel';
 import { FileUploadStatus } from './file-upload-status';
+import { createMediaEntry } from './requests/create-media-entry';
 import { getSignedUrl } from './requests/get-signed-url';
 import { uploadToBucket } from './requests/upload-to-bucket';
 
@@ -44,6 +45,7 @@ export const UploadImageDialog = ({ button }: Props) => {
     try {
       const signedUrl = await getSignedUrl(file);
       await uploadToBucket(signedUrl, file);
+      await createMediaEntry(file);
     } catch (error) {
       console.error(error);
       updateUploadStatus(index, {
