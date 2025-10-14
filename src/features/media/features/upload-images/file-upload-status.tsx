@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { Check, RotateCcw } from 'lucide-react';
 
@@ -16,7 +17,9 @@ export const FileUploadStatus = ({ label, error, loading }: Props) => {
       </div>
       <div>
         {error ? (
-          <RotateCcw className="size-6 p-1" />
+          <Button variant="ghost" className="-m-1 size-8 p-1">
+            <RotateCcw />
+          </Button>
         ) : loading ? (
           <Spinner className="size-6 p-1" />
         ) : (
