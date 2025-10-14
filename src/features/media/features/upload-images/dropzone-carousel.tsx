@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Expanded } from '@/components/utils/expanded';
-import { ChevronLeftIcon, ChevronRightIcon, CircleMinus, CirclePlus } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, CircleMinus, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { FileDropzone } from './file-dropzone';
 
@@ -114,7 +114,7 @@ const AddButton = ({ index, total }: { index: number; total: number }) => {
   return (
     <Button size="icon" asChild>
       <span>
-        <CirclePlus />
+        <Plus />
       </span>
     </Button>
   );
