@@ -18,9 +18,9 @@ import { getSignedUrl } from './requests/get-signed-url';
 import { uploadToBucket } from './requests/upload-to-bucket';
 
 interface UploadStatus {
-  label: string;
+  file: File;
   error?: string;
-  loading: boolean;
+  loading?: boolean;
 }
 
 interface Props {
@@ -37,12 +37,13 @@ export const UploadImageDialog = ({ button }: Props) => {
 
   const startUploads = async (files: File[]) => {
     if (uploads.length > 0) throw new Error('uploads are already set');
-    setUploads(files.map((file) => ({ label: file.name, loading: true })));
+    setUploads(files.map((file) => ({ file })));
     await Promise.all(files.map(uploadFile));
   };
 
   const uploadFile = async (file: File, index: number) => {
     try {
+      updateUploadStatus(index, { loading: true, error: undefined });
       const signedUrl = await getSignedUrl(file);
       await uploadToBucket(signedUrl, file);
       await createMediaEntry(file);
@@ -80,7 +81,11 @@ export const UploadImageDialog = ({ button }: Props) => {
           <DropzoneCarousel className="h-72" handleUpload={startUploads} accept="image/*" />
         ) : (
           <div className="flex min-h-72 flex-col">
-            <UploadStatusList uploads={uploads} className="space-y-3 px-8 py-4" />
+            <UploadStatusList
+              uploads={uploads}
+              className="space-y-3 px-8 py-4"
+              onRetry={uploadFile}
+            />
             <Separator />
             <div className="flex-grow place-content-center px-8 py-4 text-center">
               todo <b>get credit</b> for your contribution
@@ -95,15 +100,22 @@ export const UploadImageDialog = ({ button }: Props) => {
 const UploadStatusList = ({
   uploads,
   className,
+  onRetry,
 }: {
   uploads: UploadStatus[];
   className?: string;
+  onRetry: (file: File, index: number) => void;
 }) => {
   return (
     <ul className={className}>
       {uploads.map((upload, i) => (
         <li key={i}>
-          <FileUploadStatus label={upload.label} error={upload.error} loading={upload.loading} />
+          <FileUploadStatus
+            label={upload.file.name}
+            error={upload.error}
+            loading={upload.loading}
+            onRetry={() => onRetry(upload.file, i)}
+          />
         </li>
       ))}
     </ul>

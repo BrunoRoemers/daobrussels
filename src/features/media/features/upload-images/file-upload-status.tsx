@@ -6,9 +6,10 @@ interface Props {
   label: string;
   error?: string;
   loading?: boolean;
+  onRetry?: () => void;
 }
 
-export const FileUploadStatus = ({ label, error, loading }: Props) => {
+export const FileUploadStatus = ({ label, error, loading, onRetry }: Props) => {
   return (
     <div className="flex justify-between">
       <div>
@@ -17,7 +18,7 @@ export const FileUploadStatus = ({ label, error, loading }: Props) => {
       </div>
       <div>
         {error ? (
-          <Button variant="ghost" className="-m-1 size-8 p-1">
+          <Button variant="ghost" className="-m-1 size-8 p-1" onClick={onRetry}>
             <RotateCcw />
           </Button>
         ) : loading ? (
