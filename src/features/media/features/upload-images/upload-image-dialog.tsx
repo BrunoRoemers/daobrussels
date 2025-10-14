@@ -17,7 +17,7 @@ import { createMediaEntry } from './requests/create-media-entry';
 import { getSignedUrl } from './requests/get-signed-url';
 import { uploadToBucket } from './requests/upload-to-bucket';
 
-interface UploadStatus {
+export interface UploadStatus {
   file: File;
   error?: string;
   loading?: boolean;
@@ -110,12 +110,7 @@ const UploadStatusList = ({
     <ul className={className}>
       {uploads.map((upload, i) => (
         <li key={i}>
-          <FileUploadStatus
-            label={upload.file.name}
-            error={upload.error}
-            loading={upload.loading}
-            onRetry={() => onRetry(upload.file, i)}
-          />
+          <FileUploadStatus upload={upload} onRetry={() => onRetry(upload.file, i)} />
         </li>
       ))}
     </ul>
