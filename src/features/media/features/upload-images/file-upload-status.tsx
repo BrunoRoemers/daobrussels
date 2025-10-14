@@ -11,8 +11,8 @@ export const FileUploadStatus = ({ label, error, loading }: Props) => {
   return (
     <div className="flex justify-between">
       <div>
-        <div>{label}</div>
-        {error && <div className="text-destructive">{error}</div>}
+        <div className="text-md">{label}</div>
+        {error && <div className="text-destructive text-xs">{error}</div>}
       </div>
       <div>
         {error ? (

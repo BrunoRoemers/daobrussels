@@ -79,10 +79,10 @@ export const UploadImageDialog = ({ button }: Props) => {
         {uploads.length <= 0 ? (
           <DropzoneCarousel className="h-72" handleUpload={startUploads} accept="image/*" />
         ) : (
-          <div className="min-h-72">
-            <UploadStatusList uploads={uploads} className="space-y-4 px-8 py-4" />
+          <div className="flex min-h-72 flex-col">
+            <UploadStatusList uploads={uploads} className="space-y-3 px-8 py-4" />
             <Separator />
-            <div className="px-8 py-4">
+            <div className="flex-grow place-content-center px-8 py-4 text-center">
               todo <b>get credit</b> for your contribution
             </div>
           </div>
