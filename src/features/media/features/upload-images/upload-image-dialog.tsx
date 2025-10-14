@@ -79,12 +79,12 @@ export const UploadImageDialog = ({ button }: Props) => {
         {uploads.length <= 0 ? (
           <DropzoneCarousel className="h-72" handleUpload={startUploads} accept="image/*" />
         ) : (
-          <div className="min-h-72 p-4">
-            <UploadStatusList uploads={uploads} />
+          <div className="min-h-72">
+            <UploadStatusList uploads={uploads} className="space-y-4 px-8 py-4" />
             <Separator />
-            <span>
+            <div className="px-8 py-4">
               todo <b>get credit</b> for your contribution
-            </span>
+            </div>
           </div>
         )}
       </DialogContent>
@@ -92,9 +92,15 @@ export const UploadImageDialog = ({ button }: Props) => {
   );
 };
 
-const UploadStatusList = ({ uploads }: { uploads: UploadStatus[] }) => {
+const UploadStatusList = ({
+  uploads,
+  className,
+}: {
+  uploads: UploadStatus[];
+  className?: string;
+}) => {
   return (
-    <ul>
+    <ul className={className}>
       {uploads.map((upload, i) => (
         <li key={i}>
           <FileUploadStatus label={upload.label} error={upload.error} loading={upload.loading} />
