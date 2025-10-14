@@ -20,7 +20,7 @@ import { uploadToBucket } from './requests/upload-to-bucket';
 interface UploadStatus {
   label: string;
   error?: string;
-  loading?: boolean;
+  loading: boolean;
 }
 
 interface Props {
