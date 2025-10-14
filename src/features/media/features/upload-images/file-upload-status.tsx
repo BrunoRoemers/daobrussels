@@ -14,7 +14,15 @@ export const FileUploadStatus = ({ label, error, loading }: Props) => {
         <div>{label}</div>
         {error && <div className="text-destructive">{error}</div>}
       </div>
-      <div>{error ? <RotateCcw /> : loading ? <Spinner /> : <Check />}</div>
+      <div>
+        {error ? (
+          <RotateCcw className="size-6 p-1" />
+        ) : loading ? (
+          <Spinner className="size-6 p-1" />
+        ) : (
+          <Check className="text-success size-6" />
+        )}
+      </div>
     </div>
   );
 };
