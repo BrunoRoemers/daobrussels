@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { FriendlyError } from '@/utils/friendly-error';
+import { generateUnsafeBip39Name } from '@/utils/generate-unsafe-bip39-name';
 import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { DropzoneCarousel } from './dropzone-carousel';
@@ -37,8 +38,15 @@ export const UploadImageDialog = ({ button }: Props) => {
 
   const startUploads = async (files: File[]) => {
     if (uploads.length > 0) throw new Error('uploads are already set');
-    setUploads(files.map((file) => ({ file })));
-    await Promise.all(files.map(uploadFile));
+    const renamedFiles = files.map(renameFile);
+    setUploads(renamedFiles.map((file) => ({ file })));
+    await Promise.all(renamedFiles.map(uploadFile));
+  };
+
+  const renameFile = (file: File): File => {
+    const ext = file.name.split('.').slice(1).join('.') || 'unknown';
+    const name = `${generateUnsafeBip39Name()}.${ext}`;
+    return new File([file], name, { type: file.type });
   };
 
   const uploadFile = async (file: File, index: number) => {
