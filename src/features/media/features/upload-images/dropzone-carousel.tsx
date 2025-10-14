@@ -137,7 +137,7 @@ const DeleteButton = ({ onClick }: { onClick: () => void }) => {
     <Button
       variant="ghost"
       size="icon"
-      className="hover:text-destructive"
+      className="hover:text-destructive text-accent/50 bg-accent/10"
       title="Skip this file"
       onClick={(e) => {
         e.preventDefault();
