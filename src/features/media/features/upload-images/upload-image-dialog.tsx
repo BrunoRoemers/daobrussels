@@ -10,6 +10,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { FriendlyError } from '@/utils/friendly-error';
 import { generateUnsafeBip39Name } from '@/utils/generate-unsafe-bip39-name';
+import { getFileExt } from '@/utils/get-file-ext';
 import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { DropzoneCarousel } from './dropzone-carousel';
@@ -44,7 +45,7 @@ export const UploadImageDialog = ({ button }: Props) => {
   };
 
   const renameFile = (file: File): File => {
-    const ext = file.name.split('.').slice(1).join('.') || 'unknown';
+    const ext = getFileExt(file.name);
     const name = `${generateUnsafeBip39Name()}.${ext}`;
     return new File([file], name, { type: file.type });
   };
