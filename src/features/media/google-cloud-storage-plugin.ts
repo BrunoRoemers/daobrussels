@@ -1,8 +1,9 @@
-import { gcsStorage } from '@payloadcms/storage-gcs';
+import { gcsStorage, type GcsStorageOptions } from '@payloadcms/storage-gcs';
 import { getGoogleCloudAuthClient } from 'infra/google-cloud/get-google-cloud-auth-client';
+import { authenticated } from '../auth/access-filters/authenticated';
 import { mediaGcsPrefix } from './media-collection';
 
-export const GoogleCloudStorage = gcsStorage({
+export const gcsStorageOptions: GcsStorageOptions = {
   collections: {
     media: {
       prefix: mediaGcsPrefix,
@@ -18,4 +19,6 @@ export const GoogleCloudStorage = gcsStorage({
     // TODO be more restrictive?
     access: authenticated,
   },
-});
+};
+
+export const GoogleCloudStorage = gcsStorage(gcsStorageOptions);
