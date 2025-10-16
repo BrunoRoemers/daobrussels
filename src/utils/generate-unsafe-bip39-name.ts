@@ -5,3 +5,13 @@ export const generateUnsafeBip39Name = (words: number = 3, separator: string = '
     .map((value) => wordlist[value % wordlist.length])
     .join(separator);
 };
+
+export const isUnsafeBip39Name = (
+  name: string,
+  words: number = 3,
+  separator: string = '-',
+): boolean => {
+  const parts = name.split(separator);
+  if (parts.length !== words) return false;
+  return parts.every((part) => wordlist.includes(part));
+};
