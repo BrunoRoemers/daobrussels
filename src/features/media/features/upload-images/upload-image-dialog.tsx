@@ -8,15 +8,15 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
+import { destructFileName } from '@/utils/destruct-file-name';
 import { FriendlyError } from '@/utils/friendly-error';
 import { generateUnsafeBip39Name } from '@/utils/generate-unsafe-bip39-name';
-import { getFileExt } from '@/utils/get-file-ext';
 import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
+import { getSignedUrl } from './actions';
 import { DropzoneCarousel } from './dropzone-carousel';
 import { FileUploadStatus } from './file-upload-status';
 import { createMediaEntry } from './requests/create-media-entry';
-import { getSignedUrl } from './requests/get-signed-url';
 import { uploadToBucket } from './requests/upload-to-bucket';
 
 export interface UploadStatus {
@@ -45,7 +45,7 @@ export const UploadImageDialog = ({ button }: Props) => {
   };
 
   const renameFile = (file: File): File => {
-    const ext = getFileExt(file.name);
+    const { ext } = destructFileName(file.name);
     const name = `${generateUnsafeBip39Name()}.${ext}`;
     return new File([file], name, { type: file.type });
   };
@@ -53,7 +53,7 @@ export const UploadImageDialog = ({ button }: Props) => {
   const uploadFile = async (file: File, index: number) => {
     try {
       updateUploadStatus(index, { loading: true, error: undefined });
-      const signedUrl = await getSignedUrl(file);
+      const signedUrl = await getSignedUrl(file.name);
       await uploadToBucket(signedUrl, file);
       await createMediaEntry(file);
     } catch (error) {

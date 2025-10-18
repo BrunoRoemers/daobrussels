@@ -1,0 +1,49 @@
+'use server';
+
+import { destructFileName } from '@/utils/destruct-file-name';
+import { FriendlyError } from '@/utils/friendly-error';
+import { isUnsafeBip39Name } from '@/utils/generate-unsafe-bip39-name';
+import { Storage } from '@google-cloud/storage';
+import { gcsStorageOptions } from '../../google-cloud-storage-plugin';
+import { mediaGcsPrefix } from '../../media-collection';
+
+const supportedExtToMimeType: Record<string, string | undefined> = {
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  gif: 'image/gif',
+  webp: 'image/webp',
+  svg: 'image/svg+xml',
+};
+
+export const getSignedUrl = async (fileName: string): Promise<string> => {
+  const { baseName, ext } = destructFileName(fileName);
+
+  // Enforce the word-word-word format, which also rejects monkey business like `/` or `../`.
+  if (!isUnsafeBip39Name(baseName)) {
+    throw new FriendlyError(`Invalid file name: ${fileName}`);
+  }
+
+  // Restrict the accepted file extensions, and force the corresponding mime type.
+  const mimeType = supportedExtToMimeType[ext];
+  if (!mimeType) {
+    throw new FriendlyError(`Invalid extension: ${fileName}`);
+  }
+
+  const fileKey = `${mediaGcsPrefix}/crowdsourced/${baseName}.${ext}`;
+
+  const storageClient = new Storage(gcsStorageOptions.options);
+
+  const [url] = await storageClient
+    .bucket(gcsStorageOptions.bucket)
+    .file(fileKey)
+    .getSignedUrl({
+      action: 'write',
+      contentType: mimeType,
+      expires: Date.now() + 10 * 1000,
+      version: 'v4',
+      // TODO prevent overwrites of existing files
+    });
+
+  return url;
+};
