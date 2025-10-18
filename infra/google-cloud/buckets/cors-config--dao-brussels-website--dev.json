@@ -5,7 +5,8 @@
     "responseHeader": [
       "Content-Type",
       "Content-Length",
-      "x-goog-if-generation-match"
+      "x-goog-if-generation-match",
+      "x-goog-meta-source"
     ],
     "maxAgeSeconds": 3600
   }

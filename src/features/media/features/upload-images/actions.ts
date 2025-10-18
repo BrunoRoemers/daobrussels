@@ -16,7 +16,12 @@ const supportedExtToMimeType: Record<string, string | undefined> = {
   svg: 'image/svg+xml',
 };
 
-export const getSignedUrl = async (fileName: string): Promise<string> => {
+export interface SignedUrlResult {
+  url: string;
+  metadataHeaders: Record<string, string>;
+}
+
+export const getSignedUrl = async (fileName: string): Promise<SignedUrlResult> => {
   const { baseName, ext } = destructFileName(fileName);
 
   // Enforce the word-word-word format, which also rejects monkey business like `/` or `../`.
@@ -34,6 +39,11 @@ export const getSignedUrl = async (fileName: string): Promise<string> => {
 
   const storageClient = new Storage(gcsStorageOptions.options);
 
+  const metadataHeaders: Record<string, string> = {
+    // Log which deployment did the upload.
+    'x-goog-meta-source': `frontend@${process.env.VERCEL_DEPLOYMENT_ID ?? 'unknown'}`,
+  };
+
   const [url] = await storageClient
     .bucket(gcsStorageOptions.bucket)
     .file(fileKey)
@@ -45,8 +55,10 @@ export const getSignedUrl = async (fileName: string): Promise<string> => {
       extensionHeaders: {
         // Prevent overwriting existing files.
         'x-goog-if-generation-match': '0',
+        // File metadata.
+        ...metadataHeaders,
       },
     });
 
-  return url;
+  return { url, metadataHeaders };
 };
