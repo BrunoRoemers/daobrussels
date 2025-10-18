@@ -21,13 +21,13 @@ export const getSignedUrl = async (fileName: string): Promise<string> => {
 
   // Enforce the word-word-word format, which also rejects monkey business like `/` or `../`.
   if (!isUnsafeBip39Name(baseName)) {
-    throw new FriendlyError(`Invalid file name: ${fileName}`);
+    throw new FriendlyError(`File name '${fileName}' does not match the expected format.`);
   }
 
   // Restrict the accepted file extensions, and force the corresponding mime type.
   const mimeType = supportedExtToMimeType[ext];
   if (!mimeType) {
-    throw new FriendlyError(`Invalid extension: ${fileName}`);
+    throw new FriendlyError(`File name '${fileName}' has invalid extension '.${ext}'.`);
   }
 
   const fileKey = `${mediaGcsPrefix}/crowdsourced/${baseName}.${ext}`;
