@@ -5,6 +5,7 @@ export const uploadToBucket = async (signedUrl: string, file: File): Promise<voi
     method: 'PUT',
     headers: {
       'Content-Type': file.type,
+      'x-goog-if-generation-match': '0',
     },
     body: file,
   });

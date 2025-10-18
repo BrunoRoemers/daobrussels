@@ -42,7 +42,10 @@ export const getSignedUrl = async (fileName: string): Promise<string> => {
       contentType: mimeType,
       expires: Date.now() + 10 * 1000,
       version: 'v4',
-      // TODO prevent overwrites of existing files
+      extensionHeaders: {
+        // Prevent overwriting existing files.
+        'x-goog-if-generation-match': '0',
+      },
     });
 
   return url;

@@ -2,7 +2,11 @@
   {
     "origin": ["https://daobrussels.vercel.app", "https://dao.brussels"],
     "method": ["*"],
-    "responseHeader": ["Content-Type", "Content-Length"],
+    "responseHeader": [
+      "Content-Type",
+      "Content-Length",
+      "x-goog-if-generation-match"
+    ],
     "maxAgeSeconds": 3600
   }
 ]
