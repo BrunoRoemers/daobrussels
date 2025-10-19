@@ -25,4 +25,3 @@ export const Media: CollectionConfig = {
 };
 
 export const mediaGcsPrefix = `collections/${Media.slug}`;
-export const mediaCrowdsourcedGcsPrefix = `${mediaGcsPrefix}/crowdsourced`;
