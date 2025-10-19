@@ -1,20 +1,9 @@
 'use server';
 
-import { destructFileName } from '@/utils/destruct-file-name';
-import { FriendlyError } from '@/utils/friendly-error';
-import { isUnsafeBip39Name } from '@/utils/generate-unsafe-bip39-name';
 import { Storage } from '@google-cloud/storage';
 import { gcsStorageOptions } from '../../../google-cloud-storage-plugin';
 import { mediaGcsPrefix } from '../../../media-collection';
-
-const supportedExtToMimeType: Record<string, string | undefined> = {
-  jpg: 'image/jpeg',
-  jpeg: 'image/jpeg',
-  png: 'image/png',
-  gif: 'image/gif',
-  webp: 'image/webp',
-  svg: 'image/svg+xml',
-};
+import { getFileInfoOrThrow } from './utils/get-file-info-or-throw';
 
 export interface SignedUrlResult {
   url: string;
@@ -22,18 +11,7 @@ export interface SignedUrlResult {
 }
 
 export const getSignedUrl = async (fileName: string): Promise<SignedUrlResult> => {
-  const { baseName, ext } = destructFileName(fileName);
-
-  // Enforce the word-word-word format, which also rejects monkey business like `/` or `../`.
-  if (!isUnsafeBip39Name(baseName)) {
-    throw new FriendlyError(`File name '${fileName}' does not match the expected format.`);
-  }
-
-  // Restrict the accepted file extensions, and force the corresponding mime type.
-  const mimeType = supportedExtToMimeType[ext];
-  if (!mimeType) {
-    throw new FriendlyError(`File name '${fileName}' has invalid extension '.${ext}'.`);
-  }
+  const { baseName, ext, mimeType } = getFileInfoOrThrow(fileName);
 
   const fileKey = `${mediaGcsPrefix}/crowdsourced/${baseName}.${ext}`;
 
