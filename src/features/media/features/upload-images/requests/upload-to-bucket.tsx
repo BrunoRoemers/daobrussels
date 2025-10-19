@@ -1,5 +1,5 @@
 import { FriendlyError } from '@/utils/friendly-error';
-import type { SignedUrlResult } from '../actions';
+import type { SignedUrlResult } from '../actions/get-signed-url';
 
 export const uploadToBucket = async (signedUrl: SignedUrlResult, file: File): Promise<void> => {
   const { url, metadataHeaders } = signedUrl;

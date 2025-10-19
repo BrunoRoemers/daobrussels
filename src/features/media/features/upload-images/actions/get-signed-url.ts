@@ -4,8 +4,8 @@ import { destructFileName } from '@/utils/destruct-file-name';
 import { FriendlyError } from '@/utils/friendly-error';
 import { isUnsafeBip39Name } from '@/utils/generate-unsafe-bip39-name';
 import { Storage } from '@google-cloud/storage';
-import { gcsStorageOptions } from '../../google-cloud-storage-plugin';
-import { mediaGcsPrefix } from '../../media-collection';
+import { gcsStorageOptions } from '../../../google-cloud-storage-plugin';
+import { mediaGcsPrefix } from '../../../media-collection';
 
 const supportedExtToMimeType: Record<string, string | undefined> = {
   jpg: 'image/jpeg',

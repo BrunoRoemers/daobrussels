@@ -13,7 +13,7 @@ import { FriendlyError } from '@/utils/friendly-error';
 import { generateUnsafeBip39Name } from '@/utils/generate-unsafe-bip39-name';
 import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
-import { getSignedUrl } from './actions';
+import { getSignedUrl } from './actions/get-signed-url';
 import { DropzoneCarousel } from './dropzone-carousel';
 import { FileUploadStatus } from './file-upload-status';
 import { createMediaEntry } from './requests/create-media-entry';
