@@ -19,6 +19,8 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
+    // Needed by the frontend image upload feature.
+    filesRequiredOnCreate: false,
     // NOTE: Payload can automatically generate different sizes of the image, but let's start with originals for now.
     //       https://payloadcms.com/docs/upload/overview
   },

@@ -13,10 +13,10 @@ import { FriendlyError } from '@/utils/friendly-error';
 import { generateUnsafeBip39Name } from '@/utils/generate-unsafe-bip39-name';
 import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
+import { createMediaEntry } from './actions/create-media-entry';
 import { getSignedUrl } from './actions/get-signed-url';
 import { DropzoneCarousel } from './dropzone-carousel';
 import { FileUploadStatus } from './file-upload-status';
-import { createMediaEntry } from './requests/create-media-entry';
 import { uploadToBucket } from './requests/upload-to-bucket';
 
 export interface UploadStatus {
@@ -55,7 +55,7 @@ export const UploadImageDialog = ({ button }: Props) => {
       updateUploadStatus(index, { loading: true, error: undefined });
       const signedUrl = await getSignedUrl(file.name);
       await uploadToBucket(signedUrl, file);
-      await createMediaEntry(file);
+      await createMediaEntry(file.name);
     } catch (error) {
       console.error(error);
       updateUploadStatus(index, {
