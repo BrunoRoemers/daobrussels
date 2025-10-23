@@ -1,8 +1,6 @@
 'use server';
 
-import { Storage } from '@google-cloud/storage';
-import { gcsStorageOptions } from '../../../google-cloud-storage-plugin';
-import { mediaCrowdsourcedGcsPrefix } from '../../../media-collection';
+import { getCrowdsourcedGcsFile } from './utils/get-crowdsourced-gcs-file';
 import { getFileInfoOrThrow } from './utils/get-file-info-or-throw';
 
 export interface SignedUrlResult {
@@ -11,20 +9,14 @@ export interface SignedUrlResult {
 }
 
 export const getSignedUrl = async (fileName: string): Promise<SignedUrlResult> => {
-  const { baseName, ext, mimeType } = getFileInfoOrThrow(fileName);
-
-  const fileKey = `${mediaCrowdsourcedGcsPrefix}/${baseName}.${ext}`;
-
-  const storageClient = new Storage(gcsStorageOptions.options);
+  const { mimeType } = getFileInfoOrThrow(fileName);
 
   const metadataHeaders: Record<string, string> = {
     // Log which deployment did the upload.
     'x-goog-meta-source': `frontend@${process.env.VERCEL_DEPLOYMENT_ID ?? 'unknown'}`,
   };
 
-  const [url] = await storageClient
-    .bucket(gcsStorageOptions.bucket)
-    .file(fileKey)
+  const [url] = await getCrowdsourcedGcsFile(fileName) //
     .getSignedUrl({
       action: 'write',
       contentType: mimeType,
