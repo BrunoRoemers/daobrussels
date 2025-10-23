@@ -2,7 +2,7 @@
 
 import { Storage } from '@google-cloud/storage';
 import { gcsStorageOptions } from '../../../google-cloud-storage-plugin';
-import { mediaGcsPrefix } from '../../../media-collection';
+import { mediaCrowdsourcedGcsPrefix } from '../../../media-collection';
 import { getFileInfoOrThrow } from './utils/get-file-info-or-throw';
 
 export interface SignedUrlResult {
@@ -13,7 +13,7 @@ export interface SignedUrlResult {
 export const getSignedUrl = async (fileName: string): Promise<SignedUrlResult> => {
   const { baseName, ext, mimeType } = getFileInfoOrThrow(fileName);
 
-  const fileKey = `${mediaGcsPrefix}/${baseName}.${ext}`;
+  const fileKey = `${mediaCrowdsourcedGcsPrefix}/${baseName}.${ext}`;
 
   const storageClient = new Storage(gcsStorageOptions.options);
 

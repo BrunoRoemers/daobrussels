@@ -3,7 +3,7 @@
 import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 
-import { mediaGcsPrefix } from '@/features/media/media-collection';
+import { mediaCrowdsourcedGcsPrefix } from '@/features/media/media-collection';
 import { getFileInfoOrThrow } from './utils/get-file-info-or-throw';
 
 export const createMediaEntry = async (fileName: string): Promise<void> => {
@@ -18,7 +18,7 @@ export const createMediaEntry = async (fileName: string): Promise<void> => {
       alt: 'lorem ipsum', // TODO
       filename: `${baseName}.${ext}`,
       mimeType,
-      prefix: mediaGcsPrefix,
+      prefix: mediaCrowdsourcedGcsPrefix,
       // TODO mark file as waiting for approval
     },
   });
