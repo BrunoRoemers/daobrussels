@@ -10,7 +10,7 @@
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "UserRoles".
  */
-export type UserRoles = ('admin' | 'user')[];
+export type UserRoles = ('admin' | 'user' | 'anon')[];
 /**
  * Supported timezones in IANA format.
  *

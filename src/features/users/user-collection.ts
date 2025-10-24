@@ -56,6 +56,10 @@ export const Users: CollectionConfig = {
           label: 'User',
           value: 'user',
         },
+        {
+          label: 'Anon',
+          value: 'anon',
+        },
       ],
     },
     ...defaultFieldOverrides,
