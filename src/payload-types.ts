@@ -93,6 +93,9 @@ export interface Config {
     media: {
       events: 'events';
     };
+    users: {
+      uploads: 'media';
+    };
   };
   collectionsSelect: {
     pods: PodsSelect<false> | PodsSelect<true>;
@@ -232,6 +235,11 @@ export interface User {
   id: number;
   name: string;
   roles: UserRoles;
+  uploads?: {
+    docs?: (number | Media)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -522,6 +530,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   roles?: T;
+  uploads?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

@@ -62,6 +62,17 @@ export const Users: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'uploads',
+      type: 'join',
+      collection: 'media',
+      on: 'uploadedBy',
+      hasMany: true,
+      admin: {
+        allowCreate: false,
+        defaultColumns: ['filename', 'alt', 'events', 'updatedAt'],
+      },
+    },
     ...defaultFieldOverrides,
   ],
   timestamps: true,
