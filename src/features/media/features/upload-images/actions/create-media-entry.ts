@@ -4,6 +4,7 @@ import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 
 import { mediaCrowdsourcedGcsPrefix } from '@/features/media/media-collection';
+import { runTransaction } from '@/features/shared/local-api/run-transaction';
 import { FriendlyError } from '@/utils/friendly-error';
 import { getCrowdsourcedGcsFile } from './utils/get-crowdsourced-gcs-file';
 import { getFileInfoOrThrow } from './utils/get-file-info-or-throw';
@@ -22,25 +23,29 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
   const payload = await getPayload({ config: configPromise });
   // TODO if the user is logged in, give them credit in one go
 
-  const media = await payload.create({
-    collection: 'media',
-    data: {
-      alt: 'lorem ipsum', // TODO
-      filename: fileName,
-      filesize: Number(metadata.size),
-      width: 100, // TODO
-      height: 100, // TODO
-      mimeType,
-      prefix: mediaCrowdsourcedGcsPrefix,
-      // TODO mark file as waiting for approval
-    },
-  });
+  await runTransaction(payload, async (req) => {
+    const media = await payload.create({
+      req,
+      collection: 'media',
+      data: {
+        alt: 'lorem ipsum', // TODO
+        filename: fileName,
+        filesize: Number(metadata.size),
+        width: 100, // TODO
+        height: 100, // TODO
+        mimeType,
+        prefix: mediaCrowdsourcedGcsPrefix,
+        // TODO mark file as waiting for approval
+      },
+    });
 
-  await payload.update({
-    collection: 'events',
-    id: eventId,
-    data: {
-      images: [media.id], // TODO prevent overwriting existing images
-    },
+    await payload.update({
+      req,
+      collection: 'events',
+      id: eventId,
+      data: {
+        images: [media.id], // TODO prevent overwriting existing images
+      },
+    });
   });
 };

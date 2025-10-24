@@ -1,8 +1,8 @@
-import type { Payload } from 'payload';
+import type { Payload, PayloadRequest } from 'payload';
 
 export const runTransaction = async <R>(
   payload: Payload,
-  fn: (transactionID: string | number) => Promise<R>,
+  fn: (req: Pick<PayloadRequest, 'transactionID'>) => Promise<R>,
 ): Promise<R> => {
   const transactionID = await payload.db.beginTransaction();
   if (!transactionID) {
@@ -10,7 +10,7 @@ export const runTransaction = async <R>(
   }
 
   try {
-    const result = await fn(transactionID);
+    const result = await fn({ transactionID });
     await payload.db.commitTransaction(transactionID);
     return result;
   } catch (error) {
