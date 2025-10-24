@@ -28,6 +28,8 @@ export const createMediaEntry = async (fileName: string): Promise<void> => {
       alt: 'lorem ipsum', // TODO
       filename: fileName,
       filesize: Number(metadata.size),
+      width: 100, // TODO
+      height: 100, // TODO
       mimeType,
       prefix: mediaCrowdsourcedGcsPrefix,
       // TODO mark file as waiting for approval
