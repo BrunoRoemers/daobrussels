@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload';
 
 import { anyone } from '@/features/auth/access-filters/anyone';
 import { authenticated } from '@/features/auth/access-filters/authenticated';
+import { role } from '../auth/access-filters/role';
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -16,6 +17,22 @@ export const Media: CollectionConfig = {
       name: 'alt',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'uploadedBy',
+      type: 'relationship',
+      relationTo: 'users',
+      defaultValue: ({ user }) => user?.id,
+      required: true,
+      access: {
+        // read-only
+        create: role('admin'),
+        update: role('admin'),
+      },
+      admin: {
+        allowEdit: false,
+        appearance: 'drawer',
+      },
     },
     {
       name: 'events',

@@ -4,6 +4,8 @@ import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 
 import { mediaCrowdsourcedGcsPrefix } from '@/features/media/media-collection';
+import { getOrCreateAnonUser } from '@/features/shared/local-api/get-or-create-anon-user';
+import { getPayloadUser } from '@/features/shared/local-api/get-payload-user';
 import { runTransaction } from '@/features/shared/local-api/run-transaction';
 import { FriendlyError } from '@/utils/friendly-error';
 import { getCrowdsourcedGcsFile } from './utils/get-crowdsourced-gcs-file';
@@ -21,7 +23,7 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
   const [metadata] = await file.getMetadata();
 
   const payload = await getPayload({ config: configPromise });
-  // TODO if the user is logged in, give them credit in one go
+  const user = await getPayloadUser(payload);
 
   await runTransaction(payload, async (req) => {
     const media = await payload.create({
@@ -29,6 +31,7 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
       collection: 'media',
       data: {
         alt: 'lorem ipsum', // TODO
+        uploadedBy: user?.id ?? (await getOrCreateAnonUser(payload)),
         filename: fileName,
         filesize: Number(metadata.size),
         width: 100, // TODO

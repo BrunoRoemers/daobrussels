@@ -205,6 +205,7 @@ export interface Event {
 export interface Media {
   id: number;
   alt: string;
+  uploadedBy: number | User;
   events?: {
     docs?: (number | Event)[];
     hasNextPage?: boolean;
@@ -499,6 +500,7 @@ export interface EventsSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  uploadedBy?: T;
   events?: T;
   prefix?: T;
   updatedAt?: T;
