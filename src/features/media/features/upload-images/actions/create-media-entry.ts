@@ -39,12 +39,18 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
       },
     });
 
+    const event = await payload.findByID({
+      req,
+      collection: 'events',
+      id: eventId,
+    });
+
     await payload.update({
       req,
       collection: 'events',
       id: eventId,
       data: {
-        images: [media.id], // TODO prevent overwriting existing images
+        images: (event.images ?? []).concat(media.id),
       },
     });
   });
