@@ -33,7 +33,11 @@ export const UploadImageDialog = ({ button }: Props) => {
   const [uploads, setUploads] = useState<UploadStatus[]>([]);
 
   const handleDialogClose: DialogContentProps['onInteractOutside'] = (e) => {
-    // TODO use e.preventDefault(); while the upload is in progress
+    if (uploads.some((upload) => upload.loading)) {
+      e.preventDefault();
+      return;
+    }
+
     setUploads([]);
   };
 
