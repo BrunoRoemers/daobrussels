@@ -60,7 +60,7 @@ export default async function Page({ params }: Args) {
         </div>
       )}
 
-      <UploadImageDialog button={<Button>Add images</Button>} />
+      <UploadImageDialog button={<Button>Add images</Button>} eventId={event.id} />
 
       <p>
         Ex cupidatat laborum ut duis labore laborum enim id ex consequat. Sint velit ea commodo

@@ -27,9 +27,10 @@ export interface UploadStatus {
 
 interface Props {
   button: React.ReactNode;
+  eventId: number;
 }
 
-export const UploadImageDialog = ({ button }: Props) => {
+export const UploadImageDialog = ({ button, eventId }: Props) => {
   const [uploads, setUploads] = useState<UploadStatus[]>([]);
 
   const handleDialogClose: DialogContentProps['onInteractOutside'] = (e) => {
@@ -59,7 +60,7 @@ export const UploadImageDialog = ({ button }: Props) => {
       updateUploadStatus(index, { loading: true, error: undefined });
       const signedUrl = await getSignedUrl(file.name);
       await uploadToBucket(signedUrl, file);
-      await createMediaEntry(file.name);
+      await createMediaEntry(file.name, eventId);
     } catch (error) {
       console.error(error);
       updateUploadStatus(index, {

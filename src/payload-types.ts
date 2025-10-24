@@ -90,6 +90,9 @@ export interface Config {
     events: {
       pods: 'podsAtEvents';
     };
+    media: {
+      events: 'events';
+    };
   };
   collectionsSelect: {
     pods: PodsSelect<false> | PodsSelect<true>;
@@ -202,6 +205,11 @@ export interface Event {
 export interface Media {
   id: number;
   alt: string;
+  events?: {
+    docs?: (number | Event)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -491,6 +499,7 @@ export interface EventsSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  events?: T;
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;

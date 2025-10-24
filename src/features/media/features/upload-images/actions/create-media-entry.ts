@@ -8,7 +8,7 @@ import { FriendlyError } from '@/utils/friendly-error';
 import { getCrowdsourcedGcsFile } from './utils/get-crowdsourced-gcs-file';
 import { getFileInfoOrThrow } from './utils/get-file-info-or-throw';
 
-export const createMediaEntry = async (fileName: string): Promise<void> => {
+export const createMediaEntry = async (fileName: string, eventId: number): Promise<void> => {
   const { mimeType } = getFileInfoOrThrow(fileName);
 
   const file = getCrowdsourcedGcsFile(fileName);
@@ -22,7 +22,7 @@ export const createMediaEntry = async (fileName: string): Promise<void> => {
   const payload = await getPayload({ config: configPromise });
   // TODO if the user is logged in, give them credit in one go
 
-  await payload.create({
+  const media = await payload.create({
     collection: 'media',
     data: {
       alt: 'lorem ipsum', // TODO
@@ -33,6 +33,14 @@ export const createMediaEntry = async (fileName: string): Promise<void> => {
       mimeType,
       prefix: mediaCrowdsourcedGcsPrefix,
       // TODO mark file as waiting for approval
+    },
+  });
+
+  await payload.update({
+    collection: 'events',
+    id: eventId,
+    data: {
+      images: [media.id], // TODO prevent overwriting existing images
     },
   });
 };

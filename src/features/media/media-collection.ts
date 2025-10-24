@@ -17,6 +17,17 @@ export const Media: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'events',
+      type: 'join',
+      collection: 'events',
+      on: 'images',
+      hasMany: true,
+      admin: {
+        allowCreate: false,
+        defaultColumns: ['title', 'date', 'updatedAt'],
+      },
+    },
   ],
   upload: {
     // Needed by the frontend image upload feature.
