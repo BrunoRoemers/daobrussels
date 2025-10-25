@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Check, RotateCcw } from 'lucide-react';
-import type { UploadStatus } from './upload-image-dialog';
+import { UploadState, type UploadStatus } from './upload-image-dialog';
 
 interface Props {
   upload: UploadStatus;
@@ -31,10 +31,10 @@ export const FileUploadStatus = ({ upload, onRetry }: Props) => {
           <Button variant="ghost" className="-m-1 size-8 p-1" onClick={onRetry}>
             <RotateCcw />
           </Button>
-        ) : upload.loading ? (
-          <Spinner className="size-6 p-1" />
-        ) : (
+        ) : upload.state === UploadState.completed ? (
           <Check className="text-success size-6" />
+        ) : (
+          <Spinner className="size-6 p-1" />
         )}
       </div>
     </div>

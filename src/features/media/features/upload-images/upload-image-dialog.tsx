@@ -19,10 +19,18 @@ import { DropzoneCarousel } from './dropzone-carousel';
 import { FileUploadStatus } from './file-upload-status';
 import { uploadToBucket } from './requests/upload-to-bucket';
 
+// NOTE: The error state is omitted on purpose, so we can pick up where we left off on retry.
+export enum UploadState {
+  pending,
+  uploading,
+  linking,
+  completed,
+}
+
 export interface UploadStatus {
   file: File;
+  state: UploadState;
   error?: string;
-  loading?: boolean;
 }
 
 interface Props {
@@ -34,7 +42,7 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
   const [uploads, setUploads] = useState<UploadStatus[]>([]);
 
   const handleDialogClose: DialogContentProps['onInteractOutside'] = (e) => {
-    if (uploads.some((upload) => upload.loading)) {
+    if (uploads.some((upload) => upload.state !== UploadState.completed)) {
       e.preventDefault();
       return;
     }
@@ -45,7 +53,7 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
   const startUploads = async (files: File[]) => {
     if (uploads.length > 0) throw new Error('uploads are already set');
     const renamedFiles = files.map(renameFile);
-    setUploads(renamedFiles.map((file) => ({ file })));
+    setUploads(renamedFiles.map((file) => ({ file, state: UploadState.pending })));
     await Promise.all(renamedFiles.map(uploadFile));
   };
 
@@ -57,17 +65,25 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
 
   const uploadFile = async (file: File, index: number) => {
     try {
-      updateUploadStatus(index, { loading: true, error: undefined });
-      const signedUrl = await getSignedUrl(file.name);
-      await uploadToBucket(signedUrl, file);
+      updateUploadStatus(index, { error: undefined });
+
+      // NOTE: If the upload step previously succeeded, we need to skip it on retry
+      //       to avoid the "file already exists" error.
+      if ((uploads[index]?.state ?? UploadState.pending) <= UploadState.uploading) {
+        updateUploadStatus(index, { state: UploadState.uploading });
+        const signedUrl = await getSignedUrl(file.name);
+        await uploadToBucket(signedUrl, file);
+      }
+
+      updateUploadStatus(index, { state: UploadState.linking });
       await createMediaEntry(file.name, eventId);
+
+      updateUploadStatus(index, { state: UploadState.completed });
     } catch (error) {
       console.error(error);
       updateUploadStatus(index, {
         error: error instanceof FriendlyError ? error.message : 'Upload failed',
       });
-    } finally {
-      updateUploadStatus(index, { loading: false });
     }
   };
 
