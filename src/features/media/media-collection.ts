@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload';
 import { anyone } from '@/features/auth/access-filters/anyone';
 import { authenticated } from '@/features/auth/access-filters/authenticated';
 import { role } from '../auth/access-filters/role';
+import { system } from '../auth/access-filters/system';
 
 export const Media: CollectionConfig = {
   slug: 'media',
@@ -25,13 +26,35 @@ export const Media: CollectionConfig = {
       defaultValue: ({ user }) => user?.id,
       required: true,
       access: {
-        // read-only
+        create: system,
+        update: system,
+      },
+      admin: {
+        allowEdit: false,
+        appearance: 'drawer',
+      },
+    },
+    {
+      name: 'approvedBy',
+      type: 'relationship',
+      relationTo: 'users',
+      defaultValue: ({ user }) => (user?.roles.includes('admin') ? user?.id : undefined),
+      filterOptions: ({ user }) => {
+        return {
+          id: { equals: user?.id },
+        };
+      },
+      access: {
         create: role('admin'),
         update: role('admin'),
       },
       admin: {
         allowEdit: false,
+        allowCreate: false,
         appearance: 'drawer',
+        placeholder: '/',
+        description:
+          'Each upload needs to be approved by a trusted member of the community before it becomes visible to the public.',
       },
     },
     {

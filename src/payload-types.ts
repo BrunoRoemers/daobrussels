@@ -209,6 +209,10 @@ export interface Media {
   id: number;
   alt: string;
   uploadedBy: number | User;
+  /**
+   * Each upload needs to be approved by a trusted member of the community before it becomes visible to the public.
+   */
+  approvedBy?: (number | null) | User;
   events?: {
     docs?: (number | Event)[];
     hasNextPage?: boolean;
@@ -509,6 +513,7 @@ export interface EventsSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   uploadedBy?: T;
+  approvedBy?: T;
   events?: T;
   prefix?: T;
   updatedAt?: T;
