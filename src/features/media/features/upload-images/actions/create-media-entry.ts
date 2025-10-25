@@ -45,6 +45,7 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
 
     const media = await payload.create({
       req,
+      user: user,
       collection: 'media',
       data: {
         alt: `Picture of ${event.title}, ${dayjs(event.date).format('MMMM D, YYYY')}`,
