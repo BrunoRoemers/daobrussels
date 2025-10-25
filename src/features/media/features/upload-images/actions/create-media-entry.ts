@@ -8,6 +8,7 @@ import { getOrCreateAnonUser } from '@/features/shared/local-api/get-or-create-a
 import { getPayloadUser } from '@/features/shared/local-api/get-payload-user';
 import { runTransaction } from '@/features/shared/local-api/run-transaction';
 import { FriendlyError } from '@/utils/friendly-error';
+import dayjs from 'dayjs';
 import { getCrowdsourcedGcsFile } from './utils/get-crowdsourced-gcs-file';
 import { getFileInfoOrThrow } from './utils/get-file-info-or-throw';
 
@@ -26,11 +27,17 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
   const user = await getPayloadUser(payload);
 
   await runTransaction(payload, async (req) => {
+    const event = await payload.findByID({
+      req,
+      collection: 'events',
+      id: eventId,
+    });
+
     const media = await payload.create({
       req,
       collection: 'media',
       data: {
-        alt: 'lorem ipsum', // TODO
+        alt: `Picture of ${event.title}, ${dayjs(event.date).format('MMMM D, YYYY')}`,
         uploadedBy: user?.id ?? (await getOrCreateAnonUser(payload)),
         filename: fileName,
         filesize: Number(metadata.size),
@@ -38,14 +45,7 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
         height: 100, // TODO
         mimeType,
         prefix: mediaCrowdsourcedGcsPrefix,
-        // TODO mark file as waiting for approval
       },
-    });
-
-    const event = await payload.findByID({
-      req,
-      collection: 'events',
-      id: eventId,
     });
 
     await payload.update({
