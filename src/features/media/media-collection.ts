@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload';
 
-import { anyone } from '@/features/auth/access-filters/anyone';
 import { authenticated } from '@/features/auth/access-filters/authenticated';
 import { role } from '../auth/access-filters/role';
 import { system } from '../auth/access-filters/system';
@@ -10,7 +9,8 @@ export const Media: CollectionConfig = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: anyone,
+    // Authenticated users can view all uploads, but only approved uploads are visible to the public.
+    read: (args) => authenticated(args) || { approvedBy: { not_equals: null } },
     update: authenticated,
   },
   fields: [
