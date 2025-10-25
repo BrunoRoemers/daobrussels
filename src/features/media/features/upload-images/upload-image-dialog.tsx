@@ -31,6 +31,7 @@ export interface UploadStatus {
   file: File;
   state: UploadState;
   error?: string;
+  approvedBy?: number;
 }
 
 interface Props {
@@ -76,9 +77,9 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
       }
 
       updateUploadStatus(index, { state: UploadState.linking });
-      await createMediaEntry(file.name, eventId);
+      const { approvedBy } = await createMediaEntry(file.name, eventId);
 
-      updateUploadStatus(index, { state: UploadState.completed });
+      updateUploadStatus(index, { state: UploadState.completed, approvedBy });
     } catch (error) {
       console.error(error);
       updateUploadStatus(index, {
@@ -94,6 +95,10 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
       return newUploads;
     });
   };
+
+  const allCompleted = uploads.every((upload) => upload.state === UploadState.completed);
+  const allApproved = uploads.every((upload) => upload.approvedBy !== undefined);
+  const noneApproved = uploads.every((upload) => upload.approvedBy === undefined);
 
   return (
     <Dialog>
@@ -116,6 +121,15 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
               className="space-y-3 px-8 py-4"
               onRetry={uploadFile}
             />
+            {allCompleted && !allApproved && (
+              <>
+                <Separator />
+                <div className="text-muted-foreground px-8 py-2 text-xs">
+                  {noneApproved ? 'Your' : 'Some'} uploads will become public once a trusted member
+                  approves them.
+                </div>
+              </>
+            )}
             <Separator />
             <div className="flex-grow place-content-center px-8 py-4 text-center">
               todo <b>get credit</b> for your contribution

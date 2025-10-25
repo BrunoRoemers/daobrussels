@@ -4,6 +4,7 @@ import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 
 import { mediaCrowdsourcedGcsPrefix } from '@/features/media/media-collection';
+import { getId } from '@/features/shared/local-api/get-id';
 import { getOrCreateAnonUser } from '@/features/shared/local-api/get-or-create-anon-user';
 import { getPayloadUser } from '@/features/shared/local-api/get-payload-user';
 import { runTransaction } from '@/features/shared/local-api/run-transaction';
@@ -12,7 +13,11 @@ import dayjs from 'dayjs';
 import { getCrowdsourcedGcsFile } from './utils/get-crowdsourced-gcs-file';
 import { getFileInfoOrThrow } from './utils/get-file-info-or-throw';
 
-export const createMediaEntry = async (fileName: string, eventId: number): Promise<void> => {
+interface Result {
+  approvedBy: number | undefined;
+}
+
+export const createMediaEntry = async (fileName: string, eventId: number): Promise<Result> => {
   const { mimeType } = getFileInfoOrThrow(fileName);
 
   const file = getCrowdsourcedGcsFile(fileName);
@@ -31,7 +36,7 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
   const payload = await getPayload({ config: configPromise });
   const user = await getPayloadUser(payload);
 
-  await runTransaction(payload, async (req) => {
+  return await runTransaction(payload, async (req) => {
     const event = await payload.findByID({
       req,
       collection: 'events',
@@ -61,5 +66,9 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
         images: (event.images ?? []).concat(media.id),
       },
     });
+
+    return {
+      approvedBy: getId(media.approvedBy),
+    };
   });
 };
