@@ -96,7 +96,7 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
     });
   };
 
-  const allCompleted = uploads.every((upload) => upload.state === UploadState.completed);
+  const someCompleted = uploads.some((upload) => upload.state === UploadState.completed);
   const allApproved = uploads.every((upload) => upload.approvedBy !== undefined);
   const noneApproved = uploads.every((upload) => upload.approvedBy === undefined);
 
@@ -121,7 +121,7 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
               className="space-y-3 px-8 py-4"
               onRetry={uploadFile}
             />
-            {allCompleted && !allApproved && (
+            {someCompleted && !allApproved && (
               <>
                 <Separator />
                 <div className="text-muted-foreground px-8 py-2 text-xs">
