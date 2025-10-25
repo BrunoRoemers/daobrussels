@@ -22,6 +22,11 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
   }
 
   const [metadata] = await file.getMetadata();
+  if (metadata.contentType !== mimeType) {
+    throw new FriendlyError(
+      `MIME type mismatch for file '${fileName}': ${metadata.contentType} !== ${mimeType}`,
+    );
+  }
 
   const payload = await getPayload({ config: configPromise });
   const user = await getPayloadUser(payload);
