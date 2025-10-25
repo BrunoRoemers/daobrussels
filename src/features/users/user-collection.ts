@@ -56,7 +56,22 @@ export const Users: CollectionConfig = {
           label: 'User',
           value: 'user',
         },
+        {
+          label: 'Anon',
+          value: 'anon',
+        },
       ],
+    },
+    {
+      name: 'uploads',
+      type: 'join',
+      collection: 'media',
+      on: 'uploadedBy',
+      hasMany: true,
+      admin: {
+        allowCreate: false,
+        defaultColumns: ['filename', 'alt', 'events', 'updatedAt'],
+      },
     },
     ...defaultFieldOverrides,
   ],
