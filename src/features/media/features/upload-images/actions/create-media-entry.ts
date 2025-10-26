@@ -41,10 +41,13 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
       req,
       collection: 'events',
       id: eventId,
+      // Enforce access control. In particular: pretend that unpublished events do not exist.
+      overrideAccess: false,
     });
 
     const media = await payload.create({
       req,
+      // Anyone should be able to use this endpoint, so access control is not enforced here.
       user: user,
       collection: 'media',
       data: {
@@ -61,6 +64,8 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
 
     await payload.update({
       req,
+      // Anyone should be able to use this endpoint, so access control is not enforced here.
+      user: user,
       collection: 'events',
       id: eventId,
       data: {
