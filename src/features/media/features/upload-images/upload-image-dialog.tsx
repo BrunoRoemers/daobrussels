@@ -96,9 +96,9 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
     });
   };
 
-  const someCompleted = uploads.some((upload) => upload.state === UploadState.completed);
-  const allApproved = uploads.every((upload) => upload.approvedBy !== undefined);
-  const noneApproved = uploads.every((upload) => upload.approvedBy === undefined);
+  const completedUploads = uploads.filter((upload) => upload.state === UploadState.completed);
+  const allApproved = completedUploads.every((upload) => upload.approvedBy !== undefined);
+  const noneApproved = completedUploads.every((upload) => upload.approvedBy === undefined);
 
   return (
     <Dialog>
@@ -121,7 +121,7 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
               className="space-y-3 px-8 py-4"
               onRetry={uploadFile}
             />
-            {someCompleted && !allApproved && (
+            {completedUploads.length > 0 && !allApproved && (
               <>
                 <Separator />
                 <div className="text-muted-foreground px-8 py-2 text-xs">
