@@ -55,6 +55,10 @@ export default async function Page({ params }: Args) {
               width={image.width}
               height={image.height}
               alt={image.alt || event.title}
+              // NOTE: Images waiting for approval will not be visible in preview mode if they're served via the Next.js optimizer,
+              //       because it makes a request to /api/media/file/<filename> without auth headers.
+              //       We'll decide on the proper optimization and caching strategy later.
+              unoptimized
             />
           ))}
         </div>
