@@ -1,12 +1,8 @@
-@import 'tailwindcss';
-
 @plugin '@tailwindcss/typography';
 
 /****************/
 /* SHADCN THEME */
 /****************/
-
-@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -83,7 +79,7 @@
   --sidebar-ring: oklch(0.704 0.04 256.788);
 }
 
-.dark {
+.dark, [data-theme=dark] {
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
   --card: oklch(0.208 0.042 265.755);
@@ -116,13 +112,4 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 }
