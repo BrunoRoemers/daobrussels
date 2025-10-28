@@ -1,6 +1,8 @@
 import type { Metadata } from 'next/types';
 
+import { Button } from '@/components/ui/button';
 import EventService from '@/features/events/event-service';
+import { UploadImageDialog } from '@/features/media/features/upload-images/upload-image-dialog';
 import configPromise from '@payload-config';
 import Image from 'next/image';
 import { getPayload } from 'payload';
@@ -53,10 +55,16 @@ export default async function Page({ params }: Args) {
               width={image.width}
               height={image.height}
               alt={image.alt || event.title}
+              // NOTE: Images waiting for approval will not be visible in preview mode if they're served via the Next.js optimizer,
+              //       because it makes a request to /api/media/file/<filename> without auth headers.
+              //       We'll decide on the proper optimization and caching strategy later.
+              unoptimized
             />
           ))}
         </div>
       )}
+
+      <UploadImageDialog button={<Button>Add images</Button>} eventId={event.id} />
 
       <p>
         Ex cupidatat laborum ut duis labore laborum enim id ex consequat. Sint velit ea commodo

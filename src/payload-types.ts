@@ -10,7 +10,7 @@
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "UserRoles".
  */
-export type UserRoles = ('admin' | 'user')[];
+export type UserRoles = ('admin' | 'user' | 'anon')[];
 /**
  * Supported timezones in IANA format.
  *
@@ -89,6 +89,12 @@ export interface Config {
     };
     events: {
       pods: 'podsAtEvents';
+    };
+    media: {
+      events: 'events';
+    };
+    users: {
+      uploads: 'media';
     };
   };
   collectionsSelect: {
@@ -202,6 +208,16 @@ export interface Event {
 export interface Media {
   id: number;
   alt: string;
+  uploadedBy: number | User;
+  /**
+   * Each upload needs to be approved by a trusted member of the community before it becomes visible to the public.
+   */
+  approvedBy?: (number | null) | User;
+  events?: {
+    docs?: (number | Event)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -223,6 +239,11 @@ export interface User {
   id: number;
   name: string;
   roles: UserRoles;
+  uploads?: {
+    docs?: (number | Media)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -491,6 +512,9 @@ export interface EventsSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  uploadedBy?: T;
+  approvedBy?: T;
+  events?: T;
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -511,6 +535,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   roles?: T;
+  uploads?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

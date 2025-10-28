@@ -1,6 +1,7 @@
 import configPromise from '@payload-config';
-import { draftMode, headers as nextHeaders } from 'next/headers';
+import { draftMode } from 'next/headers';
 import { getPayload, type BasePayload } from 'payload';
+import { getPayloadUser } from '../shared/local-api/get-payload-user';
 
 export const findDraftsOrPublicDocs: BasePayload['find'] = async (options) => {
   const payload = await getPayload({ config: configPromise });
@@ -18,13 +19,4 @@ export const findDraftsOrPublicDocs: BasePayload['find'] = async (options) => {
       ? await getPayloadUser(payload) // dynamic rendering
       : undefined, // static rendering
   });
-};
-
-// NOTE: Reading the current user implies that the whole route is opted into dynamic rendering at request time.
-//       Run `npm run build` to see whether a route is rendered at build time or on demand.
-//       See: https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-apis
-const getPayloadUser = async (payload: BasePayload) => {
-  const headers = await nextHeaders();
-  const auth = await payload.auth({ headers });
-  return auth.user;
 };
