@@ -1,7 +1,7 @@
 import { FriendlyError } from '@/utils/friendly-error';
-import type { SignedUrlResult } from '../actions/get-signed-url';
+import type { SignedUrlData } from '../actions/get-signed-url';
 
-export const uploadToBucket = async (signedUrl: SignedUrlResult, file: File): Promise<void> => {
+export const uploadToBucket = async (signedUrl: SignedUrlData, file: File): Promise<void> => {
   const { url, metadataHeaders } = signedUrl;
   const res = await fetch(url, {
     method: 'PUT',

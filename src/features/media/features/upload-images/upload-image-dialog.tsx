@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { destructFileName } from '@/utils/destruct-file-name';
 import { FriendlyError } from '@/utils/friendly-error';
 import { generateUnsafeBip39Name } from '@/utils/generate-unsafe-bip39-name';
+import { unpack } from '@/utils/pack-unpack-result';
 import type { DialogContentProps } from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { createMediaEntry } from './actions/create-media-entry';
@@ -72,12 +73,12 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
       //       to avoid the "file already exists" error.
       if ((uploads[index]?.state ?? UploadState.pending) <= UploadState.uploading) {
         updateUploadStatus(index, { state: UploadState.uploading });
-        const signedUrl = await getSignedUrl(file.name);
+        const signedUrl = await unpack(getSignedUrl(file.name));
         await uploadToBucket(signedUrl, file);
       }
 
       updateUploadStatus(index, { state: UploadState.linking });
-      const { approvedBy } = await createMediaEntry(file.name, eventId);
+      const { approvedBy } = await unpack(createMediaEntry(file.name, eventId));
 
       updateUploadStatus(index, { state: UploadState.completed, approvedBy });
     } catch (error) {
