@@ -10,9 +10,9 @@ import { getPayloadUser } from '@/features/shared/local-api/get-payload-user';
 import { runTransaction } from '@/features/shared/local-api/run-transaction';
 import { FriendlyError } from '@/utils/friendly-error';
 import dayjs from 'dayjs';
-import { getCrowdsourcedGcsFile } from './utils/get-crowdsourced-gcs-file';
-import { getFileInfoOrThrow, supportedExtToMimeType } from './utils/get-file-info-or-throw';
-import { getGcsFileSizeOrThrow } from './utils/get-gcs-file-size-or-throw';
+import { getCrowdsourcedGcsFile } from '../utils/get-crowdsourced-gcs-file';
+import { getFileInfoOrThrow, supportedExtToMimeType } from '../utils/get-file-info-or-throw';
+import { getGcsFileSizeOrThrow } from '../utils/get-gcs-file-size-or-throw';
 
 interface Result {
   approvedBy: number | undefined;

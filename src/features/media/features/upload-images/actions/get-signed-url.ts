@@ -1,7 +1,7 @@
 'use server';
 
-import { getCrowdsourcedGcsFile } from './utils/get-crowdsourced-gcs-file';
-import { getFileInfoOrThrow } from './utils/get-file-info-or-throw';
+import { getCrowdsourcedGcsFile } from '../utils/get-crowdsourced-gcs-file';
+import { getFileInfoOrThrow } from '../utils/get-file-info-or-throw';
 
 export interface SignedUrlResult {
   url: string;
