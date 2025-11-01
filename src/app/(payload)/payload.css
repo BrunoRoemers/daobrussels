@@ -1,0 +1,15 @@
+/*
+ * The base styles of Tailwind CSS disrupt the admin panel, so we import it without.
+ *
+ * Sources:
+ * - https://tailwindcss.com/docs/preflight#disabling-preflight
+ * - https://payloadcms.com/posts/guides/how-to-theme-the-payload-admin-panel-with-tailwind-css-4
+ */
+
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@custom-variant dark (&:is([data-theme=dark] *));
+
+@import '../shared.css';
