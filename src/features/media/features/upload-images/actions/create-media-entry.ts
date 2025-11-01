@@ -11,7 +11,8 @@ import { runTransaction } from '@/features/shared/local-api/run-transaction';
 import { FriendlyError } from '@/utils/friendly-error';
 import dayjs from 'dayjs';
 import { getCrowdsourcedGcsFile } from './utils/get-crowdsourced-gcs-file';
-import { getFileInfoOrThrow } from './utils/get-file-info-or-throw';
+import { getFileInfoOrThrow, supportedExtToMimeType } from './utils/get-file-info-or-throw';
+import { getGcsFileSizeOrThrow } from './utils/get-gcs-file-size-or-throw';
 
 interface Result {
   approvedBy: number | undefined;
@@ -30,6 +31,14 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
   if (metadata.contentType !== mimeType) {
     throw new FriendlyError(
       `MIME type mismatch for file '${fileName}': ${metadata.contentType} !== ${mimeType}`,
+    );
+  }
+
+  const dimensions = await getGcsFileSizeOrThrow(file);
+  const inferredMimeType = dimensions.type ? supportedExtToMimeType[dimensions.type] : undefined;
+  if (!inferredMimeType || inferredMimeType !== mimeType) {
+    throw new FriendlyError(
+      `MIME type mismatch for file '${fileName}': ${inferredMimeType} !== ${mimeType}`,
     );
   }
 
@@ -55,8 +64,8 @@ export const createMediaEntry = async (fileName: string, eventId: number): Promi
         uploadedBy: user?.id ?? (await getOrCreateAnonUser(payload)),
         filename: fileName,
         filesize: Number(metadata.size),
-        width: 100, // TODO
-        height: 100, // TODO
+        width: dimensions.width,
+        height: dimensions.height,
         mimeType,
         prefix: mediaCrowdsourcedGcsPrefix,
       },
