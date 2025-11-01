@@ -2,7 +2,7 @@ import { destructFileName } from '@/utils/destruct-file-name';
 import { FriendlyError } from '@/utils/friendly-error';
 import { isUnsafeBip39Name } from '@/utils/generate-unsafe-bip39-name';
 
-const supportedExtToMimeType: Record<string, string | undefined> = {
+export const supportedExtToMimeType: Record<string, string | undefined> = {
   jpg: 'image/jpeg',
   jpeg: 'image/jpeg',
   png: 'image/png',
