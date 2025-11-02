@@ -1,0 +1,37 @@
+meta {
+  name: upload-file-with-signed-url
+  type: http
+  seq: 1
+}
+
+put {
+  url: SIGNED_URL_HERE
+  body: file
+  auth: none
+}
+
+headers {
+  User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:140.0) Gecko/20100101 Firefox/140.0
+  Accept: */*
+  Accept-Language: en-US,en;q=0.5
+  Content-Type: image/png
+  x-goog-if-generation-match: 0
+  x-goog-meta-source: frontend@unknown
+  Sec-Fetch-Dest: empty
+  Sec-Fetch-Mode: cors
+  Sec-Fetch-Site: cross-site
+  Priority: u=6
+  Pragma: no-cache
+  Cache-Control: no-cache
+  ~Content-Length: 25000
+}
+
+body:file {
+  file: @file()
+}
+
+docs {
+  1. Generate a signed url via the frontend (inspect the Network Tab of your browser's devtools)
+  2. select an image in the `body` tab
+  3. if you want to test how Google Cloud reacts to fudged `Content-Length` headers, set the header explicitly in the `headers` tab.
+}

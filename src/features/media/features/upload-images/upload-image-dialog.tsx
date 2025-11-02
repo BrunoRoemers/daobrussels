@@ -73,7 +73,7 @@ export const UploadImageDialog = ({ button, eventId }: Props) => {
       //       to avoid the "file already exists" error.
       if ((uploads[index]?.state ?? UploadState.pending) <= UploadState.uploading) {
         updateUploadStatus(index, { state: UploadState.uploading });
-        const signedUrl = await unpack(getSignedUrl(file.name));
+        const signedUrl = await unpack(getSignedUrl(file.name, file.size));
         await uploadToBucket(signedUrl, file);
       }
 

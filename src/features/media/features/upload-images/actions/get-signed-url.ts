@@ -1,19 +1,32 @@
 'use server';
 
+import { FriendlyError } from '@/utils/friendly-error';
 import { pack, type Result } from '@/utils/pack-unpack-result';
+import { toBytes } from '@/utils/to-bytes';
 import { getCrowdsourcedGcsFile } from '../utils/get-crowdsourced-gcs-file';
 import { getFileInfoOrThrow } from '../utils/get-file-info-or-throw';
+
+const maxFileSize = '5mb';
 
 export interface SignedUrlData {
   url: string;
   metadataHeaders: Record<string, string>;
 }
 
-export const getSignedUrl = async (fileName: string): Promise<Result<SignedUrlData>> => {
+export const getSignedUrl = async (
+  fileName: string,
+  fileSize: number,
+): Promise<Result<SignedUrlData>> => {
   return pack(async () => {
     const { mimeType } = getFileInfoOrThrow(fileName);
 
+    if (fileSize > toBytes(maxFileSize)) {
+      throw new FriendlyError(`File is too large (max ${maxFileSize})`);
+    }
+
     const metadataHeaders: Record<string, string> = {
+      // Enforce file size limit.
+      'Content-Length': fileSize.toString(),
       // Log which deployment did the upload.
       'x-goog-meta-source': `frontend@${process.env.VERCEL_DEPLOYMENT_ID ?? 'unknown'}`,
     };
