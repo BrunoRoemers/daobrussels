@@ -21,7 +21,7 @@ export const getSignedUrl = async (
     const { mimeType } = getFileInfoOrThrow(fileName);
 
     if (fileSize > toBytes(maxFileSize)) {
-      throw new FriendlyError(`File larger than ${maxFileSize}`);
+      throw new FriendlyError(`File is too large (max ${maxFileSize})`);
     }
 
     const metadataHeaders: Record<string, string> = {
