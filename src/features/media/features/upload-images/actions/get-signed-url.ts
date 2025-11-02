@@ -25,6 +25,7 @@ export const getSignedUrl = async (
     }
 
     const metadataHeaders: Record<string, string> = {
+      // Enforce file size limit.
       'Content-Length': fileSize.toString(),
       // Log which deployment did the upload.
       'x-goog-meta-source': `frontend@${process.env.VERCEL_DEPLOYMENT_ID ?? 'unknown'}`,
