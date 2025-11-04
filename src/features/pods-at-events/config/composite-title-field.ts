@@ -8,15 +8,18 @@ export const compositeTitle: CompositeTitle = () => {
   return {
     name: 'title',
     type: 'text',
+    virtual: 'pod.title',
     hidden: true,
     hooks: {
-      beforeChange: [generateValue],
       afterRead: [generateValue],
     },
   };
 };
 
 const generateValue: FieldHook = async ({ req, data }) => {
+  // FIXME(Bruno): keep the logging until this method stops being flaky.
+  console.log('data: ', data);
+  console.log('event type: ', typeof data?.event);
   const pod = await req.payload.findByID({ id: data?.pod, collection: 'pods', depth: 0 });
   const event = await req.payload.findByID({ id: data?.event, collection: 'events', depth: 0 });
 
