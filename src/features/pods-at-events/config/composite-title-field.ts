@@ -10,7 +10,6 @@ export const compositeTitle: CompositeTitle = () => {
   return {
     name: 'title',
     type: 'text',
-    virtual: 'pod.title',
     hidden: true,
     hooks: {
       afterRead: [generateValue],
