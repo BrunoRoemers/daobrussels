@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 
 import { Media } from '@/features/media/media-collection';
 import { Pods } from '@/features/pods/pod-collection';
+import { resendAdapter } from '@payloadcms/email-resend';
 import { bootstrapRevalidateEveryMorning } from './features/cron/config/revalidate-every-morning-cron';
 import { jobsConfig } from './features/cron/jobs-config';
 import { Events } from './features/events/event-collection';
@@ -62,6 +63,13 @@ export default buildConfig({
       connectionString: process.env.POSTGRES_URL || '',
     },
   }),
+  email: process.env.RESEND_API_KEY
+    ? resendAdapter({
+        defaultFromAddress: 'noreply@sys.dao.brussels',
+        defaultFromName: 'DAO Brussels',
+        apiKey: process.env.RESEND_API_KEY,
+      })
+    : undefined,
   collections: [Pods, PodsAtEvents, Events, Media, Users],
   jobs: jobsConfig,
   onInit: async (payload) => {
