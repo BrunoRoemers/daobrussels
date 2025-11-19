@@ -19,6 +19,7 @@ export const BetterAuthProvider = ({ children }: Props) => {
       replace={router.replace}
       onSessionChange={router.refresh}
       Link={Link}
+      magicLink={true}
     >
       {children}
     </AuthUIProvider>
