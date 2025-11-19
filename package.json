@@ -18,6 +18,7 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
+    "@daveyplate/better-auth-ui": "^3.2.9",
     "@payloadcms/admin-bar": "3.62.1",
     "@payloadcms/db-vercel-postgres": "3.62.1",
     "@payloadcms/email-resend": "^3.62.1",
