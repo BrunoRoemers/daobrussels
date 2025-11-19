@@ -1,5 +1,5 @@
-import { AuthView } from '@daveyplate/better-auth-ui';
 import { authViewPaths } from '@daveyplate/better-auth-ui/server';
+import { AuthViewWrapper } from './auth-view-wrapper';
 
 export const dynamicParams = false;
 
@@ -12,7 +12,7 @@ export default async function AuthPage({ params }: { params: Promise<{ path: str
 
   return (
     <main className="flex grow items-center justify-center">
-      <AuthView path={path} />
+      <AuthViewWrapper path={path} />
     </main>
   );
 }
