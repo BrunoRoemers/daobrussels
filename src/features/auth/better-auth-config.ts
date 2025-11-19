@@ -10,6 +10,10 @@ export const auth = betterAuth({
 
   emailAndPassword: {
     enabled: true,
+    sendResetPassword: async ({ user, token, url }, request) => {
+      // TODO send reset password
+      console.log('sendResetPassword', { user, token, url, request });
+    },
   },
 
   plugins: [
