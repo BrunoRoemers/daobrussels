@@ -42,7 +42,7 @@ export default async function Page({ params }: Args) {
   }
 
   return (
-    <div className="container pb-8">
+    <div className="container mx-auto pb-8">
       <h1>{event.title}</h1>
       <div>{event.formattedDate}</div>
 

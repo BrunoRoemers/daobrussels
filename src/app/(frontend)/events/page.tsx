@@ -24,7 +24,7 @@ export default async function Page({ searchParams }: Props) {
   const events = data.docs.map((event) => new EventService(event));
 
   return (
-    <div className="container py-8">
+    <div className="container mx-auto py-8">
       <h2 className="mb-4 text-2xl font-bold">All Events</h2>
       <div className="grid gap-4">
         {events.length <= 0 ? (

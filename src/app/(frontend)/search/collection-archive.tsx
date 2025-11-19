@@ -12,7 +12,7 @@ export const CollectionArchive = (props: Props) => {
   const { events } = props;
 
   return (
-    <div className={cn('container')}>
+    <div className={cn('container mx-auto')}>
       <div>
         <div className="grid grid-cols-4 gap-x-4 gap-y-4 sm:grid-cols-8 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-8 xl:gap-x-8">
           {events.map((event) => {

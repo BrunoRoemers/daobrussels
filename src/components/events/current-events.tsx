@@ -58,7 +58,7 @@ const CurrentEvents = async () => {
   ]);
 
   return (
-    <div className="container py-8">
+    <div className="container mx-auto py-8">
       {todayBatch.docs.length > 0 && (
         <EventSection
           title="Happening Today"
