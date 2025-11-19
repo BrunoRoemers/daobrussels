@@ -4,6 +4,7 @@ import { anyone } from '@/features/auth/access-filters/anyone';
 import { role } from '@/features/auth/access-filters/role';
 import { selfOrRole } from '@/features/auth/access-filters/self-or-role';
 import { authenticated } from '../auth/access-filters/authenticated';
+import { betterAuthLogoutHook, betterAuthStrategy } from '../auth/better-auth-strategy';
 import { defaultFieldOverrides } from './config/default-field-overrides';
 
 export const Users: CollectionConfig = {
@@ -22,7 +23,17 @@ export const Users: CollectionConfig = {
     // Show the list of users only to admins.
     hidden: ({ user }) => !user?.roles?.includes('admin'),
   },
-  auth: true,
+  auth: {
+    disableLocalStrategy: {
+      // TODO get rid of fields once we're happy with the implementation
+      enableFields: true,
+    },
+    strategies: [betterAuthStrategy],
+  },
+  hooks: {
+    afterLogout: [betterAuthLogoutHook],
+  },
+  // TODO clean up custom fields as well as hidden fields, align with Better Auth.
   fields: [
     {
       name: 'name',
