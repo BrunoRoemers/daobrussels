@@ -27,9 +27,6 @@ const generateValue: FieldHook<PodAtEvent, string, unknown> = async ({ req, data
     return value ?? '';
   }
 
-  // FIXME(Bruno): keep the logging until this method stops being flaky.
-  console.log('data: ', data);
-  console.log('event type: ', typeof data?.event);
   const pod = await req.payload.findByID({ id: podId, collection: 'pods', depth: 0 });
   const event = await req.payload.findByID({ id: eventId, collection: 'events', depth: 0 });
 
