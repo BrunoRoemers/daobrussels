@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import { Media } from '@/features/media/media-collection';
 import { Pods } from '@/features/pods/pod-collection';
 import { resendAdapter } from '@payloadcms/email-resend';
+import { beforeSchemaInit } from './features/auth/before-schema-init';
 import { bootstrapRevalidateEveryMorning } from './features/cron/config/revalidate-every-morning-cron';
 import { jobsConfig } from './features/cron/jobs-config';
 import { Events } from './features/events/event-collection';
@@ -62,6 +63,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.POSTGRES_URL || '',
     },
+    beforeSchemaInit: [beforeSchemaInit],
   }),
   email: process.env.RESEND_API_KEY
     ? resendAdapter({
