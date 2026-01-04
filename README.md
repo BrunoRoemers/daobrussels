@@ -32,6 +32,15 @@ https://github.com/users/BrunoRoemers/projects/1
 4. `npx payload generate:importmap` - might complain about version mismatch - follow instructions, rinse, repeat
 5. `npn run dev` - should have no issues :tada:
 
+## Architecture
+
+The DAO Brussels website is a NextJS project consisting of:
+- the public-facing part (website)
+- a Payload CMS instance, which manages the database, acts as the backend and provides an admin area
+- a Better Auth instance, which manages login/logout and user data
+
+Note that we've replaced the built-in auth of Payload CMS with Better Auth in order to support magic links.
+
 ## Cron Jobs
 
 - `nightly` queue runs at 11PM UTC, which is 12AM (winter time) or 1AM (summer time) in Brussels. This is perfect to update "today's events" on the home page.
