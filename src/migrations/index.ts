@@ -2,6 +2,7 @@ import * as migration_20250802_154157_baseline from './20250802_154157_baseline'
 import * as migration_20251026_155604_support_frontend_media_uploads from './20251026_155604_support_frontend_media_uploads';
 import * as migration_20251104_222137_update_pods_at_events_title from './20251104_222137_update_pods_at_events_title';
 import * as migration_20251104_230409_undo_remove_pods_at_events_title from './20251104_230409_undo_remove_pods_at_events_title';
+import * as migration_20260105_235434_better_auth from './20260105_235434_better_auth';
 
 export const migrations = [
   {
@@ -22,6 +23,11 @@ export const migrations = [
   {
     up: migration_20251104_230409_undo_remove_pods_at_events_title.up,
     down: migration_20251104_230409_undo_remove_pods_at_events_title.down,
-    name: '20251104_230409_undo_remove_pods_at_events_title'
+    name: '20251104_230409_undo_remove_pods_at_events_title',
+  },
+  {
+    up: migration_20260105_235434_better_auth.up,
+    down: migration_20260105_235434_better_auth.down,
+    name: '20260105_235434_better_auth'
   },
 ];
