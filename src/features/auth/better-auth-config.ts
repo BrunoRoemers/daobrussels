@@ -13,7 +13,7 @@ const getDatabaseUrl = (): URL => {
   const dbUrl = new URL(process.env.POSTGRES_URL);
 
   // Use the `auth` schema instead of the default `public` schema to avoid conflicts with Payload CMS.
-  dbUrl.searchParams.set('options', '-c search_path=auth');
+  // dbUrl.searchParams.set('options', '-c search_path=auth');
 
   return dbUrl;
 };
