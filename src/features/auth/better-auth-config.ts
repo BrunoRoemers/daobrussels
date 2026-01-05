@@ -1,7 +1,8 @@
-import { drizzle } from '@payloadcms/db-vercel-postgres/drizzle/node-postgres';
+import { drizzle as drizzleVercel } from '@payloadcms/db-vercel-postgres/drizzle/node-postgres';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { magicLink } from 'better-auth/plugins';
+import { drizzle as drizzleNeon } from 'drizzle-orm/neon-serverless';
 import * as authSchema from './better-auth-drizzle-schema';
 
 const getDatabaseUrl = (): URL => {
@@ -17,12 +18,13 @@ const getDatabaseUrl = (): URL => {
   return dbUrl;
 };
 
-// TODO Switch the database adapter based on the connection string, like Payload's `vercelPostgresAdapter` does internally.
-// ['127.0.0.1', 'localhost'].includes(dbUrl.hostname) ? <local db> : <neon db>
-
 const getDrizzleAdapter = () => {
   const dbUrl = getDatabaseUrl();
-  const db = drizzle(dbUrl.toString());
+
+  const db = ['127.0.0.1', 'localhost'].includes(dbUrl.hostname)
+    ? drizzleVercel(dbUrl.toString()) // FIXME don't use vercel adapter here?
+    : drizzleNeon(dbUrl.toString());
+
   return drizzleAdapter(db, {
     provider: 'pg',
     schema: authSchema,
