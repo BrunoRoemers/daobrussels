@@ -1,0 +1,24 @@
+---
+/**
+ * SectionHeading — the "◯ NEXT ASSEMBLY" mono-caps eyebrow with optional link
+ * on the right ("ALL EVENTS →"). Used on every section break across the site.
+ */
+interface Props {
+  glyph?: string;
+  label: string;
+  href?: string;
+  hrefLabel?: string;
+  class?: string;
+}
+const { glyph = '◯', label, href, hrefLabel, class: className = '' } = Astro.props;
+---
+<div class:list={['flex items-baseline justify-between gap-4 mb-6 md:mb-8', className]}>
+  <h2 class="mono-label-lg m-0">
+    <span aria-hidden="true">{glyph}</span> {label}
+  </h2>
+  {href && hrefLabel && (
+    <a href={href} class="font-mono text-xs tracking-widercaps hover:opacity-70 transition-opacity">
+      {hrefLabel}
+    </a>
+  )}
+</div>

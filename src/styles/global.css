@@ -4,23 +4,74 @@
 
 @layer base {
   html {
-    @apply bg-dao-bg text-gray-900 font-sans;
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings: "ss01";
+  }
+
+  body {
+    @apply bg-paper text-ink;
   }
 
   h1, h2, h3, h4 {
-    @apply font-semibold tracking-tight;
+    @apply font-medium tracking-tight;
   }
 
-  /* Prose styles for markdown content */
-  .prose h1 { @apply text-3xl mb-4 mt-8; }
-  .prose h2 { @apply text-2xl mb-3 mt-6; }
-  .prose h3 { @apply text-xl mb-2 mt-5; }
-  .prose p { @apply mb-4 leading-relaxed; }
-  .prose ul { @apply list-disc list-inside mb-4 space-y-1; }
-  .prose ol { @apply list-decimal list-inside mb-4 space-y-1; }
-  .prose a { @apply text-dao-green underline hover:text-dao-dark; }
-  .prose code { @apply font-mono text-sm bg-gray-100 px-1 py-0.5 rounded; }
-  .prose pre { @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mb-4; }
-  .prose pre code { @apply bg-transparent p-0; }
-  .prose blockquote { @apply border-l-4 border-dao-light pl-4 italic text-gray-600 mb-4; }
+  /* Hard-edged form controls match the brutalist info-density vibe. */
+  input, textarea, select, button {
+    font-family: inherit;
+  }
 }
+
+@layer components {
+  /* Mono caps labels — used everywhere as metadata / section eyebrows. */
+  .mono-label {
+    @apply font-mono uppercase text-[11px] tracking-widercaps;
+  }
+
+  .mono-label-lg {
+    @apply font-mono uppercase text-xs tracking-widestcaps font-bold;
+  }
+
+  /* Hard horizontal rules. */
+  .hr-thick {
+    @apply border-0 border-t-2 border-ink w-full;
+  }
+  .hr-thin {
+    @apply border-0 border-t border-ink w-full;
+  }
+
+  /* Buttons. */
+  .btn-ink {
+    @apply inline-flex items-center justify-center bg-ink text-paper font-semibold
+           text-sm tracking-wide cursor-pointer border-0 transition-opacity
+           hover:opacity-90 disabled:opacity-40;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center bg-transparent text-ink font-semibold
+           text-sm tracking-wide cursor-pointer border-2 border-ink transition-colors
+           hover:bg-ink hover:text-paper;
+  }
+
+  /* Outlined chip / tag. */
+  .chip {
+    @apply font-mono text-[11px] px-2 py-1 border border-ink inline-block;
+  }
+
+  /* Page section padding — generous whitespace. */
+  .section-x { @apply px-6 sm:px-8 md:px-12; }
+  .section-y { @apply py-12 md:py-16; }
+}
+
+/* Prose / markdown — keep readable but in the mono palette. */
+.prose h1 { @apply text-3xl mb-4 mt-8 font-medium tracking-tight; }
+.prose h2 { @apply text-2xl mb-3 mt-8 font-medium tracking-tight; }
+.prose h3 { @apply text-xl mb-2 mt-6 font-medium tracking-tight; }
+.prose p { @apply mb-4 leading-relaxed text-[15px] md:text-base; }
+.prose ul { @apply list-disc list-outside ml-5 mb-4 space-y-1; }
+.prose ol { @apply list-decimal list-outside ml-5 mb-4 space-y-1; }
+.prose a { @apply text-ink underline underline-offset-4 hover:opacity-70; }
+.prose code { @apply font-mono text-sm bg-ink/5 px-1.5 py-0.5; }
+.prose pre { @apply bg-ink text-paper p-4 overflow-x-auto mb-4 font-mono text-sm; }
+.prose pre code { @apply bg-transparent p-0; }
+.prose blockquote { @apply border-l-2 border-ink pl-4 italic text-muted mb-4; }
+.prose hr { @apply border-0 border-t border-ink my-8; }

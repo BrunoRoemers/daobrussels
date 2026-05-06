@@ -1,0 +1,35 @@
+---
+/**
+ * EventScheduleTable — agenda rows displayed as a single bordered block.
+ * Mirrors the prototype: time (mono bold) · headline · presenter (mono dim).
+ * Stacks on mobile so long headlines never overlap the time column.
+ */
+interface Row {
+  t: string;
+  h: string;
+  who?: string;
+}
+interface Props {
+  rows: Row[];
+}
+const { rows } = Astro.props;
+---
+<div class="border-2 border-ink">
+  {rows.map((row, i) => (
+    <div
+      class:list={[
+        'grid gap-2 sm:gap-4 px-4 sm:px-5 py-3 sm:py-4 items-baseline',
+        'grid-cols-[80px_1fr] sm:grid-cols-[80px_1fr_140px]',
+        i < rows.length - 1 ? 'border-b border-ink' : '',
+      ]}
+    >
+      <div class="font-mono font-bold text-sm">{row.t}</div>
+      <div class="text-sm sm:text-base">{row.h}</div>
+      {row.who && (
+        <div class="font-mono text-xs opacity-60 sm:text-right col-span-2 sm:col-span-1">
+          — {row.who}
+        </div>
+      )}
+    </div>
+  ))}
+</div>

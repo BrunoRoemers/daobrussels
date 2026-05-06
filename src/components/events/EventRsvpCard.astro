@@ -1,0 +1,66 @@
+---
+/**
+ * EventRsvpCard — sticky sidebar card on the event detail page with date,
+ * location, attendees and RSVP buttons. On mobile it sits inline above the
+ * schedule rather than sticking.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Glyph from '../marks/Glyph.astro';
+
+interface Props {
+  event: CollectionEntry<'events'>;
+}
+const { event } = Astro.props;
+const { date, location, locationUrl } = event.data;
+
+const day = String(date.getUTCDate()).padStart(2, '0');
+const month = date.toLocaleString('en-GB', { month: 'short', timeZone: 'UTC' }).toUpperCase();
+const year = String(date.getUTCFullYear() % 100).padStart(2, '0');
+const weekday = date.toLocaleString('en-GB', { weekday: 'short', timeZone: 'UTC' }).toUpperCase();
+---
+<aside class="border-2 border-ink p-5 sm:p-6 md:sticky md:top-6 bg-paper">
+  <div class="flex items-center gap-3 mb-5">
+    <Glyph kind="circle" size={44} />
+    <div>
+      <div class="font-mono text-[11px] tracking-widercaps opacity-60">
+        {weekday} · {day} {month} · {year}
+      </div>
+      <div class="font-semibold text-base">19:30 — late</div>
+    </div>
+  </div>
+
+  {location && (
+    <>
+      <div class="mono-label opacity-60 mb-1">WHERE</div>
+      <div class="text-sm leading-relaxed mb-4">
+        {locationUrl ? (
+          <a href={locationUrl} target="_blank" rel="noopener noreferrer" class="underline underline-offset-4">
+            {location}
+          </a>
+        ) : location}
+      </div>
+    </>
+  )}
+
+  <div class="mono-label opacity-60 mb-2 mt-4">GOING · 42</div>
+  <div class="flex flex-wrap gap-1 mb-5">
+    {Array.from({ length: 8 }).map((_, i) => (
+      <div
+        class="w-7 h-7 rounded-full border-2 border-ink"
+        style={`background:${i % 2 ? '#0a0a0a' : '#fafaf7'}`}
+      />
+    ))}
+    <div class="w-7 h-7 rounded-full border border-ink flex items-center justify-center font-mono text-[11px]">
+      +34
+    </div>
+  </div>
+
+  <button class="btn-ink w-full py-3.5 mt-2">I'M COMING →</button>
+  <button class="btn-ghost w-full py-3 mt-2">ADD TO CALENDAR</button>
+
+  <div class="border-t border-ink mt-5 pt-4 mono-label leading-relaxed opacity-70">
+    FREE · DONATIONS WELCOME<br />
+    0xDAO…BRUSSELS<br />
+    MULTISIG €8,432 / GOAL €12,000
+  </div>
+</aside>

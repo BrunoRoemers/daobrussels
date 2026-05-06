@@ -1,0 +1,31 @@
+---
+/**
+ * Mark — the DAO Brussels brandmark.
+ *
+ * A play on the original concentric/ring DAO Brussels logo, recomposed for
+ * the Geometric Commons design language. Always renders with full ink fill;
+ * the inner cutout colour matches the page background (paper).
+ */
+
+interface Props {
+  size?: number;
+  class?: string;
+  label?: string;
+}
+
+const { size = 40, class: className = '', label = 'DAO Brussels' } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 100 100"
+  width={size}
+  height={size}
+  class={`block shrink-0 ${className}`}
+  role="img"
+  aria-label={label}
+>
+  <circle cx="50" cy="50" r="48" fill="#0a0a0a" />
+  <circle cx="50" cy="50" r="30" fill="none" stroke="#fafaf7" stroke-width="3" />
+  <circle cx="50" cy="50" r="14" fill="#fafaf7" />
+  <rect x="48.5" y="2" width="3" height="96" fill="#fafaf7" />
+</svg>

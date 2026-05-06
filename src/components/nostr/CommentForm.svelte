@@ -1,3 +1,8 @@
+<!--
+  CommentForm — Geometric Commons composer.
+  Hard 2px border, mono caps footer label, ink "POST →" button.
+  Uses Cmd+Enter to submit, mirrors the prototype's textarea + button bar.
+-->
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import { SimplePool } from 'nostr-tools/pool';
@@ -56,32 +61,45 @@
 </script>
 
 {#if $nostrStore.connected}
-  <form on:submit|preventDefault={submit} class="mb-6">
+  <form on:submit|preventDefault={submit} class="border-2 border-ink mb-8">
     <textarea
       bind:value={text}
       on:keydown={handleKeydown}
-      placeholder="Leave a comment… (Cmd+Enter to submit)"
+      placeholder="Add to the conversation. Bring a question, a seed, a link…"
       rows="3"
-      class="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:border-dao-green resize-none"
       disabled={submitting}
+      class="w-full box-border border-0 px-4 py-4 sm:px-5 sm:py-5 text-[15px] leading-relaxed
+             resize-y min-h-[100px] outline-none bg-transparent font-sans
+             placeholder:opacity-40 focus:bg-ink/[0.02]"
     ></textarea>
-    <div class="flex items-center justify-between mt-2">
+    <div class="border-t border-ink flex items-center justify-between gap-3 px-3 py-2 sm:px-4">
       {#if error}
-        <p class="text-xs text-red-500">{error}</p>
+        <span class="font-mono text-[11px] tracking-widercaps text-ink">⚠ {error.toUpperCase()}</span>
       {:else}
-        <span class="text-xs text-gray-400">Published to Nostr</span>
+        <span class="font-mono text-[11px] tracking-widercaps opacity-50 hidden sm:inline">
+          MARKDOWN · @MENTIONS · /COMMANDS
+        </span>
+        <span class="font-mono text-[11px] tracking-widercaps opacity-50 sm:hidden">
+          ⌘+ENTER TO POST
+        </span>
       {/if}
       <button
         type="submit"
         disabled={!text.trim() || submitting}
-        class="text-sm font-medium bg-dao-green text-white px-4 py-1.5 rounded-full hover:bg-dao-dark transition-colors disabled:opacity-40"
+        class="bg-ink text-paper border-0 px-4 py-2 font-semibold text-xs tracking-wide
+               cursor-pointer hover:opacity-90 disabled:opacity-40 transition-opacity"
       >
-        {submitting ? 'Publishing…' : 'Publish'}
+        {submitting ? 'PUBLISHING…' : 'POST →'}
       </button>
     </div>
   </form>
 {:else}
-  <p class="text-sm text-gray-500 mb-6">
-    <span class="font-medium">Connect your Nostr account</span> (top right) to leave a comment.
-  </p>
+  <div class="border-2 border-dashed border-ink mb-8 px-5 py-6 text-center">
+    <p class="font-mono text-xs tracking-widercaps">
+      CONNECT NOSTR TO JOIN THE DISCUSSION ↗
+    </p>
+    <p class="text-sm opacity-60 mt-2">
+      Sign in via the menu above with any Nostr extension (Alby, nos2x).
+    </p>
+  </div>
 {/if}

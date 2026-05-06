@@ -1,18 +1,72 @@
 ---
+import Mark from '../marks/Mark.astro';
+
+const showUp = [
+  { label: 'Crypto Wednesday', href: '/events' },
+  { label: 'Block 27', href: '/events' },
+  { label: 'Crypto Castar', href: '/events' },
+];
+const read = [
+  { label: 'Manifesto', href: '/' },
+  { label: 'Pods', href: '/pods' },
+  { label: 'Events', href: '/events' },
+];
+const findUs = [
+  { label: 'GitHub', href: 'https://gitworkshop.dev/npub1ktsm735y82nzg82txx3qpp6zshw994y4ez7y5n95qfzgdst8au4susj0hg/daobrussels' },
+  { label: 'Open Collective', href: 'https://opencollective.com/daobrussels' },
+  { label: 'Chat', href: 'whatsapp.dao.brussels'},
+];
 ---
 
-<footer class="border-t border-gray-200 mt-16">
-  <div class="max-w-4xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-    <p>DAO Brussels — hacking the commons, first Wednesday of the month</p>
-    <div class="flex items-center gap-4">
-      <a href="/events" class="hover:text-gray-900 transition-colors">Events</a>
-      <a href="/pods" class="hover:text-gray-900 transition-colors">Pods</a>
-      <a
-        href="https://gitworkshop.dev/npub1ktsm735y82nzg82txx3qpp6zshw994y4ez7y5n95qfzgdst8au4susj0hg/daobrussels"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hover:text-gray-900 transition-colors"
-      >GitHub</a>
+<footer class="border-t-2 border-ink bg-ink text-paper">
+  <div class="grid gap-10 px-6 sm:px-8 md:px-12 py-12 md:py-14
+              grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <Mark size={48} />
+      <p class="mt-4 text-sm leading-relaxed opacity-70 max-w-xs">
+        An open assembly of citizens, hackers, commoners, and curious neighbours.
+      </p>
     </div>
+
+    <div>
+      <div class="mono-label opacity-50 mb-3">SHOW UP</div>
+      <ul class="space-y-1.5 text-sm">
+        {showUp.map((l) => (
+          <li><a href={l.href} class="hover:opacity-70 transition-opacity">{l.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <div class="mono-label opacity-50 mb-3">READ</div>
+      <ul class="space-y-1.5 text-sm">
+        {read.map((l) => (
+          <li><a href={l.href} class="hover:opacity-70 transition-opacity">{l.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <div class="mono-label opacity-50 mb-3">FIND US</div>
+      <ul class="space-y-1.5 text-sm">
+        {findUs.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:opacity-70 transition-opacity"
+            >{l.label} ↗</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-paper/15 px-6 sm:px-8 md:px-12 py-5
+              flex flex-col sm:flex-row gap-2 justify-between items-start sm:items-center
+              mono-label opacity-50">
+    <span>© DAO BRUSSELS · COMMONS · TECHNOLOGY</span>
+    <span>FIRST WEDNESDAY OF EVERY MONTH</span>
   </div>
 </footer>

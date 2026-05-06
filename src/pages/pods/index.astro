@@ -1,63 +1,59 @@
 ---
 import BaseLayout from '../../components/layout/BaseLayout.astro';
-import PodCard from '../../components/pods/PodCard.astro';
+import PodFeatured from '../../components/pods/PodFeatured.astro';
+import PodTable from '../../components/pods/PodTable.astro';
+import CTABand from '../../components/ui/CTABand.astro';
 import { getSortedPods } from '../../lib/content';
 
 const pods = await getSortedPods();
-const byStatus = {
-  active: pods.filter((p) => p.data.status === 'active'),
-  proposed: pods.filter((p) => p.data.status === 'proposed'),
-  paused: pods.filter((p) => p.data.status === 'paused'),
-  completed: pods.filter((p) => p.data.status === 'completed'),
-};
+const active = pods.filter((p) => p.data.status === 'active');
+const featured = active[0] ?? pods[0];
 ---
 
 <BaseLayout
   title="Pods"
   description="Activities and projects happening within DAO Brussels — some spanning multiple meetings."
 >
-  <div class="max-w-4xl mx-auto px-4 py-12">
-    <div class="mb-8">
-      <h1 class="text-3xl font-semibold text-gray-900">Pods</h1>
-      <p class="mt-2 text-gray-600">
-        Activities and projects that happen during our meetings. Pods can span multiple events.
-      </p>
+  <!-- Intro -->
+  <section class="section-x pt-12 md:pt-16 pb-6 md:pb-8">
+    <div class="font-mono text-[11px] sm:text-xs tracking-widercaps mb-6 opacity-70">
+      <span aria-hidden="true">◇</span> POD INDEX · {active.length} ACTIVE · {pods.length - active.length} DORMANT
     </div>
+    <h1 class="text-5xl sm:text-6xl md:text-7xl tracking-[-0.04em] leading-[0.95] font-medium m-0 max-w-3xl">
+      A pod is a small group<br />
+      trying a thing on<br />
+      <span class="italic font-normal">behalf of the city</span>.
+    </h1>
+    <p class="text-base md:text-lg leading-relaxed mt-6 max-w-2xl text-muted">
+      Self-organising, on-chain or off, anyone can start one. Two stewards, a
+      one&#8209;page brief, a small budget. If it works, it stays. If it doesn't,
+      we learn and dissolve.
+    </p>
+  </section>
 
-    {byStatus.active.length > 0 && (
-      <section class="mb-10">
-        <h2 class="text-sm font-medium uppercase tracking-wide text-gray-400 mb-3">Active</h2>
-        <div class="grid sm:grid-cols-2 gap-3">
-          {byStatus.active.map((pod) => <PodCard pod={pod} />)}
-        </div>
-      </section>
-    )}
+  <section class="section-x pb-8 md:pb-10">
+    <a href="#start" class="btn-ink px-5 py-3.5">+ START A POD</a>
+  </section>
 
-    {byStatus.proposed.length > 0 && (
-      <section class="mb-10">
-        <h2 class="text-sm font-medium uppercase tracking-wide text-gray-400 mb-3">Proposed</h2>
-        <div class="grid sm:grid-cols-2 gap-3">
-          {byStatus.proposed.map((pod) => <PodCard pod={pod} />)}
-        </div>
-      </section>
-    )}
+  <hr class="hr-thick" />
 
-    {byStatus.paused.length > 0 && (
-      <section class="mb-10">
-        <h2 class="text-sm font-medium uppercase tracking-wide text-gray-400 mb-3">Paused</h2>
-        <div class="grid sm:grid-cols-2 gap-3">
-          {byStatus.paused.map((pod) => <PodCard pod={pod} />)}
-        </div>
-      </section>
-    )}
+  <!-- Featured pod -->
+  {featured && <PodFeatured pod={featured} />}
 
-    {byStatus.completed.length > 0 && (
-      <section>
-        <h2 class="text-sm font-medium uppercase tracking-wide text-gray-400 mb-3">Completed</h2>
-        <div class="grid sm:grid-cols-2 gap-3">
-          {byStatus.completed.map((pod) => <PodCard pod={pod} />)}
-        </div>
-      </section>
+  <!-- All pods table -->
+  <section class="section-x section-y">
+    <div class="mono-label opacity-60 mb-4">ALL PODS</div>
+    {pods.length > 0 ? (
+      <PodTable pods={pods} />
+    ) : (
+      <p class="font-mono text-sm tracking-widercaps opacity-60">NO PODS YET.</p>
     )}
-  </div>
+  </section>
+
+  <CTABand
+    eyebrow="HAVE AN IDEA?"
+    headline="Bring it to the next assembly."
+    buttonLabel="PROPOSE A POD"
+    buttonHref="/events"
+  />
 </BaseLayout>

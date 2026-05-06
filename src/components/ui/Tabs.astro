@@ -1,0 +1,30 @@
+---
+/**
+ * Tabs — outlined mono-caps filter tabs used on home (pods filter) and pods
+ * index. Pure presentational; they render as anchor links so `?tag=` filtering
+ * can be wired up later without changing markup.
+ */
+interface Tab {
+  label: string;
+  href?: string;
+  active?: boolean;
+}
+interface Props {
+  tabs: Tab[];
+  class?: string;
+}
+const { tabs, class: className = '' } = Astro.props;
+---
+<div class:list={['flex flex-wrap gap-1', className]}>
+  {tabs.map((t) => (
+    <a
+      href={t.href ?? '#'}
+      class:list={[
+        'px-3 py-1.5 border border-ink font-mono text-[11px] uppercase tracking-widercaps transition-colors',
+        t.active ? 'bg-ink text-paper' : 'bg-transparent text-ink hover:bg-ink hover:text-paper',
+      ]}
+    >
+      {t.label}
+    </a>
+  ))}
+</div>

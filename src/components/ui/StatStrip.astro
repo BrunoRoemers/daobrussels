@@ -1,0 +1,39 @@
+---
+/**
+ * StatStrip — the four-cell metric strip that sits between sections.
+ * Collapses to 2 columns on small screens and stays 1×4 only on lg+.
+ *
+ * We compute borders per-cell with the index because Tailwind's
+ * `:nth-child()` arbitrary variants stop matching once a value rolls over
+ * a breakpoint (the column count changes per breakpoint, not the index).
+ */
+interface Stat {
+  n: string;
+  l: string;
+}
+interface Props {
+  stats: Stat[];
+}
+const { stats } = Astro.props;
+---
+<div class="grid grid-cols-2 lg:grid-cols-4 border-t-2 border-b-2 border-ink">
+  {stats.map((s, i) => {
+    // 2-col grid: right border on left column (even index when 0-based).
+    // lg 4-col grid: right border on every cell except the last.
+    const cls = [
+      'px-5 py-6 sm:px-8 sm:py-7 flex items-baseline gap-3 sm:gap-4',
+      // 2-col borders
+      i % 2 === 0 ? 'border-r border-ink' : '',
+      i < stats.length - 2 ? 'border-b border-ink' : '',
+      // 4-col borders (lg+) — reset 2-col rules and apply right border to all but last
+      'lg:border-b-0',
+      i < stats.length - 1 ? 'lg:border-r lg:border-ink' : 'lg:border-r-0',
+    ].join(' ');
+    return (
+      <div class={cls}>
+        <div class="text-4xl sm:text-5xl lg:text-[56px] font-medium tracking-[-0.04em] leading-none">{s.n}</div>
+        <div class="mono-label opacity-70">{s.l}</div>
+      </div>
+    );
+  })}
+</div>

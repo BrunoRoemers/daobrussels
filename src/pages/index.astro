@@ -1,72 +1,104 @@
 ---
 import BaseLayout from '../components/layout/BaseLayout.astro';
-import EventCard from '../components/events/EventCard.astro';
-import PodCard from '../components/pods/PodCard.astro';
-import { getSortedEvents, getSortedPods, getNextEvent, formatDate } from '../lib/content';
+import Glyph from '../components/marks/Glyph.astro';
+import HeroShapes from '../components/ui/HeroShapes.astro';
+import StatStrip from '../components/ui/StatStrip.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Tabs from '../components/ui/Tabs.astro';
+import EventBigCard from '../components/events/EventBigCard.astro';
+import PodGrid from '../components/pods/PodGrid.astro';
+import { getSortedEvents, getSortedPods, getNextEvent } from '../lib/content';
 
 const nextEvent = await getNextEvent();
 const recentEvents = (await getSortedEvents()).slice(0, 3);
-const recentPods = (await getSortedPods()).slice(0, 3);
+const recentPods = (await getSortedPods()).slice(0, 6);
+
+const stats = [
+  { n: '142', l: 'members on chain' },
+  { n: '47', l: 'assemblies held' },
+  { n: '11', l: 'active pods' },
+  { n: '€8.4k', l: 'in the multisig' },
+];
+
+const tabs = [
+  { label: 'all', active: true },
+  { label: 'tech' },
+  { label: 'commons' },
+  { label: 'garden' },
+  { label: 'crypto' },
+];
 ---
 
-<BaseLayout title="Home">
-  <div class="max-w-4xl mx-auto px-4 py-12">
-
-    <!-- Hero -->
-    <div class="mb-12">
-      <h1 class="text-4xl font-semibold text-dao-dark mb-4">
-        DAO Brussels
-      </h1>
-      <p class="text-xl text-gray-600 leading-relaxed max-w-2xl">
-        A monthly gathering for hacking the commons. We meet regularly — usually the first Wednesday
-        of the month — to experiment with decentralised coordination, shared infrastructure, and collective tools.
-      </p>
-    </div>
-
-    <!-- Next event banner -->
-    {nextEvent ? (
-      <div class="bg-dao-green/5 border border-dao-green/20 rounded-xl p-5 mb-12">
-        <p class="text-sm font-medium text-dao-green uppercase tracking-wide mb-1">Next meeting</p>
-        <a href={`/events/${nextEvent.slug}`} class="group">
-          <p class="text-lg font-semibold text-gray-900 group-hover:text-dao-dark transition-colors">
-            {formatDate(nextEvent.data.date)}
-          </p>
-          {nextEvent.data.location && (
-            <p class="text-sm text-gray-600 mt-0.5">{nextEvent.data.location}</p>
+<BaseLayout title="Manifesto">
+  <!-- Hero ------------------------------------------------------------- -->
+  <section class="section-x pt-12 md:pt-16 pb-10 md:pb-14">
+    <div class="grid gap-10 md:gap-12 md:grid-cols-[1.2fr_1fr] items-start">
+      <div>
+        <div class="font-mono text-[11px] sm:text-xs tracking-widercaps mb-6 sm:mb-8 opacity-80">
+          <span aria-hidden="true">◯</span>{' '}
+          ASSEMBLY №47 / COMMONS HUB BRUSSELS / EST. 2021
+        </div>
+        <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[92px] leading-[0.95] tracking-[-0.04em] font-medium m-0">
+          A city,<br />
+          <span class="italic font-normal">governed</span><br />
+          by its<br />
+          citizens.
+        </h1>
+        <p class="text-base md:text-lg leading-relaxed mt-7 md:mt-8 max-w-lg text-muted">
+          We meet the first Wednesday of every month to think out loud about
+          commons, cryptography and the slow re&#8209;tooling of
+          public life. Workshops, presentations, fermenting things, governance
+          by candle&#8209;light.
+        </p>
+        <div class="flex flex-wrap gap-3 mt-7 md:mt-8">
+          {nextEvent ? (
+            <a href={`/events/${nextEvent.slug}`} class="btn-ink px-5 py-3.5">JOIN NEXT ASSEMBLY →</a>
+          ) : (
+            <a href="/events" class="btn-ink px-5 py-3.5">SEE ALL ASSEMBLIES →</a>
           )}
-        </a>
+          <a href="/pods" class="btn-ghost px-5 py-3">READ MANIFESTO</a>
+        </div>
       </div>
+
+      <div class="hidden md:block">
+        <HeroShapes />
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats strip ------------------------------------------------------- -->
+  <StatStrip stats={stats} />
+
+  <!-- Next assembly ----------------------------------------------------- -->
+  <section class="section-x section-y">
+    <SectionHeading
+      glyph="◯"
+      label="NEXT ASSEMBLY"
+      href="/events"
+      hrefLabel="ALL EVENTS →"
+    />
+    {nextEvent ? (
+      <EventBigCard event={nextEvent} />
+    ) : recentEvents[0] ? (
+      <EventBigCard event={recentEvents[0]} />
     ) : (
-      <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 mb-12">
-        <p class="text-sm text-gray-500">No upcoming meeting scheduled yet. Check back soon.</p>
+      <div class="border-2 border-ink p-8 text-center">
+        <Glyph kind="ring" size={64} class="mx-auto mb-3" />
+        <p class="font-mono text-sm tracking-widercaps">NO ASSEMBLY SCHEDULED · CHECK BACK SOON</p>
       </div>
     )}
+  </section>
 
-    <!-- Recent events -->
-    <section class="mb-12">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold text-gray-900">Recent meetings</h2>
-        <a href="/events" class="text-sm text-dao-green hover:text-dao-dark transition-colors">
-          All meetings →
-        </a>
-      </div>
-      <div class="space-y-3">
-        {recentEvents.map((event) => <EventCard event={event} />)}
-      </div>
-    </section>
+  <hr class="hr-thin" />
 
-    <!-- Active pods -->
-    <section>
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold text-gray-900">Active pods</h2>
-        <a href="/pods" class="text-sm text-dao-green hover:text-dao-dark transition-colors">
-          All pods →
-        </a>
-      </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {recentPods.map((pod) => <PodCard pod={pod} />)}
-      </div>
-    </section>
-
-  </div>
+  <!-- Active pods ------------------------------------------------------- -->
+  <section class="section-x section-y">
+    <SectionHeading glyph="◇" label="ACTIVE PODS" href="/pods" hrefLabel="ALL PODS →" />
+    <Tabs tabs={tabs} class="mb-6" />
+    {recentPods.length > 0 ? (
+      <PodGrid pods={recentPods} />
+    ) : (
+      <p class="font-mono text-sm tracking-widercaps opacity-60">NO PODS YET.</p>
+    )}
+  </section>
 </BaseLayout>

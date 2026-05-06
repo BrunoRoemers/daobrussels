@@ -1,36 +1,84 @@
 ---
+import Mark from '../marks/Mark.astro';
 import NostrLogin from '../nostr/NostrLogin.svelte';
 
 const navLinks = [
-  { href: '/events', label: 'Events' },
-  { href: '/pods', label: 'Pods' },
+  { href: '/', label: 'Manifesto', match: (p: string) => p === '/' },
+  { href: '/events', label: 'Events', match: (p: string) => p.startsWith('/events') },
+  { href: '/pods', label: 'Pods', match: (p: string) => p.startsWith('/pods') },
 ];
 
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-  <nav class="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
-    <a href="/" class="font-semibold text-dao-dark text-lg tracking-tight hover:text-dao-green transition-colors">
-      DAO Brussels
+<header class="border-b-2 border-ink bg-paper relative z-30">
+  <nav class="flex items-center justify-between gap-4 px-4 sm:px-8 md:px-12 py-4 md:py-5 relative">
+    <a href="/" class="flex items-center gap-3 group">
+      <Mark size={36} />
+      <div class="leading-tight">
+        <div class="font-bold text-base md:text-lg tracking-tight">DAO BRUSSELS</div>
+        <div class="mono-label opacity-60 hidden sm:block">commons · technology</div>
+      </div>
     </a>
 
-    <div class="flex items-center gap-6">
-      {navLinks.map(({ href, label }) => (
-        <a
-          href={href}
-          class:list={[
-            'text-sm font-medium transition-colors',
-            currentPath.startsWith(href)
-              ? 'text-dao-green'
-              : 'text-gray-600 hover:text-gray-900',
-          ]}
-        >
-          {label}
-        </a>
-      ))}
-
+    <!-- Desktop nav -->
+    <div class="hidden md:flex items-center gap-7 text-sm">
+      {navLinks.map(({ href, label, match }) => {
+        const active = match(currentPath);
+        return (
+          <a
+            href={href}
+            class:list={[
+              'pb-0.5 transition-opacity hover:opacity-70',
+              active ? 'font-semibold border-b-2 border-ink' : 'font-normal',
+            ]}
+          >
+            {label}
+          </a>
+        );
+      })}
       <NostrLogin client:load />
+    </div>
+
+    <!-- Mobile toggle (CSS-only via hidden checkbox) -->
+    <input id="nav-toggle" type="checkbox" class="peer hidden" aria-hidden="true" />
+    <label
+      for="nav-toggle"
+      class="md:hidden flex flex-col gap-1.5 cursor-pointer p-2 -mr-2"
+      aria-label="Toggle navigation"
+    >
+      <span class="block w-6 h-0.5 bg-ink"></span>
+      <span class="block w-6 h-0.5 bg-ink"></span>
+      <span class="block w-6 h-0.5 bg-ink"></span>
+    </label>
+
+    <!-- Mobile menu sheet — appears below the nav bar when toggled.
+         `max-md:peer-checked:block` scopes the open state to <md so a checked
+         box left over from a mobile session doesn't reappear at desktop sizes. -->
+    <div
+      class="md:hidden absolute left-0 right-0 top-full bg-paper border-b-2 border-ink z-40 hidden max-md:peer-checked:block"
+    >
+      <ul class="flex flex-col">
+        {navLinks.map(({ href, label, match }) => {
+          const active = match(currentPath);
+          return (
+            <li class="border-t border-ink first:border-t-0">
+              <a
+                href={href}
+                class:list={[
+                  'block px-6 py-4 text-base hover:bg-ink/5',
+                  active ? 'font-semibold' : 'font-normal',
+                ]}
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })}
+        <li class="border-t border-ink px-6 py-4">
+          <NostrLogin client:load />
+        </li>
+      </ul>
     </div>
   </nav>
 </header>

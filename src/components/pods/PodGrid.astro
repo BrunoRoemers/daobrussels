@@ -1,0 +1,38 @@
+---
+/**
+ * PodGrid — wraps a list of PodCards in the bordered grid used on the home
+ * page and the pods index. Single rule between cells, outer 2px frame.
+ *
+ * Responsive: 1 col on mobile, 2 on sm, 3 on lg.
+ *
+ * Borders are computed per-cell from the index — Tailwind's `:nth-child()`
+ * arbitrary variants don't switch with the active column count, so we'd get
+ * wrong rules at sm vs lg breakpoints if we relied on them.
+ */
+import type { CollectionEntry } from 'astro:content';
+import PodCard from './PodCard.astro';
+
+interface Props {
+  pods: CollectionEntry<'pods'>[];
+}
+const { pods } = Astro.props;
+---
+<div class="border-2 border-ink grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+  {pods.map((pod, i) => {
+    const cls = [
+      // Default: top border on every cell except the very first (mobile, 1 col).
+      i > 0 ? 'border-t border-ink' : '',
+      // sm (2 cols): top border on cells from row 2 onward, left border on the right column.
+      i >= 2 ? 'sm:border-t sm:border-ink' : 'sm:border-t-0',
+      i % 2 === 1 ? 'sm:border-l sm:border-ink' : '',
+      // lg (3 cols): override sm's per-cell math.
+      i >= 3 ? 'lg:border-t lg:border-ink' : 'lg:border-t-0',
+      i % 3 === 0 ? 'lg:border-l-0' : 'lg:border-l lg:border-ink',
+    ].join(' ');
+    return (
+      <div class={cls}>
+        <PodCard pod={pod} />
+      </div>
+    );
+  })}
+</div>

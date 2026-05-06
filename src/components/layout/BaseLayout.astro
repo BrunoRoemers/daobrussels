@@ -9,7 +9,11 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description = 'DAO Brussels — monthly meetings, hacking the commons', ogImage } = Astro.props;
+const {
+  title,
+  description = 'DAO Brussels — an open assembly of crypto citizens, gardeners and curious neighbours. First Wednesday of every month.',
+  ogImage,
+} = Astro.props;
 const siteUrl = 'https://dao.brussels';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
 ---
@@ -22,6 +26,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
     <title>{title} | DAO Brussels</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <meta name="theme-color" content="#0a0a0a" />
 
     <!-- Open Graph -->
     <meta property="og:title" content={`${title} | DAO Brussels`} />
@@ -31,11 +36,16 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
     {ogImage && <meta property="og:image" content={new URL(ogImage, siteUrl)} />}
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Geometric Commons type pairing: Space Grotesk + Space Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="min-h-screen flex flex-col bg-paper text-ink">
     <Nav />
     <main class="flex-1">
       <slot />
