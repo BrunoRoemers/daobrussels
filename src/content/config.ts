@@ -10,6 +10,7 @@ const events = defineCollection({
     summary: z.string().optional(),
     pods: z.array(reference('pods')).default([]),
     nostrEventTag: z.string(),
+    cover: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });

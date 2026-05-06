@@ -3,8 +3,7 @@ title: "Mutual Aid Network"
 description: "Mapping and strengthening local mutual aid connections in Brussels — skills exchange, resource sharing, and solidarity infrastructure."
 status: proposed
 startDate: 2025-01-08
-events:
-  - "2025-01-08"
+events: []
 links: []
 draft: false
 ---
