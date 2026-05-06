@@ -29,8 +29,8 @@ function statusBadge(status: string) {
 
 <div class="border-2 border-ink">
   <!-- Header (desktop only) -->
-  <div class="hidden lg:grid grid-cols-[60px_2fr_2.4fr_1fr_1fr_1fr_100px] px-5 py-4 bg-ink text-paper font-mono text-[11px] tracking-widercaps gap-x-4">
-    <div></div><div>NAME</div><div>BRIEF</div><div>STEWARDS</div><div>EVENTS</div><div>STATUS</div><div></div>
+  <div class="hidden lg:grid grid-cols-[60px_2.2fr_3fr_1fr_1fr_100px] px-5 py-4 bg-ink text-paper font-mono text-[11px] tracking-widercaps gap-x-4">
+    <div></div><div>NAME</div><div>BRIEF</div><div>EVENTS</div><div>STATUS</div><div></div>
   </div>
 
   {pods.map((pod, i) => {
@@ -53,12 +53,11 @@ function statusBadge(status: string) {
         </div>
 
         <!-- Desktop row -->
-        <div class="hidden lg:grid grid-cols-[60px_2fr_2.4fr_1fr_1fr_1fr_100px] gap-x-4 items-center text-sm">
+        <div class="hidden lg:grid grid-cols-[60px_2.2fr_3fr_1fr_1fr_100px] gap-x-4 items-center text-sm">
           <Glyph kind={kind} size={32} color="currentColor" />
           <div class="font-semibold">{pod.data.title}</div>
           <div class="text-[13px] opacity-90">{pod.data.description}</div>
-          <div class="font-mono text-xs">{pod.data.events.length || 0} stewards</div>
-          <div class="font-mono text-xs">{pod.data.events.length} events</div>
+          <div class="font-mono text-xs">{pod.data.events.length} {pod.data.events.length === 1 ? 'event' : 'events'}</div>
           <div>
             <span class:list={['font-mono text-[11px] px-2 py-0.5', badge.cls]}>{badge.text}</span>
           </div>

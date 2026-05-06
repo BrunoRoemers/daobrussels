@@ -35,7 +35,9 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl);
     <meta property="og:type" content="website" />
     {ogImage && <meta property="og:image" content={new URL(ogImage, siteUrl)} />}
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Favicon: the original concentric DAO Brussels mark, used on dao.brussels -->
+    <link rel="icon" type="image/svg+xml" href="/daobrussels-icon.svg" />
+    <link rel="alternate icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Geometric Commons type pairing: Space Grotesk + Space Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

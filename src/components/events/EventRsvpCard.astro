@@ -1,8 +1,11 @@
 ---
 /**
  * EventRsvpCard — sticky sidebar card on the event detail page with date,
- * location, attendees and RSVP buttons. On mobile it sits inline above the
- * schedule rather than sticking.
+ * location and RSVP buttons.
+ *
+ * Attendee counts and treasury figures are intentionally not shown until
+ * they're sourced from real data — the prototype's "+34 going" / "MULTISIG
+ * €8,432" were placeholder lies.
  */
 import type { CollectionEntry } from 'astro:content';
 import Glyph from '../marks/Glyph.astro';
@@ -42,25 +45,11 @@ const weekday = date.toLocaleString('en-GB', { weekday: 'short', timeZone: 'UTC'
     </>
   )}
 
-  <div class="mono-label opacity-60 mb-2 mt-4">GOING · 42</div>
-  <div class="flex flex-wrap gap-1 mb-5">
-    {Array.from({ length: 8 }).map((_, i) => (
-      <div
-        class="w-7 h-7 rounded-full border-2 border-ink"
-        style={`background:${i % 2 ? '#0a0a0a' : '#fafaf7'}`}
-      />
-    ))}
-    <div class="w-7 h-7 rounded-full border border-ink flex items-center justify-center font-mono text-[11px]">
-      +34
-    </div>
-  </div>
-
   <button class="btn-ink w-full py-3.5 mt-2">I'M COMING →</button>
   <button class="btn-ghost w-full py-3 mt-2">ADD TO CALENDAR</button>
 
   <div class="border-t border-ink mt-5 pt-4 mono-label leading-relaxed opacity-70">
     FREE · DONATIONS WELCOME<br />
-    0xDAO…BRUSSELS<br />
-    MULTISIG €8,432 / GOAL €12,000
+    DISCUSSION VIA NOSTR ↓
   </div>
 </aside>

@@ -7,24 +7,41 @@ import SectionHeading from '../components/ui/SectionHeading.astro';
 import Tabs from '../components/ui/Tabs.astro';
 import EventBigCard from '../components/events/EventBigCard.astro';
 import PodGrid from '../components/pods/PodGrid.astro';
-import { getSortedEvents, getSortedPods, getNextEvent } from '../lib/content';
+import {
+  getSortedEvents,
+  getSortedPods,
+  getNextEvent,
+  getCommunityCounts,
+  assemblyNumberFor,
+} from '../lib/content';
 
 const nextEvent = await getNextEvent();
 const recentEvents = (await getSortedEvents()).slice(0, 3);
-const recentPods = (await getSortedPods()).slice(0, 6);
+const allPods = await getSortedPods();
+const recentPods = allPods.filter((p) => p.data.status === 'active').slice(0, 6);
+
+const counts = await getCommunityCounts();
+
+// The hero eyebrow shows the latest assembly's number — falls back to total
+// events if no past event is registered yet.
+const heroAssemblyNo = counts.heldEvents || counts.totalEvents;
+
+// The featured event in the "Next assembly" card carries its own № so the
+// card's eyebrow stays in sync with the rest of the site.
+const featuredEvent = nextEvent ?? recentEvents[0] ?? null;
+const featuredAssemblyNo = featuredEvent ? await assemblyNumberFor(featuredEvent) : 0;
 
 const stats = [
-  { n: '142', l: 'members on chain' },
-  { n: '47', l: 'assemblies held' },
-  { n: '11', l: 'active pods' },
-  { n: '€8.4k', l: 'in the multisig' },
+  { n: String(counts.heldEvents), l: 'assemblies held' },
+  { n: String(counts.activePods), l: 'active pods' },
+  { n: String(counts.totalEvents), l: 'total assemblies' },
+  { n: String(counts.totalPods), l: 'pods total' },
 ];
 
 const tabs = [
   { label: 'all', active: true },
   { label: 'tech' },
   { label: 'commons' },
-  { label: 'garden' },
   { label: 'crypto' },
 ];
 ---
@@ -36,7 +53,7 @@ const tabs = [
       <div>
         <div class="font-mono text-[11px] sm:text-xs tracking-widercaps mb-6 sm:mb-8 opacity-80">
           <span aria-hidden="true">◯</span>{' '}
-          ASSEMBLY №47 / COMMONS HUB BRUSSELS / EST. 2021
+          ASSEMBLY №{heroAssemblyNo} / COMMONS HUB BRUSSELS / EST. 2021
         </div>
         <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[92px] leading-[0.95] tracking-[-0.04em] font-medium m-0">
           A city,<br />
@@ -73,14 +90,12 @@ const tabs = [
   <section class="section-x section-y">
     <SectionHeading
       glyph="◯"
-      label="NEXT ASSEMBLY"
+      label={nextEvent ? 'NEXT ASSEMBLY' : 'LATEST ASSEMBLY'}
       href="/events"
       hrefLabel="ALL EVENTS →"
     />
-    {nextEvent ? (
-      <EventBigCard event={nextEvent} />
-    ) : recentEvents[0] ? (
-      <EventBigCard event={recentEvents[0]} />
+    {featuredEvent ? (
+      <EventBigCard event={featuredEvent} assemblyNo={featuredAssemblyNo} />
     ) : (
       <div class="border-2 border-ink p-8 text-center">
         <Glyph kind="ring" size={64} class="mx-auto mb-3" />

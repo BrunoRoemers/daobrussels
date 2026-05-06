@@ -10,9 +10,11 @@ import { formatDate } from '../../lib/content';
 
 interface Props {
   event: CollectionEntry<'events'>;
+  /** 1-based chronological number for this assembly. */
+  assemblyNo?: number;
 }
 
-const { event } = Astro.props;
+const { event, assemblyNo } = Astro.props;
 const { title, date, location, locationUrl, summary, pods: podRefs } = event.data;
 const pods = await getEntries(podRefs);
 
@@ -33,7 +35,7 @@ const year = date.getUTCFullYear();
 <header class="py-8 md:py-12">
   <div class="font-mono text-xs tracking-widercaps mb-4 opacity-60 flex items-center gap-2">
     <Glyph kind="circle" size={12} />
-    ASSEMBLY — {formatDate(date).toUpperCase()}
+    {assemblyNo ? `ASSEMBLY №${assemblyNo} — ` : 'ASSEMBLY — '}{formatDate(date).toUpperCase()}
   </div>
   <h1 class="text-4xl sm:text-5xl md:text-6xl font-medium tracking-[-0.03em] leading-[0.95] m-0">
     {title}

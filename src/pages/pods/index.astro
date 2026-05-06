@@ -3,11 +3,12 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
 import PodFeatured from '../../components/pods/PodFeatured.astro';
 import PodTable from '../../components/pods/PodTable.astro';
 import CTABand from '../../components/ui/CTABand.astro';
-import { getSortedPods } from '../../lib/content';
+import { getSortedPods, getCommunityCounts } from '../../lib/content';
 
 const pods = await getSortedPods();
 const active = pods.filter((p) => p.data.status === 'active');
 const featured = active[0] ?? pods[0];
+const counts = await getCommunityCounts();
 ---
 
 <BaseLayout
@@ -17,7 +18,8 @@ const featured = active[0] ?? pods[0];
   <!-- Intro -->
   <section class="section-x pt-12 md:pt-16 pb-6 md:pb-8">
     <div class="font-mono text-[11px] sm:text-xs tracking-widercaps mb-6 opacity-70">
-      <span aria-hidden="true">◇</span> POD INDEX · {active.length} ACTIVE · {pods.length - active.length} DORMANT
+      <span aria-hidden="true">◇</span>{' '}
+      POD INDEX · {counts.activePods} ACTIVE · {counts.dormantPods} DORMANT
     </div>
     <h1 class="text-5xl sm:text-6xl md:text-7xl tracking-[-0.04em] leading-[0.95] font-medium m-0 max-w-3xl">
       A pod is a small group<br />

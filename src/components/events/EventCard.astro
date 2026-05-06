@@ -8,8 +8,10 @@ import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   event: CollectionEntry<'events'>;
+  /** 1-based chronological number for this assembly. */
+  assemblyNo?: number;
 }
-const { event } = Astro.props;
+const { event, assemblyNo } = Astro.props;
 const { title, date, location, summary, pods } = event.data;
 
 const day = String(date.getUTCDate()).padStart(2, '0');
@@ -34,8 +36,11 @@ const weekday = date.toLocaleString('en-GB', { weekday: 'short', timeZone: 'UTC'
 
     <!-- Body -->
     <div class="p-4 sm:p-6 flex flex-col gap-2">
+      {assemblyNo && (
+        <div class="font-mono text-[11px] opacity-60 tracking-widercaps">ASSEMBLY №{assemblyNo}</div>
+      )}
       <h3 class="text-lg sm:text-xl font-medium tracking-tight leading-snug">{title}</h3>
-      {location && <div class="font-mono text-[11px] opacity-60 tracking-widercaps">{location.toUpperCase()}</div>}
+      {location && <div class="font-mono text-[11px] opacity-60 tracking-widercaps line-clamp-1">{location.toUpperCase()}</div>}
       {summary && <p class="text-sm leading-relaxed line-clamp-2 opacity-80">{summary}</p>}
       {pods.length > 0 && (
         <div class="flex flex-wrap gap-2 mt-1">

@@ -2,9 +2,11 @@
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 import EventCard from '../../components/events/EventCard.astro';
 import CTABand from '../../components/ui/CTABand.astro';
-import { getSortedEvents } from '../../lib/content';
+import { getSortedEvents, getCommunityCounts, getAssemblyNumbers } from '../../lib/content';
 
 const events = await getSortedEvents();
+const counts = await getCommunityCounts();
+const numbers = await getAssemblyNumbers();
 ---
 
 <BaseLayout
@@ -13,7 +15,8 @@ const events = await getSortedEvents();
 >
   <section class="section-x pt-12 md:pt-16 pb-8 md:pb-10">
     <div class="font-mono text-[11px] sm:text-xs tracking-widercaps mb-6 opacity-70">
-      <span aria-hidden="true">◯</span> EVENT INDEX · {events.length} HELD · MONTHLY
+      <span aria-hidden="true">◯</span>{' '}
+      EVENT INDEX · {counts.heldEvents} HELD · {counts.totalEvents - counts.heldEvents} UPCOMING · EST. 2021
     </div>
     <h1 class="text-5xl sm:text-6xl md:text-7xl tracking-[-0.04em] leading-[0.95] font-medium m-0 max-w-3xl">
       Every first<br />
@@ -21,7 +24,7 @@ const events = await getSortedEvents();
       after work.
     </h1>
     <p class="text-base md:text-lg leading-relaxed mt-6 max-w-2xl text-muted">
-      We've held {events.length} {events.length === 1 ? 'assembly' : 'assemblies'} so far.
+      We've held {counts.heldEvents} {counts.heldEvents === 1 ? 'assembly' : 'assemblies'} so far.
       Notes, slides and the comment thread for each one stay open here.
     </p>
   </section>
@@ -31,7 +34,9 @@ const events = await getSortedEvents();
   <section class="section-x section-y">
     {events.length > 0 ? (
       <div class="space-y-4">
-        {events.map((event) => <EventCard event={event} />)}
+        {events.map((event) => (
+          <EventCard event={event} assemblyNo={numbers.get(event.slug)} />
+        ))}
       </div>
     ) : (
       <p class="font-mono text-sm tracking-widercaps opacity-60">NO EVENTS YET.</p>
