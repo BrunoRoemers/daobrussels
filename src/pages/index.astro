@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import EventCard from '../components/events/EventCard.astro';
+import PodCard from '../components/pods/PodCard.astro';
+import { getSortedEvents, getSortedPods, getNextEvent, formatDate } from '../lib/content';
+
+const nextEvent = await getNextEvent();
+const recentEvents = (await getSortedEvents()).slice(0, 3);
+const recentPods = (await getSortedPods()).slice(0, 3);
+---
+
+<BaseLayout title="Home">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+
+    <!-- Hero -->
+    <div class="mb-12">
+      <h1 class="text-4xl font-semibold text-dao-dark mb-4">
+        DAO Brussels
+      </h1>
+      <p class="text-xl text-gray-600 leading-relaxed max-w-2xl">
+        A monthly gathering for hacking the commons. We meet the first Wednesday of every month
+        to experiment with decentralised coordination, shared infrastructure, and collective tools.
+      </p>
+    </div>
+
+    <!-- Next event banner -->
+    {nextEvent ? (
+      <div class="bg-dao-green/5 border border-dao-green/20 rounded-xl p-5 mb-12">
+        <p class="text-sm font-medium text-dao-green uppercase tracking-wide mb-1">Next meeting</p>
+        <a href={`/events/${nextEvent.slug}`} class="group">
+          <p class="text-lg font-semibold text-gray-900 group-hover:text-dao-dark transition-colors">
+            {formatDate(nextEvent.data.date)}
+          </p>
+          {nextEvent.data.location && (
+            <p class="text-sm text-gray-600 mt-0.5">{nextEvent.data.location}</p>
+          )}
+        </a>
+      </div>
+    ) : (
+      <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 mb-12">
+        <p class="text-sm text-gray-500">No upcoming meeting scheduled yet. Check back soon.</p>
+      </div>
+    )}
+
+    <!-- Recent events -->
+    <section class="mb-12">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold text-gray-900">Recent meetings</h2>
+        <a href="/events" class="text-sm text-dao-green hover:text-dao-dark transition-colors">
+          All meetings →
+        </a>
+      </div>
+      <div class="space-y-3">
+        {recentEvents.map((event) => <EventCard event={event} />)}
+      </div>
+    </section>
+
+    <!-- Active pods -->
+    <section>
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold text-gray-900">Active pods</h2>
+        <a href="/pods" class="text-sm text-dao-green hover:text-dao-dark transition-colors">
+          All pods →
+        </a>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {recentPods.map((pod) => <PodCard pod={pod} />)}
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>

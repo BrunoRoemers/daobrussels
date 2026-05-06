@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import EventHeader from '../../components/events/EventHeader.astro';
+import CommentFeed from '../../components/nostr/CommentFeed.svelte';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events', ({ data }) => !data.draft);
+  return events.map((event) => ({ params: { slug: event.slug }, props: { event } }));
+}
+
+const { event } = Astro.props;
+const { Content } = await event.render();
+---
+
+<BaseLayout
+  title={event.data.title}
+  description={event.data.summary}
+>
+  <article class="max-w-4xl mx-auto px-4 py-12">
+    <a href="/events" class="text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6 block">
+      ← All meetings
+    </a>
+
+    <EventHeader event={event} />
+
+    <div class="prose max-w-none">
+      <Content />
+    </div>
+
+    <CommentFeed eventTag={event.data.nostrEventTag} client:visible />
+  </article>
+</BaseLayout>

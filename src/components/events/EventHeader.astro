@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getEntries } from 'astro:content';
+import { formatDate } from '../../lib/content';
+
+interface Props {
+  event: CollectionEntry<'events'>;
+}
+
+const { event } = Astro.props;
+const { title, date, location, locationUrl, summary, pods: podRefs } = event.data;
+const pods = await getEntries(podRefs);
+---
+
+<div class="mb-8">
+  <time
+    datetime={date.toISOString()}
+    class="text-sm font-mono text-dao-green font-medium uppercase tracking-wide"
+  >
+    {formatDate(date)}
+  </time>
+  <h1 class="mt-2 text-3xl font-semibold text-gray-900">{title}</h1>
+
+  {location && (
+    <p class="mt-2 text-gray-600">
+      {locationUrl ? (
+        <a href={locationUrl} target="_blank" rel="noopener noreferrer" class="hover:text-dao-green underline">
+          {location}
+        </a>
+      ) : location}
+    </p>
+  )}
+
+  {summary && (
+    <p class="mt-3 text-lg text-gray-700 leading-relaxed">{summary}</p>
+  )}
+
+  {pods.length > 0 && (
+    <div class="mt-4 flex flex-wrap gap-2">
+      {pods.map((pod) => (
+        <a
+          href={`/pods/${pod.slug}`}
+          class="inline-flex items-center gap-1.5 text-sm bg-dao-light/20 text-dao-dark px-3 py-1 rounded-full hover:bg-dao-light/40 transition-colors font-medium"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-dao-green"></span>
+          {pod.data.title}
+        </a>
+      ))}
+    </div>
+  )}
+</div>
+<hr class="border-gray-200 mb-8" />

@@ -1,0 +1,34 @@
+---
+import { getCollection, getEntries } from 'astro:content';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import PodHeader from '../../components/pods/PodHeader.astro';
+import PodTimeline from '../../components/pods/PodTimeline.astro';
+
+export async function getStaticPaths() {
+  const pods = await getCollection('pods', ({ data }) => !data.draft);
+  return pods.map((pod) => ({ params: { slug: pod.slug }, props: { pod } }));
+}
+
+const { pod } = Astro.props;
+const { Content } = await pod.render();
+const events = await getEntries(pod.data.events);
+---
+
+<BaseLayout
+  title={pod.data.title}
+  description={pod.data.description}
+>
+  <article class="max-w-4xl mx-auto px-4 py-12">
+    <a href="/pods" class="text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6 block">
+      ← All pods
+    </a>
+
+    <PodHeader pod={pod} />
+
+    <div class="prose max-w-none">
+      <Content />
+    </div>
+
+    <PodTimeline events={events} />
+  </article>
+</BaseLayout>

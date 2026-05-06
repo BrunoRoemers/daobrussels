@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import PodCard from '../../components/pods/PodCard.astro';
+import { getSortedPods } from '../../lib/content';
+
+const pods = await getSortedPods();
+const byStatus = {
+  active: pods.filter((p) => p.data.status === 'active'),
+  proposed: pods.filter((p) => p.data.status === 'proposed'),
+  paused: pods.filter((p) => p.data.status === 'paused'),
+  completed: pods.filter((p) => p.data.status === 'completed'),
+};
+---
+
+<BaseLayout
+  title="Pods"
+  description="Activities and projects happening within DAO Brussels — some spanning multiple meetings."
+>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <div class="mb-8">
+      <h1 class="text-3xl font-semibold text-gray-900">Pods</h1>
+      <p class="mt-2 text-gray-600">
+        Activities and projects that happen during our meetings. Pods can span multiple events.
+      </p>
+    </div>
+
+    {byStatus.active.length > 0 && (
+      <section class="mb-10">
+        <h2 class="text-sm font-medium uppercase tracking-wide text-gray-400 mb-3">Active</h2>
+        <div class="grid sm:grid-cols-2 gap-3">
+          {byStatus.active.map((pod) => <PodCard pod={pod} />)}
+        </div>
+      </section>
+    )}
+
+    {byStatus.proposed.length > 0 && (
+      <section class="mb-10">
+        <h2 class="text-sm font-medium uppercase tracking-wide text-gray-400 mb-3">Proposed</h2>
+        <div class="grid sm:grid-cols-2 gap-3">
+          {byStatus.proposed.map((pod) => <PodCard pod={pod} />)}
+        </div>
+      </section>
+    )}
+
+    {byStatus.paused.length > 0 && (
+      <section class="mb-10">
+        <h2 class="text-sm font-medium uppercase tracking-wide text-gray-400 mb-3">Paused</h2>
+        <div class="grid sm:grid-cols-2 gap-3">
+          {byStatus.paused.map((pod) => <PodCard pod={pod} />)}
+        </div>
+      </section>
+    )}
+
+    {byStatus.completed.length > 0 && (
+      <section>
+        <h2 class="text-sm font-medium uppercase tracking-wide text-gray-400 mb-3">Completed</h2>
+        <div class="grid sm:grid-cols-2 gap-3">
+          {byStatus.completed.map((pod) => <PodCard pod={pod} />)}
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>

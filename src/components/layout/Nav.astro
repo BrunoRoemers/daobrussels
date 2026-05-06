@@ -1,0 +1,36 @@
+---
+import NostrLogin from '../nostr/NostrLogin.svelte';
+
+const navLinks = [
+  { href: '/events', label: 'Events' },
+  { href: '/pods', label: 'Pods' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+  <nav class="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
+    <a href="/" class="font-semibold text-dao-dark text-lg tracking-tight hover:text-dao-green transition-colors">
+      DAO Brussels
+    </a>
+
+    <div class="flex items-center gap-6">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={[
+            'text-sm font-medium transition-colors',
+            currentPath.startsWith(href)
+              ? 'text-dao-green'
+              : 'text-gray-600 hover:text-gray-900',
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+
+      <NostrLogin client:load />
+    </div>
+  </nav>
+</header>

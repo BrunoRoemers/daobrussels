@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import EventCard from '../../components/events/EventCard.astro';
+import { getSortedEvents } from '../../lib/content';
+
+const events = await getSortedEvents();
+---
+
+<BaseLayout
+  title="Events"
+  description="All DAO Brussels monthly meetings — notes, pods, and community discussions."
+>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <div class="mb-8">
+      <h1 class="text-3xl font-semibold text-gray-900">Meetings</h1>
+      <p class="mt-2 text-gray-600">
+        Every first Wednesday of the month. {events.length} meeting{events.length !== 1 ? 's' : ''} documented.
+      </p>
+    </div>
+
+    {events.length > 0 ? (
+      <div class="space-y-3">
+        {events.map((event) => <EventCard event={event} />)}
+      </div>
+    ) : (
+      <p class="text-gray-400">No events yet.</p>
+    )}
+  </div>
+</BaseLayout>
