@@ -11,6 +11,7 @@ const events = defineCollection({
     pods: z.array(reference('pods')).default([]),
     nostrEventTag: z.string(),
     cover: z.string().optional(),
+    links: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
     draft: z.boolean().default(false),
   }),
 });
