@@ -1,0 +1,27 @@
+---
+/**
+ * Deterministically pick a Glyph kind from a string (a name, a pubkey, a slug).
+ * Used as a fallback "avatar" in the mono design language — every comment author
+ * or pod gets a stable shape based on their identifier.
+ */
+import Glyph from './Glyph.astro';
+import type { GlyphKind } from './types';
+
+interface Props {
+  seed: string;
+  size?: number;
+  class?: string;
+}
+
+const { seed, size = 44, class: className = '' } = Astro.props;
+
+const KINDS: GlyphKind[] = ['circle', 'diamond', 'triangle', 'square', 'half', 'plus', 'quad', 'ring', 'hatch', 'dot-grid'];
+
+let h = 0;
+for (let i = 0; i < seed.length; i++) {
+  h = (h * 31 + seed.charCodeAt(i)) | 0;
+}
+const kind = KINDS[Math.abs(h) % KINDS.length];
+---
+
+<Glyph kind={kind} size={size} class={className} />

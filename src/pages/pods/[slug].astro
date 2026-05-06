@@ -3,6 +3,7 @@ import { getCollection, getEntries } from 'astro:content';
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 import PodHeader from '../../components/pods/PodHeader.astro';
 import PodTimeline from '../../components/pods/PodTimeline.astro';
+import CTABand from '../../components/ui/CTABand.astro';
 
 export async function getStaticPaths() {
   const pods = await getCollection('pods', ({ data }) => !data.draft);
@@ -14,21 +15,47 @@ const { Content } = await pod.render();
 const events = await getEntries(pod.data.events);
 ---
 
-<BaseLayout
-  title={pod.data.title}
-  description={pod.data.description}
->
-  <article class="max-w-4xl mx-auto px-4 py-12">
-    <a href="/pods" class="text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6 block">
-      ← All pods
-    </a>
-
+<BaseLayout title={pod.data.title} description={pod.data.description}>
+  <article class="section-x">
     <PodHeader pod={pod} />
 
-    <div class="prose max-w-none">
-      <Content />
+    <hr class="hr-thick" />
+
+    <div class="py-10 md:py-14 grid gap-10 lg:grid-cols-[1fr_280px]">
+      <div class="prose max-w-none">
+        <Content />
+      </div>
+
+      <aside>
+        <div class="mono-label opacity-60 mb-3">SUMMARY</div>
+        <dl class="border-t border-ink text-sm">
+          <div class="grid grid-cols-2 py-3 border-b border-ink">
+            <dt class="font-mono text-xs opacity-60 tracking-widercaps">STATUS</dt>
+            <dd class="text-right font-mono text-xs">{pod.data.status.toUpperCase()}</dd>
+          </div>
+          {pod.data.startDate && (
+            <div class="grid grid-cols-2 py-3 border-b border-ink">
+              <dt class="font-mono text-xs opacity-60 tracking-widercaps">STARTED</dt>
+              <dd class="text-right font-mono text-xs">
+                {pod.data.startDate.toLocaleString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' }).toUpperCase()}
+              </dd>
+            </div>
+          )}
+          <div class="grid grid-cols-2 py-3 border-b border-ink">
+            <dt class="font-mono text-xs opacity-60 tracking-widercaps">EVENTS</dt>
+            <dd class="text-right font-mono text-xs">{events.length}</dd>
+          </div>
+        </dl>
+      </aside>
     </div>
 
     <PodTimeline events={events} />
   </article>
+
+  <CTABand
+    eyebrow="JOIN THIS POD"
+    headline="Show up at the next assembly and ask for the table."
+    buttonLabel="SEE EVENTS"
+    buttonHref="/events"
+  />
 </BaseLayout>

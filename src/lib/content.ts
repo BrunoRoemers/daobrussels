@@ -24,12 +24,16 @@ export async function getRecentPods(limit = 3) {
   return pods.slice(0, limit);
 }
 
+// Date formatters — pinned to UTC so frontmatter dates ("2026-06-03") format
+// the same regardless of the build agent's local timezone.
+
 export function formatDate(date: Date): string {
   return date.toLocaleDateString('en-GB', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'UTC',
   });
 }
 
@@ -38,5 +42,6 @@ export function formatShortDate(date: Date): string {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
+    timeZone: 'UTC',
   });
 }

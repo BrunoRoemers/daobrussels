@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 import EventCard from '../../components/events/EventCard.astro';
+import CTABand from '../../components/ui/CTABand.astro';
 import { getSortedEvents } from '../../lib/content';
 
 const events = await getSortedEvents();
@@ -10,20 +11,37 @@ const events = await getSortedEvents();
   title="Events"
   description="All DAO Brussels monthly meetings — notes, pods, and community discussions."
 >
-  <div class="max-w-4xl mx-auto px-4 py-12">
-    <div class="mb-8">
-      <h1 class="text-3xl font-semibold text-gray-900">Meetings</h1>
-      <p class="mt-2 text-gray-600">
-        Regular meetings, usually on the first Wednesday of the month. {events.length} meeting{events.length !== 1 ? 's' : ''} documented.
-      </p>
+  <section class="section-x pt-12 md:pt-16 pb-8 md:pb-10">
+    <div class="font-mono text-[11px] sm:text-xs tracking-widercaps mb-6 opacity-70">
+      <span aria-hidden="true">◯</span> EVENT INDEX · {events.length} HELD · MONTHLY
     </div>
+    <h1 class="text-5xl sm:text-6xl md:text-7xl tracking-[-0.04em] leading-[0.95] font-medium m-0 max-w-3xl">
+      Every first<br />
+      <span class="italic font-normal">Wednesday</span>,<br />
+      after work.
+    </h1>
+    <p class="text-base md:text-lg leading-relaxed mt-6 max-w-2xl text-muted">
+      We've held {events.length} {events.length === 1 ? 'assembly' : 'assemblies'} so far.
+      Notes, slides and the comment thread for each one stay open here.
+    </p>
+  </section>
 
+  <hr class="hr-thick" />
+
+  <section class="section-x section-y">
     {events.length > 0 ? (
-      <div class="space-y-3">
+      <div class="space-y-4">
         {events.map((event) => <EventCard event={event} />)}
       </div>
     ) : (
-      <p class="text-gray-400">No events yet.</p>
+      <p class="font-mono text-sm tracking-widercaps opacity-60">NO EVENTS YET.</p>
     )}
-  </div>
+  </section>
+
+  <CTABand
+    eyebrow="HOST AN ASSEMBLY"
+    headline="Got something to share? Take the floor next month."
+    buttonLabel="PROPOSE A TALK"
+    buttonHref="/pods"
+  />
 </BaseLayout>

@@ -1,0 +1,98 @@
+---
+/**
+ * PodFeatured — the two-column featured pod block on /pods.
+ * Left half is the pod card with a stat row; right half is a dark panel with
+ * shape composition + next work session. Stacks on mobile.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Glyph from '../marks/Glyph.astro';
+import { glyphForSeed } from '../../lib/glyphs';
+
+interface Props {
+  pod: CollectionEntry<'pods'>;
+  /** Optional next work-session info; falls back to a sensible default. */
+  nextSession?: { date: string; location: string };
+}
+const { pod, nextSession } = Astro.props;
+const session = nextSession ?? { date: 'Sat 17 May · 10:00', location: 'Tour & Taxis, gate B' };
+const kind = glyphForSeed(pod.slug);
+const stewards = pod.data.events.length || 4;
+const eventsCount = pod.data.events.length;
+---
+
+<div class="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] border-b-2 border-ink">
+  <!-- Left: pod summary -->
+  <div class="p-6 sm:p-10 lg:p-12 lg:border-r-2 border-ink">
+    <div class="flex items-center gap-4 mb-6 sm:mb-8">
+      <Glyph kind={kind} size={72} />
+      <div>
+        <div class="mono-label opacity-60">POD · {pod.data.status.toUpperCase()}</div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-medium tracking-[-0.02em] m-0 mt-1">
+          {pod.data.title}
+        </h2>
+      </div>
+    </div>
+    <p class="text-base sm:text-lg leading-relaxed text-muted max-w-xl">{pod.data.description}</p>
+
+    <div class="mt-7 grid grid-cols-3 border border-ink">
+      {[
+        { l: 'STEWARDS', v: String(stewards) },
+        { l: 'EVENTS', v: String(eventsCount) },
+        { l: 'SINCE', v: pod.data.startDate
+          ? pod.data.startDate.toLocaleString('en-GB', { month: 'short', year: '2-digit', timeZone: 'UTC' }).toUpperCase()
+          : '—' },
+      ].map((s, i) => (
+        <div class:list={['p-4', i < 2 ? 'border-r border-ink' : '']}>
+          <div class="font-mono text-[10px] opacity-60 tracking-widercaps">{s.l}</div>
+          <div class="text-2xl sm:text-3xl font-medium mt-1">{s.v}</div>
+        </div>
+      ))}
+    </div>
+
+    <a href={`/pods/${pod.slug}`} class="btn-ink mt-6 px-5 py-3 inline-flex">OPEN POD →</a>
+  </div>
+
+  <!-- Right: dark panel with shapes + next session.
+       Composition is split into two zones so text never sits on a shape:
+         · upper half (~60%): decorative shapes
+         · lower half (~40%): "NEXT WORK SESSION" headline
+       Shapes are progressively revealed as the viewport widens so a narrow
+       mobile panel doesn't crowd the small headline. -->
+  <div class="bg-ink text-paper relative overflow-hidden min-h-[340px] sm:min-h-[400px] lg:min-h-[460px]">
+    <!-- Decorative zone (top ~60%) -->
+    <div class="absolute inset-x-0 top-0 h-[60%]" aria-hidden="true">
+      <!-- Ring: top-right, hangs off the corner. Always visible. -->
+      <div class="absolute -top-10 -right-10 sm:-top-14 sm:-right-14">
+        <Glyph
+          kind="ring"
+          size={300}
+          color="#fafaf7"
+          class="w-[180px] sm:w-[240px] lg:w-[320px] h-auto"
+        />
+      </div>
+      <!-- Diamond: top-left. Hidden on the narrowest viewports. -->
+      <div class="absolute top-6 left-6 sm:top-10 sm:left-10 hidden sm:block">
+        <Glyph
+          kind="diamond"
+          size={120}
+          color="#fafaf7"
+          filled={false}
+          class="w-[88px] lg:w-[120px] h-auto"
+        />
+      </div>
+      <!-- Dot grid: tucked between ring and diamond at the lower edge of the
+           decorative zone. Only on lg where there's room. -->
+      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 hidden lg:block">
+        <Glyph kind="dot-grid" size={100} color="#fafaf7" />
+      </div>
+    </div>
+
+    <!-- Text zone (bottom ~40%) -->
+    <div class="absolute inset-x-0 bottom-0 p-6 sm:p-10 lg:p-12 z-10">
+      <div class="mono-label opacity-60">NEXT WORK SESSION</div>
+      <div class="text-2xl sm:text-3xl font-medium mt-2 leading-tight">
+        {session.date}<br />{session.location}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,8 @@
+<!--
+  NostrLogin — Geometric Commons sign-in pill in the nav.
+  Shows ink-on-paper "SIGN IN ↗" button when disconnected; once connected,
+  shows a small avatar (or deterministic glyph fallback) + display name.
+-->
 <script lang="ts">
   import { onMount } from 'svelte';
   import { SimplePool } from 'nostr-tools/pool';
@@ -44,7 +49,7 @@
     if (profile?.name) return profile.name;
     try {
       const npub = npubEncode(pubkey);
-      return `${npub.slice(0, 12)}…`;
+      return `${npub.slice(0, 10)}…`;
     } catch {
       return `${pubkey.slice(0, 8)}…`;
     }
@@ -56,21 +61,22 @@
     {#if $nostrStore.profile?.picture}
       <img
         src={$nostrStore.profile.picture}
-        alt="avatar"
-        class="w-7 h-7 rounded-full object-cover border border-gray-200"
+        alt=""
+        class="w-7 h-7 rounded-full object-cover border-2 border-ink"
       />
     {:else}
-      <div class="w-7 h-7 rounded-full bg-dao-green/20 flex items-center justify-center text-xs font-medium text-dao-dark">
-        {getDisplayName($nostrStore.pubkey!, $nostrStore.profile).slice(0, 1).toUpperCase()}
+      <div class="w-7 h-7 rounded-full bg-ink text-paper border-2 border-ink flex items-center justify-center font-mono text-[11px] font-bold">
+        {getDisplayName($nostrStore.pubkey ?? '', $nostrStore.profile).slice(0, 1).toUpperCase()}
       </div>
     {/if}
-    <span class="text-sm text-gray-700 hidden sm:block">
-      {getDisplayName($nostrStore.pubkey!, $nostrStore.profile)}
+    <span class="text-sm hidden sm:block max-w-[140px] truncate">
+      {getDisplayName($nostrStore.pubkey ?? '', $nostrStore.profile)}
     </span>
     <button
       on:click={disconnect}
-      class="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+      class="font-mono text-[11px] tracking-widercaps opacity-50 hover:opacity-100 cursor-pointer"
       title="Disconnect"
+      aria-label="Disconnect"
     >
       ✕
     </button>
@@ -81,23 +87,24 @@
       <button
         on:click={connect}
         disabled={loading}
-        class="text-sm font-medium text-dao-green border border-dao-light/60 px-3 py-1 rounded-full hover:bg-dao-light/20 transition-colors disabled:opacity-50"
+        class="bg-ink text-paper px-4 py-2.5 font-semibold text-xs tracking-wide
+               cursor-pointer hover:opacity-90 disabled:opacity-50 transition-opacity"
       >
-        {loading ? 'Connecting…' : 'Connect Nostr'}
+        {loading ? 'CONNECTING…' : 'SIGN IN ↗'}
       </button>
     {:else}
       <a
         href="https://getalby.com"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+        class="font-mono text-[11px] tracking-widercaps opacity-60 hover:opacity-100 transition-opacity"
         title="Install a Nostr extension like Alby to log in"
       >
-        Get Alby ↗
+        GET ALBY ↗
       </a>
     {/if}
     {#if error}
-      <span class="text-xs text-red-500">{error}</span>
+      <span class="font-mono text-[11px] tracking-widercaps text-ink">⚠ {error.toUpperCase()}</span>
     {/if}
   </div>
 {/if}

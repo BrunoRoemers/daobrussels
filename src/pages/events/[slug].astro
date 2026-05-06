@@ -2,7 +2,12 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 import EventHeader from '../../components/events/EventHeader.astro';
+import EventScheduleTable from '../../components/events/EventScheduleTable.astro';
+import EventRsvpCard from '../../components/events/EventRsvpCard.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import Glyph from '../../components/marks/Glyph.astro';
 import CommentFeed from '../../components/nostr/CommentFeed.svelte';
+import { getSortedEvents } from '../../lib/content';
 
 export async function getStaticPaths() {
   const events = await getCollection('events', ({ data }) => !data.draft);
@@ -11,23 +16,69 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props;
 const { Content } = await event.render();
+
+// Stock schedule for the design — content can override later via frontmatter.
+const schedule = [
+  { t: '19:30', h: 'Doors, fermented things, nametags' },
+  { t: '20:00', h: 'Framing 1 · Ostrom’s 8 principles', who: 'Lukas V.' },
+  { t: '20:20', h: 'Framing 2 · The Tour & Taxis garden', who: 'Tibo M.' },
+  { t: '20:40', h: 'Framing 3 · Stewardship contracts', who: 'Aïcha B.' },
+  { t: '21:00', h: 'Three circles, one room', who: 'all' },
+  { t: '22:00', h: 'Plenary, decisions, song', who: 'all' },
+];
+
+const allEvents = await getSortedEvents();
+const related = allEvents.filter((e) => e.slug !== event.slug).slice(0, 3);
 ---
 
-<BaseLayout
-  title={event.data.title}
-  description={event.data.summary}
->
-  <article class="max-w-4xl mx-auto px-4 py-12">
-    <a href="/events" class="text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6 block">
-      ← All meetings
-    </a>
-
+<BaseLayout title={event.data.title} description={event.data.summary}>
+  <article class="section-x">
     <EventHeader event={event} />
 
-    <div class="prose max-w-none">
-      <Content />
+    <hr class="hr-thick" />
+
+    <!-- Main grid: content + RSVP sidebar -->
+    <div class="grid gap-8 md:gap-12 lg:grid-cols-[1fr_360px] py-10 md:py-14">
+      <div>
+        <SectionHeading glyph="◯" label="SCHEDULE" />
+        <EventScheduleTable rows={schedule} />
+
+        <div class="prose max-w-none mt-10">
+          <Content />
+        </div>
+      </div>
+
+      <EventRsvpCard event={event} />
     </div>
 
-    <CommentFeed eventTag={event.data.nostrEventTag} client:visible />
+    <hr class="hr-thick" />
+
+    <!-- Comments + sidebar -->
+    <div class="grid gap-8 md:gap-12 lg:grid-cols-[1fr_280px] py-10 md:py-14">
+      <div>
+        <CommentFeed eventTag={event.data.nostrEventTag} client:visible />
+      </div>
+
+      <aside>
+        {related.length > 0 && (
+          <>
+            <div class="mono-label opacity-60 mb-3">RELATED ASSEMBLIES</div>
+            <div class="border-t border-ink">
+              {related.map((e) => (
+                <a
+                  href={`/events/${e.slug}`}
+                  class="flex justify-between gap-3 py-3 border-b border-ink hover:bg-ink hover:text-paper px-2 -mx-2 transition-colors"
+                >
+                  <div class="text-sm">{e.data.title}</div>
+                  <div class="font-mono text-[11px] opacity-60 shrink-0">
+                    {e.data.date.toLocaleString('en-GB', { month: 'short', day: '2-digit', timeZone: 'UTC' }).toUpperCase()}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </>
+        )}
+      </aside>
+    </div>
   </article>
 </BaseLayout>

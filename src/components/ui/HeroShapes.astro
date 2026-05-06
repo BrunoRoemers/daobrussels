@@ -1,0 +1,39 @@
+---
+/**
+ * HeroShapes — the abstract shape composition that anchors the home hero.
+ * Decorative only (aria-hidden). Scales with the parent container width via
+ * percentage positioning so it works at any breakpoint.
+ *
+ * The shapes echo "concentric assemblies" — the brandmark idea of ever-larger
+ * rings of citizens around a centre.
+ */
+import Glyph from '../marks/Glyph.astro';
+---
+<div
+  class="relative w-full aspect-square max-w-[540px] mx-auto md:mx-0"
+  aria-hidden="true"
+>
+  <div class="absolute top-0 right-0">
+    <Glyph kind="circle" size={240} class="w-[44%] h-auto" />
+  </div>
+  <div class="absolute top-[14%] right-[36%]">
+    <Glyph kind="ring" size={160} class="w-[30%] h-auto" />
+  </div>
+  <div class="absolute top-[48%] right-[12%]">
+    <Glyph kind="diamond" size={130} filled={false} class="w-[24%] h-auto" />
+  </div>
+  <div class="absolute bottom-[6%] left-[5%]">
+    <Glyph kind="dot-grid" size={110} class="w-[20%] h-auto" />
+  </div>
+  <div class="absolute bottom-0 right-[44%]">
+    <Glyph kind="quad" size={140} class="w-[26%] h-auto" />
+  </div>
+  <div class="absolute top-[36%] left-0 font-mono text-[10px] sm:text-[11px] leading-relaxed opacity-50">
+    FIG. 01<br />
+    CONCENTRIC<br />
+    ASSEMBLIES<br />
+    <br />
+    n=140<br />
+    r=∞
+  </div>
+</div>

@@ -1,3 +1,9 @@
+<!--
+  CommentFeed — Geometric Commons discussion thread.
+  Each comment is a row separated by a 1px black rule, with the author's
+  Glyph (deterministic from their pubkey) as the avatar — same shape language
+  as the rest of the site.
+-->
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { SimplePool } from 'nostr-tools/pool';
@@ -23,13 +29,26 @@
   let pool: SimplePool;
   let sub: { close: () => void } | null = null;
 
+  // ---------- glyph picker (mirror of src/lib/glyphs.ts) ----------
+  // Inlined here so the Svelte island doesn't pull an Astro-only file.
+  type GlyphKind =
+    | 'circle' | 'ring' | 'dot-grid' | 'square' | 'diamond'
+    | 'triangle' | 'half' | 'quad' | 'plus' | 'hatch';
+  const KINDS: GlyphKind[] = ['circle', 'diamond', 'triangle', 'square', 'half', 'plus', 'quad', 'ring', 'hatch', 'dot-grid'];
+  function glyphFor(seed: string): GlyphKind {
+    let h = 0;
+    for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) | 0;
+    return KINDS[Math.abs(h) % KINDS.length];
+  }
+
   function formatTime(ts: number): string {
+    const diff = Date.now() / 1000 - ts;
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+    if (diff < 86400 * 7) return `${Math.floor(diff / 86400)}d ago`;
     return new Date(ts * 1000).toLocaleDateString('en-GB', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+      year: 'numeric', month: 'short', day: 'numeric',
     });
   }
 
@@ -73,7 +92,6 @@
             created_at: event.created_at,
           };
           comments = [comment, ...comments].sort((a, b) => b.created_at - a.created_at);
-          // fetch profile async
           fetchProfile(event.pubkey).then(({ name, picture }) => {
             comments = comments.map((c) =>
               c.id === event.id ? { ...c, authorName: name, authorPicture: picture } : c
@@ -98,40 +116,84 @@
       comments = [c, ...comments];
     }
   }
+
+  // ---------- inline glyph rendering ----------
+  // Avoids importing the Astro Glyph; SVG paths are kept identical.
+  function svgFor(kind: GlyphKind, color = '#0a0a0a'): string {
+    switch (kind) {
+      case 'circle':
+        return `<circle cx="50" cy="50" r="48" fill="${color}" stroke="${color}" stroke-width="2" />`;
+      case 'ring':
+        return `<circle cx="50" cy="50" r="40" fill="none" stroke="${color}" stroke-width="6" />`;
+      case 'diamond':
+        return `<rect x="20" y="20" width="60" height="60" transform="rotate(45 50 50)" fill="${color}" stroke="${color}" stroke-width="2" />`;
+      case 'triangle':
+        return `<polygon points="50,6 94,90 6,90" fill="${color}" stroke="${color}" stroke-width="2" />`;
+      case 'square':
+        return `<rect x="2" y="2" width="96" height="96" fill="${color}" />`;
+      case 'half':
+        return `<path d="M 50 2 A 48 48 0 0 1 50 98 Z" fill="${color}" /><circle cx="50" cy="50" r="48" fill="none" stroke="${color}" stroke-width="2" />`;
+      case 'quad':
+        return `<line x1="50" y1="0" x2="50" y2="100" stroke="${color}" stroke-width="2" /><line x1="0" y1="50" x2="100" y2="50" stroke="${color}" stroke-width="2" /><circle cx="50" cy="50" r="48" fill="none" stroke="${color}" stroke-width="2" />`;
+      case 'plus':
+        return `<line x1="50" y1="10" x2="50" y2="90" stroke="${color}" stroke-width="8" /><line x1="10" y1="50" x2="90" y2="50" stroke="${color}" stroke-width="8" />`;
+      case 'hatch':
+        return `<defs><pattern id="h-${Math.random().toString(36).slice(2,8)}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="${color}" stroke-width="2" /></pattern></defs><circle cx="50" cy="50" r="48" fill="${color}" stroke="${color}" stroke-width="2" />`;
+      case 'dot-grid':
+        let dots = '';
+        for (let r = 0; r < 5; r++) for (let c = 0; c < 5; c++) {
+          dots += `<circle cx="${10 + c * 20}" cy="${10 + r * 20}" r="3" fill="${color}" />`;
+        }
+        return dots;
+    }
+  }
 </script>
 
-<section class="mt-12 border-t border-gray-200 pt-10">
-  <h2 class="text-xl font-semibold text-gray-900 mb-6">Comments</h2>
+<section>
+  <div class="font-mono text-xs tracking-widestcaps font-bold mb-6">
+    ◇ DISCUSSION · {comments.length}
+  </div>
 
   <CommentForm {eventTag} on:comment={handleNewComment} />
 
   {#if loading}
-    <p class="text-sm text-gray-400 mt-6">Loading comments…</p>
+    <p class="font-mono text-xs tracking-widercaps opacity-50 mt-6">LOADING COMMENTS…</p>
   {:else if comments.length === 0}
-    <p class="text-sm text-gray-400 mt-6">No comments yet. Be the first!</p>
+    <div class="border-t border-ink pt-6">
+      <p class="font-mono text-xs tracking-widercaps opacity-60">NO COMMENTS YET — BE THE FIRST.</p>
+    </div>
   {:else}
-    <ol class="mt-6 space-y-5">
+    <ol class="border-t border-ink">
       {#each comments as comment (comment.id)}
-        <li class="flex gap-3">
+        <li class="grid grid-cols-[44px_1fr] sm:grid-cols-[56px_1fr] gap-4 py-5 border-b border-ink">
           {#if comment.authorPicture}
             <img
               src={comment.authorPicture}
-              alt="avatar"
-              class="w-8 h-8 rounded-full object-cover border border-gray-200 shrink-0 mt-0.5"
+              alt=""
+              class="w-11 h-11 rounded-full object-cover border-2 border-ink shrink-0"
             />
           {:else}
-            <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-500 shrink-0 mt-0.5">
-              {shortNpub(comment.pubkey).slice(0, 1).toUpperCase()}
-            </div>
+            <svg viewBox="0 0 100 100" class="w-11 h-11 block shrink-0" aria-hidden="true">
+              {@html svgFor(glyphFor(comment.pubkey))}
+            </svg>
           {/if}
-          <div class="flex-1 min-w-0">
-            <div class="flex items-baseline gap-2 mb-1">
-              <span class="text-sm font-medium text-gray-900">
+          <div class="min-w-0">
+            <div class="flex items-baseline gap-3 flex-wrap mb-1.5">
+              <span class="font-semibold text-[15px]">
                 {comment.authorName ?? shortNpub(comment.pubkey)}
               </span>
-              <time class="text-xs text-gray-400">{formatTime(comment.created_at)}</time>
+              <time class="font-mono text-[11px] tracking-widercaps opacity-50">
+                {formatTime(comment.created_at)}
+              </time>
             </div>
-            <p class="text-sm text-gray-700 whitespace-pre-wrap break-words">{comment.content}</p>
+            <p class="text-[15px] leading-relaxed whitespace-pre-wrap break-words m-0">
+              {comment.content}
+            </p>
+            <div class="flex gap-4 mt-3 font-mono text-[11px] tracking-widercaps opacity-70">
+              <button class="hover:opacity-100 cursor-pointer">↑ UPVOTE</button>
+              <button class="hover:opacity-100 cursor-pointer">REPLY</button>
+              <button class="hover:opacity-100 cursor-pointer">QUOTE</button>
+            </div>
           </div>
         </li>
       {/each}

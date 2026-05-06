@@ -1,0 +1,70 @@
+---
+/**
+ * PodTable — dense, monospaced table of every pod.
+ *
+ * Layout:
+ *   - lg+: a 7-column grid (glyph · name · brief · stewards · events · status · open)
+ *   - <lg: a stack of compact cards (glyph + name on top row, brief + status below).
+ *     Stewards/events counts are dropped on mobile to keep rows scannable.
+ */
+import type { CollectionEntry } from 'astro:content';
+import Glyph from '../marks/Glyph.astro';
+import { glyphForSeed } from '../../lib/glyphs';
+
+interface Props {
+  pods: CollectionEntry<'pods'>[];
+}
+const { pods } = Astro.props;
+
+function statusBadge(status: string) {
+  const isDormant = status === 'paused' || status === 'completed';
+  return {
+    text: status.toUpperCase(),
+    cls: isDormant
+      ? 'bg-transparent text-ink border border-ink'
+      : 'bg-ink text-paper border border-ink',
+  };
+}
+---
+
+<div class="border-2 border-ink">
+  <!-- Header (desktop only) -->
+  <div class="hidden lg:grid grid-cols-[60px_2fr_2.4fr_1fr_1fr_1fr_100px] px-5 py-4 bg-ink text-paper font-mono text-[11px] tracking-widercaps gap-x-4">
+    <div></div><div>NAME</div><div>BRIEF</div><div>STEWARDS</div><div>EVENTS</div><div>STATUS</div><div></div>
+  </div>
+
+  {pods.map((pod, i) => {
+    const kind = glyphForSeed(pod.slug);
+    const badge = statusBadge(pod.data.status);
+    return (
+      <a
+        href={`/pods/${pod.slug}`}
+        class:list={[
+          'block px-4 py-4 sm:px-5 hover:bg-ink hover:text-paper transition-colors',
+          i > 0 ? 'border-t border-ink' : '',
+        ]}
+      >
+        <!-- Mobile row -->
+        <div class="grid lg:hidden grid-cols-[40px_1fr_auto] gap-x-3 gap-y-1 items-center">
+          <Glyph kind={kind} size={32} color="currentColor" />
+          <div class="font-semibold text-base">{pod.data.title}</div>
+          <span class:list={['font-mono text-[10px] px-2 py-0.5', badge.cls]}>{badge.text}</span>
+          <p class="text-[13px] opacity-80 col-span-3 mt-1 line-clamp-2">{pod.data.description}</p>
+        </div>
+
+        <!-- Desktop row -->
+        <div class="hidden lg:grid grid-cols-[60px_2fr_2.4fr_1fr_1fr_1fr_100px] gap-x-4 items-center text-sm">
+          <Glyph kind={kind} size={32} color="currentColor" />
+          <div class="font-semibold">{pod.data.title}</div>
+          <div class="text-[13px] opacity-90">{pod.data.description}</div>
+          <div class="font-mono text-xs">{pod.data.events.length || 0} stewards</div>
+          <div class="font-mono text-xs">{pod.data.events.length} events</div>
+          <div>
+            <span class:list={['font-mono text-[11px] px-2 py-0.5', badge.cls]}>{badge.text}</span>
+          </div>
+          <div class="font-mono text-xs text-right">OPEN →</div>
+        </div>
+      </a>
+    );
+  })}
+</div>

@@ -1,0 +1,29 @@
+---
+/**
+ * CTABand — the dark, full-bleed call-to-action strip that closes Pod / Home
+ * sections ("Have an idea? Bring it to the next assembly.").
+ */
+interface Props {
+  eyebrow: string;
+  headline: string;
+  buttonLabel: string;
+  buttonHref?: string;
+}
+const { eyebrow, headline, buttonLabel, buttonHref = '#' } = Astro.props;
+---
+<div class="hr-thick" />
+<div class="bg-ink text-paper px-6 sm:px-8 md:px-12 py-10 md:py-12
+            flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+  <div>
+    <div class="mono-label opacity-50 mb-2">{eyebrow}</div>
+    <div class="text-2xl sm:text-3xl md:text-4xl font-medium tracking-[-0.02em] leading-tight max-w-2xl">
+      {headline}
+    </div>
+  </div>
+  <a
+    href={buttonHref}
+    class="inline-flex items-center bg-paper text-ink font-semibold text-sm px-6 py-4 hover:opacity-90 transition-opacity self-start md:self-auto"
+  >
+    {buttonLabel} →
+  </a>
+</div>

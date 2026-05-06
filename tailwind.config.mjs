@@ -4,16 +4,30 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Geometric Commons palette — ink on paper, no muted blue.
+        ink: '#0a0a0a',
+        paper: '#fafaf7',
+        muted: '#1a1a1a',
+        // Legacy `dao` aliases retained so existing markdown/prose styles keep
+        // working until every reference is migrated.
         dao: {
-          green: '#2d6a4f',
-          light: '#74c69d',
-          dark: '#1b4332',
-          bg: '#f8f7f4',
+          green: '#0a0a0a',
+          light: '#0a0a0a',
+          dark: '#0a0a0a',
+          bg: '#fafaf7',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
+        sans: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+        mono: ['"Space Mono"', 'ui-monospace', 'monospace'],
+      },
+      letterSpacing: {
+        // Mono caps labels used throughout the design.
+        widercaps: '0.12em',
+        widestcaps: '0.14em',
+      },
+      maxWidth: {
+        canvas: '1280px',
       },
     },
   },
