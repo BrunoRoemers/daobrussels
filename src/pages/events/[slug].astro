@@ -2,12 +2,12 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 import EventHeader from '../../components/events/EventHeader.astro';
+import EventCover from '../../components/events/EventCover.astro';
 import EventScheduleTable from '../../components/events/EventScheduleTable.astro';
 import EventRsvpCard from '../../components/events/EventRsvpCard.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
-import Glyph from '../../components/marks/Glyph.astro';
 import CommentFeed from '../../components/nostr/CommentFeed.svelte';
-import { getSortedEvents } from '../../lib/content';
+import { getSortedEvents, assemblyNumberFor } from '../../lib/content';
 
 export async function getStaticPaths() {
   const events = await getCollection('events', ({ data }) => !data.draft);
@@ -16,6 +16,8 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props;
 const { Content } = await event.render();
+
+const assemblyNo = await assemblyNumberFor(event);
 
 // Stock schedule for the design — content can override later via frontmatter.
 const schedule = [
@@ -31,9 +33,22 @@ const allEvents = await getSortedEvents();
 const related = allEvents.filter((e) => e.slug !== event.slug).slice(0, 3);
 ---
 
-<BaseLayout title={event.data.title} description={event.data.summary}>
+<BaseLayout
+  title={event.data.title}
+  description={event.data.summary}
+  ogImage={event.data.cover}
+>
   <article class="section-x">
-    <EventHeader event={event} />
+    <EventHeader event={event} assemblyNo={assemblyNo} />
+
+    {event.data.cover && (
+      <EventCover
+        src={event.data.cover}
+        alt={`${event.data.title} — cover photograph`}
+        number={assemblyNo}
+        caption={event.data.title}
+      />
+    )}
 
     <hr class="hr-thick" />
 

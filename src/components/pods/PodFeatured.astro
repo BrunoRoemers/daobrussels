@@ -16,7 +16,6 @@ interface Props {
 const { pod, nextSession } = Astro.props;
 const session = nextSession ?? { date: 'Sat 17 May · 10:00', location: 'Tour & Taxis, gate B' };
 const kind = glyphForSeed(pod.slug);
-const stewards = pod.data.events.length || 4;
 const eventsCount = pod.data.events.length;
 ---
 
@@ -34,15 +33,14 @@ const eventsCount = pod.data.events.length;
     </div>
     <p class="text-base sm:text-lg leading-relaxed text-muted max-w-xl">{pod.data.description}</p>
 
-    <div class="mt-7 grid grid-cols-3 border border-ink">
+    <div class="mt-7 grid grid-cols-2 border border-ink">
       {[
-        { l: 'STEWARDS', v: String(stewards) },
         { l: 'EVENTS', v: String(eventsCount) },
         { l: 'SINCE', v: pod.data.startDate
           ? pod.data.startDate.toLocaleString('en-GB', { month: 'short', year: '2-digit', timeZone: 'UTC' }).toUpperCase()
           : '—' },
       ].map((s, i) => (
-        <div class:list={['p-4', i < 2 ? 'border-r border-ink' : '']}>
+        <div class:list={['p-4', i < 1 ? 'border-r border-ink' : '']}>
           <div class="font-mono text-[10px] opacity-60 tracking-widercaps">{s.l}</div>
           <div class="text-2xl sm:text-3xl font-medium mt-1">{s.v}</div>
         </div>

@@ -1,0 +1,40 @@
+---
+/**
+ * EventCover — frames an event's photograph in the Geometric Commons way:
+ * hard 2px black border, no rounding, mono "FIG. №X" caption underneath.
+ *
+ * The image itself is rendered slightly desaturated and high-contrast so it
+ * sits in the same visual register as the rest of the ink-on-paper site,
+ * but isn't fully grayscale — there's still a hint of color, like a
+ * documentary photograph.
+ */
+interface Props {
+  src: string;
+  alt: string;
+  /** Chronological assembly number, e.g. 47 → "FIG. 047". */
+  number?: number;
+  /** Optional small label printed next to the FIG. counter, e.g. the title. */
+  caption?: string;
+}
+
+const { src, alt, number, caption } = Astro.props;
+const fig = number ? String(number).padStart(3, '0') : null;
+---
+
+<figure class="my-8 md:my-10">
+  <div class="border-2 border-ink overflow-hidden bg-ink">
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+      class="block w-full h-auto aspect-[16/9] object-cover
+             [filter:grayscale(0.7)_contrast(1.05)]
+             hover:[filter:grayscale(0)_contrast(1)] transition-[filter] duration-500"
+    />
+  </div>
+  <figcaption class="mt-3 flex items-baseline justify-between gap-4 font-mono text-[11px] tracking-widercaps uppercase">
+    {fig ? <span>FIG. {fig}</span> : <span></span>}
+    {caption && <span class="opacity-60 truncate">{caption}</span>}
+  </figcaption>
+</figure>
