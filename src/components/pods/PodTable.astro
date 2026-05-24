@@ -13,8 +13,9 @@ import { glyphForSeed } from '../../lib/glyphs';
 
 interface Props {
   pods: CollectionEntry<'pods'>[];
+  eventCounts: Map<string, number>;
 }
-const { pods } = Astro.props;
+const { pods, eventCounts } = Astro.props;
 
 function statusBadge(status: string) {
   const isDormant = status === 'paused' || status === 'completed';
@@ -57,7 +58,7 @@ function statusBadge(status: string) {
           <Glyph kind={kind} size={32} color="currentColor" />
           <div class="font-semibold">{pod.data.title}</div>
           <div class="text-[13px] opacity-90">{pod.data.description}</div>
-          <div class="font-mono text-xs">{pod.data.events.length} {pod.data.events.length === 1 ? 'event' : 'events'}</div>
+          <div class="font-mono text-xs">{eventCounts.get(pod.slug) ?? 0} {(eventCounts.get(pod.slug) ?? 0) === 1 ? 'event' : 'events'}</div>
           <div>
             <span class:list={['font-mono text-[11px] px-2 py-0.5', badge.cls]}>{badge.text}</span>
           </div>

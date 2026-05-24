@@ -3,8 +3,6 @@ title: "Crypto Kastaar"
 description: "Catching up with the most positive beer of Brussels and contributing to the next step."
 status: paused
 startDate: 2025-03-05
-events:
-  - "2025-03-05"
 links: []
 draft: false
 ---

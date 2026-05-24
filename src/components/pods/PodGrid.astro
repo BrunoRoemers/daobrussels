@@ -14,8 +14,9 @@ import PodCard from './PodCard.astro';
 
 interface Props {
   pods: CollectionEntry<'pods'>[];
+  eventCounts: Map<string, number>;
 }
-const { pods } = Astro.props;
+const { pods, eventCounts } = Astro.props;
 ---
 <div class="border-2 border-ink grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
   {pods.map((pod, i) => {
@@ -31,7 +32,7 @@ const { pods } = Astro.props;
     ].join(' ');
     return (
       <div class={cls}>
-        <PodCard pod={pod} />
+        <PodCard pod={pod} eventsCount={eventCounts.get(pod.slug) ?? 0} />
       </div>
     );
   })}

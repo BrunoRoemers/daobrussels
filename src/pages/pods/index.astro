@@ -3,12 +3,13 @@ import BaseLayout from '../../components/layout/BaseLayout.astro';
 import PodFeatured from '../../components/pods/PodFeatured.astro';
 import PodTable from '../../components/pods/PodTable.astro';
 import CTABand from '../../components/ui/CTABand.astro';
-import { getSortedPods, getCommunityCounts } from '../../lib/content';
+import { getSortedPods, getCommunityCounts, buildPodEventCounts } from '../../lib/content';
 
 const pods = await getSortedPods();
 const active = pods.filter((p) => p.data.status === 'active');
 const featured = active[0] ?? pods[0];
 const counts = await getCommunityCounts();
+const eventCounts = await buildPodEventCounts(pods);
 ---
 
 <BaseLayout
@@ -40,13 +41,13 @@ const counts = await getCommunityCounts();
   <hr class="hr-thick" />
 
   <!-- Featured pod -->
-  {featured && <PodFeatured pod={featured} />}
+  {featured && <PodFeatured pod={featured} eventsCount={eventCounts.get(featured.slug) ?? 0} />}
 
   <!-- All pods table -->
   <section class="section-x section-y">
     <div class="mono-label opacity-60 mb-4">ALL PODS</div>
     {pods.length > 0 ? (
-      <PodTable pods={pods} />
+      <PodTable pods={pods} eventCounts={eventCounts} />
     ) : (
       <p class="font-mono text-sm tracking-widercaps opacity-60">NO PODS YET.</p>
     )}

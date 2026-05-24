@@ -25,7 +25,6 @@ const pods = defineCollection({
     description: z.string(),
     status: z.enum(['active', 'paused', 'completed', 'proposed']).default('active'),
     startDate: z.coerce.date().optional(),
-    events: z.array(reference('events')).default([]),
     links: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
     draft: z.boolean().default(false),
   }),

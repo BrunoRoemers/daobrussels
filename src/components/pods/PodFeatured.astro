@@ -10,13 +10,13 @@ import { glyphForSeed } from '../../lib/glyphs';
 
 interface Props {
   pod: CollectionEntry<'pods'>;
+  eventsCount: number;
   /** Optional next work-session info; falls back to a sensible default. */
   nextSession?: { date: string; location: string };
 }
-const { pod, nextSession } = Astro.props;
+const { pod, eventsCount, nextSession } = Astro.props;
 const session = nextSession ?? { date: 'Sat 17 May · 10:00', location: 'Tour & Taxis, gate B' };
 const kind = glyphForSeed(pod.slug);
-const eventsCount = pod.data.events.length;
 ---
 
 <div class="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] border-b-2 border-ink">

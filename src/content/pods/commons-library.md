@@ -3,7 +3,6 @@ title: "Commons Library"
 description: "A shared catalog of tools, books, zines, and resources available to DAO Brussels members and the broader community."
 status: active
 startDate: 2024-09-04
-events: []
 links:
   - label: "Catalog (HedgeDoc)"
     url: "https://dao.brussels"

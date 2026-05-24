@@ -22,6 +22,26 @@ export async function getNextEvent() {
   return upcoming[0] ?? null;
 }
 
+export async function getEventsForPod(podSlug: string): Promise<CollectionEntry<'events'>[]> {
+  const events = await getCollection('events', ({ data }) => !data.draft);
+  return events
+    .filter((e) => e.data.pods.some((p) => p.id === podSlug))
+    .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+}
+
+export async function buildPodEventCounts(
+  pods: CollectionEntry<'pods'>[],
+): Promise<Map<string, number>> {
+  const events = await getCollection('events', ({ data }) => !data.draft);
+  const counts = new Map(pods.map((p) => [p.slug, 0]));
+  for (const event of events) {
+    for (const ref of event.data.pods) {
+      if (counts.has(ref.id)) counts.set(ref.id, (counts.get(ref.id) ?? 0) + 1);
+    }
+  }
+  return counts;
+}
+
 export async function getRecentPods(limit = 3) {
   const pods = await getCollection('pods', ({ data }) => !data.draft && data.status === 'active');
   return pods.slice(0, limit);

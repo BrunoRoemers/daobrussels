@@ -3,8 +3,6 @@ title: "Brussels Pay"
 description: "Simulating participatory budget allocation to explore how Brussels Pay works."
 status: completed
 startDate: 2025-03-05
-events:
-  - "2025-03-05"
 links: []
 draft: false
 ---

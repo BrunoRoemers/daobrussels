@@ -13,12 +13,14 @@ import {
   getNextEvent,
   getCommunityCounts,
   assemblyNumberFor,
+  buildPodEventCounts,
 } from '../lib/content';
 
 const nextEvent = await getNextEvent();
 const recentEvents = (await getSortedEvents()).slice(0, 3);
 const allPods = await getSortedPods();
 const recentPods = allPods.filter((p) => p.data.status === 'active').slice(0, 6);
+const podEventCounts = await buildPodEventCounts(recentPods);
 
 const counts = await getCommunityCounts();
 
@@ -111,7 +113,7 @@ const tabs = [
     <SectionHeading glyph="◇" label="ACTIVE PODS" href="/pods" hrefLabel="ALL PODS →" />
     <Tabs tabs={tabs} class="mb-6" />
     {recentPods.length > 0 ? (
-      <PodGrid pods={recentPods} />
+      <PodGrid pods={recentPods} eventCounts={podEventCounts} />
     ) : (
       <p class="font-mono text-sm tracking-widercaps opacity-60">NO PODS YET.</p>
     )}

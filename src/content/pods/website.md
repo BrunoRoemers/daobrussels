@@ -3,9 +3,6 @@ title: "Website"
 description: "Building the DAO Brussels website to support the new event format."
 status: active
 startDate: 2025-03-05
-events:
-  - "2025-03-05"
-  - "2025-04-02"
 links: []
 draft: false
 ---

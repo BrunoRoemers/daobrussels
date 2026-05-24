@@ -3,7 +3,6 @@ title: "DAO Tooling"
 description: "Exploring and building governance and coordination tools for decentralized autonomous organizations, with a focus on practical commons management."
 status: active
 startDate: 2024-10-02
-events: []
 links:
   - label: "Notes"
     url: "https://dao.brussels"

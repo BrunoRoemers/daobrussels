@@ -10,9 +10,10 @@ import { glyphForSeed } from '../../lib/glyphs';
 
 interface Props {
   pod: CollectionEntry<'pods'>;
+  eventsCount: number;
 }
-const { pod } = Astro.props;
-const { title, description, status, events } = pod.data;
+const { pod, eventsCount } = Astro.props;
+const { title, description, status } = pod.data;
 const kind = glyphForSeed(pod.slug);
 ---
 
@@ -26,7 +27,7 @@ const kind = glyphForSeed(pod.slug);
     <p class="text-sm leading-snug opacity-80 line-clamp-3">{description}</p>
   </div>
   <div class="flex justify-between items-center mt-5 font-mono text-[11px] tracking-widercaps">
-    <span>{events.length} {events.length === 1 ? 'EVENT' : 'EVENTS'} · {status.toUpperCase()}</span>
+    <span>{eventsCount} {eventsCount === 1 ? 'EVENT' : 'EVENTS'} · {status.toUpperCase()}</span>
     <span>OPEN →</span>
   </div>
 </a>
