@@ -6,11 +6,14 @@ const events = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     location: z.string().optional(),
-    locationUrl: z.string().url().optional(),
+    address: z.string().optional(),
+    images: z.array(z.string()).default([]),
+    meetupUrl: z.string().url().optional(),
+    going: z.number().optional(),
+    // Manual curation fields (optional, added by hand after import)
     summary: z.string().optional(),
+    nostrEventTag: z.string().optional(),
     pods: z.array(reference('pods')).default([]),
-    nostrEventTag: z.string(),
-    cover: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });
