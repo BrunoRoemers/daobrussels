@@ -124,16 +124,22 @@ export async function fetchAllEvents(): Promise<MeetupEvent[]> {
 
 // ── Local images ──────────────────────────────────────────────────────────────
 
+const MONTH_ABBR = [
+  "jan","feb","mar","apr","may","jun",
+  "jul","aug","sep","oct","nov","dec",
+];
+
 function getLocalImages(year: number, month: number): string[] {
-  const mm = String(month).padStart(2, "0");
+  const mon = MONTH_ABBR[month - 1]; // e.g. month=11 → "nov"
   const dir = path.join(PUBLIC_IMAGES, String(year));
   if (!fs.existsSync(dir)) return [];
 
   return fs
     .readdirSync(dir)
-    .filter((f) => f.startsWith(`${mm}-`) && /\.(jpg|jpeg|png)$/i.test(f))
+    .filter((f) => f.startsWith(`cw-${mon}-`) && /\.(jpg|jpeg|png)$/i.test(f))
     .sort((a, b) => {
-      const n = (f: string) => parseInt(f.split("-")[1]);
+      // filename: cw-nov-3.jpg → trailing number is the last dash-segment
+      const n = (f: string) => parseInt(f.split("-").at(-1)!);
       return n(a) - n(b);
     })
     .map((f) => `/images/${year}/${f}`);
@@ -234,9 +240,9 @@ async function main() {
     // 2. Meetup cover photo — download and reference locally
     if (event.coverPhotoUrl) {
       const imgFile = `${slug}.jpg`;
-      const imgDest = path.join(PUBLIC_IMAGES, String(year), imgFile);
+      const imgDest = path.join(PUBLIC_IMAGES, "meetup", imgFile);
       const ok = await downloadImage(event.coverPhotoUrl, imgDest);
-      images.push(ok ? `/images/${year}/${imgFile}` : event.coverPhotoUrl);
+      images.push(ok ? `/images/meetup/${imgFile}` : event.coverPhotoUrl);
     }
 
     // Write ---------------------------------------------------------------
