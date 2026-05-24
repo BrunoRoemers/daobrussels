@@ -36,14 +36,14 @@ const related = allEvents.filter((e) => e.slug !== event.slug).slice(0, 3);
 <BaseLayout
   title={event.data.title}
   description={event.data.summary}
-  ogImage={event.data.cover}
+  ogImage={event.data.images[0]}
 >
   <article class="section-x">
     <EventHeader event={event} assemblyNo={assemblyNo} />
 
-    {event.data.cover && (
+    {event.data.images.length > 0 && (
       <EventCover
-        src={event.data.cover}
+        images={event.data.images}
         alt={`${event.data.title} — cover photograph`}
         number={assemblyNo}
         caption={event.data.title}
