@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import CommunityStats from '../components/ui/CommunityStats.astro';
+
+const eras = [
+  {
+    period: '2021 – 2022',
+    label: 'Come learn',
+    body: 'Citizen Corner, Schaerbeek. Three acts every month: come\'n\'mint, come\'n\'learn (two talks), come\'n\'chat (unconference tables). 54–74 people at peak, neighbourhood energy, peak NFT hype. The Brussels crypto community finding itself.',
+  },
+  {
+    period: '2022',
+    label: 'Come talk',
+    body: 'After RegensUnite, we dropped the presentations entirely. No stage, just facilitation. 1-on-1s, small groups, law of two feet. "The floor is yours." Numbers dipped, warmth went up.',
+  },
+  {
+    period: '2022 – 2023',
+    label: 'Come work',
+    body: 'Parallel community-hosted workshops. Anyone could propose a table. Topics got specific: Soulbound Tokens, DAO tooling, Snapshot voting, web3 security, Ordinals. Moved around: Café Copain, then BeCentral above Central Station.',
+  },
+  {
+    period: '2024',
+    label: 'Come build',
+    body: 'EthCC — the biggest European Ethereum conference — came to Brussels. Crypto Kastaar, a community-brewed Belgian beer, became a real project. New home at Commons Hub Brussels. The community network went citywide.',
+  },
+  {
+    period: '2025',
+    label: 'Pod format',
+    body: 'Major shift: Crypto Wednesdays are for builders. Plenary → pods (parallel working circles, dim lights, ambient music) → plenary. Eight named stewards. From learning about web3 to making with it.',
+  },
+  {
+    period: '2026 →',
+    label: 'Working assembly',
+    body: 'Less stage, more table. Monthly working assemblies at the Commons Hub. Block 26 brought the entire Belgian web3 ecosystem together for a night. The format keeps evolving — that\'s the point.',
+  },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="DAO Brussels is a bottom-up crypto community meeting every first Wednesday in Brussels since October 2021."
+>
+  <!-- Hero ------------------------------------------------------------------ -->
+  <section class="section-x pt-12 md:pt-16 pb-10 md:pb-14">
+    <div class="font-mono text-[11px] sm:text-xs tracking-widercaps mb-6 sm:mb-8 opacity-80">
+      <span aria-hidden="true">◯</span> ABOUT / EST. SCHAERBEEK, OCT 2021
+    </div>
+    <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-[92px] leading-[0.95] tracking-[-0.04em] font-medium m-0 max-w-4xl">
+      Curious,<br />
+      <span class="italic font-normal">principled</span>,<br />
+      bottom-up.
+    </h1>
+    <p class="text-base md:text-lg leading-relaxed mt-7 md:mt-8 max-w-xl text-muted">
+      Since October 2021, DAO Brussels has gathered the Brussels crypto community every first
+      Wednesday of the month. We started as a crypto education meetup. We became a builder
+      community with real projects and real friends. Beer and sodas at every event.
+    </p>
+    <div class="flex flex-wrap gap-3 mt-7 md:mt-8">
+      <a href="/events" class="btn-ink px-5 py-3.5">SEE ALL ASSEMBLIES →</a>
+      <a href="/pods" class="btn-ghost px-5 py-3">EXPLORE PODS</a>
+    </div>
+  </section>
+
+  <!-- Stats ----------------------------------------------------------------- -->
+  <CommunityStats />
+
+  <!-- Ethos ----------------------------------------------------------------- -->
+  <section class="section-x section-y">
+    <SectionHeading glyph="◇" label="THE ETHOS" />
+    <div class="grid md:grid-cols-3 gap-0 border-2 border-ink max-w-4xl">
+      {[
+        {
+          glyph: '◯',
+          heading: 'Come as you are',
+          body: 'All ages, languages and expertise levels. Crypto-curious, seasoned buidlers, total sceptics — everyone is welcome. "Spreekt ge Vlaams ou français, copain.e?"',
+        },
+        {
+          glyph: '◇',
+          heading: 'Organized bottom-up',
+          body: 'No permanent leader. No fixed agenda. "Whoever shows up are the right people. Whenever it starts is the right time to start." The format keeps evolving because the community keeps deciding.',
+        },
+        {
+          glyph: '△',
+          heading: 'Build for Brussels',
+          body: 'We want to get our hands dirty and use crypto to make a positive impact on Brussels. That means real projects, real code, and real community — not just talk.',
+        },
+      ].map((item, i) => (
+        <div class:list={['p-7 md:p-8', i < 2 ? 'border-b-2 md:border-b-0 md:border-r-2 border-ink' : '']}>
+          <div class="text-3xl mb-4 leading-none" aria-hidden="true">{item.glyph}</div>
+          <h3 class="font-semibold text-base tracking-tight mb-3">{item.heading}</h3>
+          <p class="text-sm leading-relaxed text-muted">{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <hr class="hr-thin" />
+
+  <!-- History --------------------------------------------------------------- -->
+  <section class="section-x section-y">
+    <SectionHeading glyph="△" label="THE HISTORY" />
+    <div class="max-w-4xl">
+      {eras.map((era, i) => (
+        <div class:list={['grid md:grid-cols-[180px_1fr] gap-4 md:gap-10 py-7 md:py-8', i > 0 ? 'border-t border-ink' : '']}>
+          <div>
+            <div class="font-mono text-[11px] tracking-widercaps opacity-60 mb-1">{era.period}</div>
+            <div class="font-semibold text-base tracking-tight">{era.label}</div>
+          </div>
+          <p class="text-sm md:text-base leading-relaxed text-muted m-0">{era.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <hr class="hr-thin" />
+
+  <!-- Who shows up ---------------------------------------------------------- -->
+  <section class="section-x section-y">
+    <SectionHeading glyph="◯" label="WHO SHOWS UP" />
+    <div class="grid sm:grid-cols-2 gap-0 border-2 border-ink max-w-2xl">
+      {[
+        {
+          label: 'Crypto Curious',
+          body: 'Heard about crypto in the news one too many times. Looking for a low-pressure way to understand what\'s actually going on.',
+        },
+        {
+          label: 'Starters',
+          body: 'First wallet, first smart contract, first DeFi position. Questions are the point — someone in the room knows the missing piece.',
+        },
+        {
+          label: 'Buidlers',
+          body: 'Developers and makers who want local partners and sharp feedback. Crypto Wednesday is a good place to find both.',
+        },
+        {
+          label: 'DAO Workers',
+          body: 'Living the web3 chaos daily. Here to compare notes, help others make the jump, and catch up with friends over a drink.',
+        },
+      ].map((item, i) => (
+        <div class:list={[
+          'p-6 md:p-7',
+          i % 2 === 0 ? 'border-r border-ink' : '',
+          i < 2 ? 'border-b border-ink' : '',
+        ]}>
+          <div class="font-mono text-[11px] tracking-widercaps opacity-60 mb-2">{item.label}</div>
+          <p class="text-sm leading-relaxed text-muted m-0">{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <hr class="hr-thin" />
+
+  <!-- Join ------------------------------------------------------------------ -->
+  <section class="section-x section-y">
+    <SectionHeading glyph="◇" label="JOIN US" />
+    <div class="max-w-xl">
+      <p class="text-base md:text-lg leading-relaxed text-muted mb-8">
+        We meet the first Wednesday of every month at Commons Hub Brussels,
+        Rue de la Madeleine 51 — a two-minute walk from Central Station.
+        Doors at 7:30 PM. Bring your laptop and your questions.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/events" class="btn-ink px-5 py-3.5">NEXT ASSEMBLY →</a>
+        <a
+          href="https://discord.dao.brussels"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-ghost px-5 py-3"
+        >DISCORD</a>
+        <a
+          href="https://whatsapp.dao.brussels"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-ghost px-5 py-3"
+        >WHATSAPP</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

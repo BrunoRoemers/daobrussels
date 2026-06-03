@@ -6,6 +6,7 @@ const navLinks = [
   { href: '/', label: 'Manifesto', match: (p: string) => p === '/' },
   { href: '/events', label: 'Events', match: (p: string) => p.startsWith('/events') },
   { href: '/pods', label: 'Pods', match: (p: string) => p.startsWith('/pods') },
+  { href: '/about', label: 'About', match: (p: string) => p.startsWith('/about') },
 ];
 
 const currentPath = Astro.url.pathname;

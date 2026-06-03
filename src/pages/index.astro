@@ -2,7 +2,7 @@
 import BaseLayout from '../components/layout/BaseLayout.astro';
 import Glyph from '../components/marks/Glyph.astro';
 import HeroShapes from '../components/ui/HeroShapes.astro';
-import StatStrip from '../components/ui/StatStrip.astro';
+import CommunityStats from '../components/ui/CommunityStats.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import Tabs from '../components/ui/Tabs.astro';
 import EventBigCard from '../components/events/EventBigCard.astro';
@@ -11,9 +11,9 @@ import {
   getSortedEvents,
   getSortedPods,
   getNextEvent,
-  getCommunityCounts,
   assemblyNumberFor,
   buildPodEventCounts,
+  getCommunityCounts,
 } from '../lib/content';
 
 const nextEvent = await getNextEvent();
@@ -32,13 +32,6 @@ const heroAssemblyNo = counts.heldEvents || counts.totalEvents;
 // card's eyebrow stays in sync with the rest of the site.
 const featuredEvent = nextEvent ?? recentEvents[0] ?? null;
 const featuredAssemblyNo = featuredEvent ? await assemblyNumberFor(featuredEvent) : 0;
-
-const stats = [
-  { n: String(counts.heldEvents), l: 'assemblies held' },
-  { n: String(counts.activePods), l: 'active pods' },
-  { n: String(counts.totalEvents), l: 'total assemblies' },
-  { n: String(counts.totalPods), l: 'pods total' },
-];
 
 const tabs = [
   { label: 'all', active: true },
@@ -86,7 +79,7 @@ const tabs = [
   </section>
 
   <!-- Stats strip ------------------------------------------------------- -->
-  <StatStrip stats={stats} />
+  <CommunityStats />
 
   <!-- Next assembly ----------------------------------------------------- -->
   <section class="section-x section-y">

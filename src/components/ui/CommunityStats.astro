@@ -1,0 +1,15 @@
+---
+import StatStrip from './StatStrip.astro';
+import { getCommunityCounts } from '../../lib/content';
+
+const counts = await getCommunityCounts();
+
+const stats = [
+  { n: '2021', l: 'founded' },
+  { n: String(counts.heldEvents), l: 'assemblies held' },
+  { n: String(counts.activePods), l: 'active pods' },
+  { n: '1st Wed', l: 'every month' },
+];
+---
+
+<StatStrip stats={stats} />
