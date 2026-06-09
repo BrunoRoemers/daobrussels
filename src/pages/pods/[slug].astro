@@ -16,7 +16,7 @@ const { Content } = await pod.render();
 const events = await getEventsForPod(pod.slug);
 ---
 
-<BaseLayout title={pod.data.title} description={pod.data.description}>
+<BaseLayout title={pod.data.title} description={pod.data.description} ogImage={`/og/pods/${pod.slug}.png`}>
   <article class="section-x">
     <PodHeader pod={pod} />
 

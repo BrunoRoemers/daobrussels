@@ -25,7 +25,7 @@ const related = allEvents.filter((e) => e.slug !== event.slug).slice(0, 3);
 <BaseLayout
   title={event.data.title}
   description={event.data.summary}
-  ogImage={event.data.images[0]}
+  ogImage={`/og/events/${event.slug}.png`}
 >
   <article class="section-x">
     <EventHeader event={event} assemblyNo={assemblyNo} />
@@ -57,7 +57,7 @@ const related = allEvents.filter((e) => e.slug !== event.slug).slice(0, 3);
     <!-- Comments + sidebar -->
     <div class="grid gap-8 md:gap-12 lg:grid-cols-[1fr_280px] py-10 md:py-14">
       <div>
-        <CommentFeed eventTag={event.data.nostrEventTag} client:visible />
+        <CommentFeed eventTag={event.data.nostrEventTag ?? ''} client:visible />
       </div>
 
       <aside>
