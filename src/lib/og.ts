@@ -23,10 +23,10 @@ function fonts() {
 
 function titleSize(title: string): number {
   const l = title.length;
-  if (l > 55) return 44;
-  if (l > 38) return 54;
-  if (l > 22) return 64;
-  return 72;
+  if (l > 55) return 56;
+  if (l > 38) return 68;
+  if (l > 22) return 80;
+  return 92;
 }
 
 export interface OGParams {
@@ -48,7 +48,7 @@ function buildTree({ title, eyebrow, date }: OGParams) {
           style: {
             display: 'flex',
             fontFamily: 'Space Mono',
-            fontSize: 12,
+            fontSize: 22,
             letterSpacing: '0.16em',
             color: FAINT,
             marginBottom: 24,
@@ -65,7 +65,7 @@ function buildTree({ title, eyebrow, date }: OGParams) {
           style: {
             display: 'flex',
             fontFamily: 'Space Mono',
-            fontSize: 13,
+            fontSize: 22,
             letterSpacing: '0.14em',
             color: INK,
           },
@@ -148,7 +148,7 @@ function buildTree({ title, eyebrow, date }: OGParams) {
                         style: {
                           display: 'flex',
                           fontFamily: 'Space Mono',
-                          fontSize: 13,
+                          fontSize: 22,
                           letterSpacing: '0.14em',
                           color: FAINT,
                         },
