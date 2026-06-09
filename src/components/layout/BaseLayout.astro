@@ -38,6 +38,12 @@ const ogImageUrl = new URL(ogImage, Astro.site);
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | DAO Brussels`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
     <!-- Favicon: the original concentric DAO Brussels mark, used on dao.brussels -->
     <link rel="icon" type="image/svg+xml" href="/daobrussels-icon.svg" />
     <link rel="alternate icon" type="image/svg+xml" href="/favicon.svg" />
